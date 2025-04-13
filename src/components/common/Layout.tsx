@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -14,7 +13,6 @@ import {
   Moon,
   Sun,
   Car,
-  Languages
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useVehicle } from '@/contexts/VehicleContext';
@@ -41,17 +39,20 @@ const Layout = ({ children }: LayoutProps) => {
     { name: t('settings'), path: '/settings', icon: <Settings className="w-5 h-5" /> },
   ];
 
-  // Don't show navigation on auth screens
   if (location.pathname === '/' || location.pathname.includes('/auth')) {
     return <main className="min-h-screen">{children}</main>;
   }
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      {/* Top Bar */}
       <header className="sticky top-0 w-full glass-card z-50 px-4 py-2 mb-4 shadow-sm">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
+            <img 
+              src="/logo.png" 
+              alt="Auto Master Bot Logo" 
+              className="h-10 w-10 mr-2"
+            />
             <span className="font-bold text-xl bg-gradient-to-r from-navy to-purple text-transparent bg-clip-text">
               Auto Master Bot
             </span>
@@ -90,10 +91,8 @@ const Layout = ({ children }: LayoutProps) => {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="flex-1 container mx-auto px-4 pb-20">{children}</main>
 
-      {/* Bottom Nav Bar for Mobile */}
       <nav className="fixed bottom-0 w-full glass-card px-4 py-2 z-50">
         <div className="flex justify-around items-center">
           {navItems.map((item) => (

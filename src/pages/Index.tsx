@@ -1,9 +1,10 @@
 
+import React from 'react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
-import { Car, Wrench, Bot } from 'lucide-react';
+import { Bot, Wrench } from 'lucide-react';
 
 const Index = () => {
   const { user } = useAuth();
@@ -22,10 +23,11 @@ const Index = () => {
         <div className="animate-fade-in">
           <div className="mb-8 flex justify-center">
             <div className="relative">
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-silver to-purple rounded-full blur"></div>
-              <div className="relative bg-navy p-4 rounded-full">
-                <Car className="h-16 w-16" />
-              </div>
+              <img 
+                src="/logo.png" 
+                alt="Auto Master Bot Logo" 
+                className="h-24 w-24 mb-4"
+              />
             </div>
           </div>
           
@@ -86,3 +88,4 @@ const Index = () => {
 };
 
 export default Index;
+
