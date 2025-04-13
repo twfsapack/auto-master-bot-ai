@@ -12,10 +12,12 @@ import {
   LogOut,
   Moon,
   Sun,
-  Car
+  Car,
+  Languages
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useVehicle } from '@/contexts/VehicleContext';
+import LanguageSelector from './LanguageSelector';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -58,6 +60,7 @@ const Layout = ({ children }: LayoutProps) => {
             )}
           </div>
           <div className="flex items-center space-x-2">
+            <LanguageSelector />
             <Button 
               variant="ghost" 
               size="icon" 
