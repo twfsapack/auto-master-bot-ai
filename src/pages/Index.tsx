@@ -1,33 +1,26 @@
-
 import React from 'react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { Bot, Wrench } from 'lucide-react';
-
 const Index = () => {
-  const { user } = useAuth();
+  const {
+    user
+  } = useAuth();
   const navigate = useNavigate();
-
   useEffect(() => {
     // If user is already logged in, redirect to dashboard
     if (user) {
       navigate('/dashboard');
     }
   }, [user, navigate]);
-
-  return (
-    <div className="min-h-screen gradient-bg text-white flex flex-col">
+  return <div className="min-h-screen gradient-bg text-white flex flex-col">
       <main className="flex-1 flex flex-col items-center justify-center p-6 text-center">
         <div className="animate-fade-in">
           <div className="mb-8 flex justify-center">
             <div className="relative">
-              <img 
-                src="/logo.png" 
-                alt="Auto Master Bot Logo" 
-                className="h-24 w-24 mb-4"
-              />
+              <img alt="Auto Master Bot Logo" className="h-24 w-24 mb-4" src="/lovable-uploads/bbfc45ae-c468-4d9c-b939-c35eb61a6ef0.png" />
             </div>
           </div>
           
@@ -61,19 +54,10 @@ const Index = () => {
           </div>
           
           <div className="space-x-4">
-            <Button
-              size="lg"
-              className="bg-purple hover:bg-purple/90"
-              onClick={() => navigate('/auth/login')}
-            >
+            <Button size="lg" className="bg-purple hover:bg-purple/90" onClick={() => navigate('/auth/login')}>
               Get Started
             </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="border-white/20 hover:bg-white/10"
-              onClick={() => navigate('/auth/register')}
-            >
+            <Button variant="outline" size="lg" className="border-white/20 hover:bg-white/10" onClick={() => navigate('/auth/register')}>
               Sign Up
             </Button>
           </div>
@@ -83,9 +67,6 @@ const Index = () => {
       <footer className="text-center p-4 text-white/60 text-sm">
         <p>Auto Master Bot &copy; 2025 | Your Vehicle's AI Assistant</p>
       </footer>
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
-
