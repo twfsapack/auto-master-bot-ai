@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
-import { Car, Tool, Robot, Wrench } from 'lucide-react';
+import { Car, Wrench, Bot } from 'lucide-react';
 
 const Index = () => {
   const { user } = useAuth();
@@ -40,13 +40,13 @@ const Index = () => {
           <div className="grid grid-cols-3 gap-6 mb-12 max-w-md mx-auto">
             <div className="flex flex-col items-center">
               <div className="bg-purple/20 p-3 rounded-lg mb-2">
-                <Robot className="h-6 w-6" />
+                <Bot className="h-6 w-6" />
               </div>
               <span className="text-sm">AI Diagnostics</span>
             </div>
             <div className="flex flex-col items-center">
               <div className="bg-purple/20 p-3 rounded-lg mb-2">
-                <Tool className="h-6 w-6" />
+                <Wrench className="h-6 w-6" />
               </div>
               <span className="text-sm">Maintenance</span>
             </div>

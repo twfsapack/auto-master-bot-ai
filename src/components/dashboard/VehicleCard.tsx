@@ -1,7 +1,7 @@
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Car, Calendar, Tool, AlertTriangle } from 'lucide-react';
+import { Car, Calendar, Wrench, AlertTriangle } from 'lucide-react';
 import { useVehicle } from '@/contexts/VehicleContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -77,7 +77,7 @@ export const VehicleCard = () => {
               className="flex flex-col items-center justify-center h-20"
               onClick={() => navigate('/database')}
             >
-              <Tool className="h-5 w-5 mb-1" />
+              <Wrench className="h-5 w-5 mb-1" />
               <span className="text-xs">Repairs</span>
             </Button>
           </div>
