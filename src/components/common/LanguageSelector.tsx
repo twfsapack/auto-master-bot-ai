@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Languages } from 'lucide-react';
 import {
   DropdownMenu,
@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // Los idiomas disponibles en la aplicación
 const languages = [
@@ -19,16 +20,12 @@ const languages = [
 ];
 
 const LanguageSelector = () => {
-  const [currentLanguage, setCurrentLanguage] = useState('es'); // Español por defecto
+  const { language, setLanguage, t } = useLanguage();
 
   const handleLanguageChange = (langCode: string) => {
-    setCurrentLanguage(langCode);
-    // Aquí podríamos implementar la lógica para cambiar el idioma en toda la aplicación
+    setLanguage(langCode);
     console.log(`Idioma cambiado a: ${langCode}`);
   };
-
-  // Encontrar el nombre del idioma actual
-  const currentLanguageName = languages.find(lang => lang.code === currentLanguage)?.name || 'Español';
 
   return (
     <DropdownMenu>
@@ -39,17 +36,17 @@ const LanguageSelector = () => {
           className="rounded-full"
         >
           <Languages className="h-5 w-5" />
-          <span className="sr-only">Cambiar idioma</span>
+          <span className="sr-only">{t('changeLanguage')}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-40">
-        {languages.map((language) => (
+        {languages.map((lang) => (
           <DropdownMenuItem 
-            key={language.code}
-            className={currentLanguage === language.code ? "bg-muted" : ""}
-            onClick={() => handleLanguageChange(language.code)}
+            key={lang.code}
+            className={language === lang.code ? "bg-muted" : ""}
+            onClick={() => handleLanguageChange(lang.code)}
           >
-            {language.name}
+            {lang.name}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

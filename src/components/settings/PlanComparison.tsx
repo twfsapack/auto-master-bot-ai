@@ -3,42 +3,44 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from '@/components/ui/button';
 import { Check, X } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export const PlanComparison = () => {
   const { user, upgradeAccount } = useAuth();
+  const { t } = useLanguage();
 
   const plans = [
     {
-      name: 'Free',
+      name: t('freePlan'),
       price: '$0',
-      description: 'Basic vehicle diagnostics',
+      description: t('basicDiagnostics'),
       features: [
-        { name: 'Single vehicle', included: true },
-        { name: 'Basic chat diagnostics', included: true },
-        { name: 'Simple maintenance calendar', included: true },
-        { name: 'Knowledge base access', included: true },
-        { name: 'OBD-II scanner', included: false },
-        { name: 'Advanced diagnostics', included: false },
-        { name: 'Multiple vehicles', included: false },
-        { name: 'Export/import data', included: false },
-        { name: 'Ad-free experience', included: false },
+        { name: t('singleVehicle'), included: true },
+        { name: t('basicChatDiagnostics'), included: true },
+        { name: t('simpleMaintenanceCalendar'), included: true },
+        { name: t('knowledgeBaseAccess'), included: true },
+        { name: t('obdScanner'), included: false },
+        { name: t('advancedDiagnostics'), included: false },
+        { name: t('multipleVehicles'), included: false },
+        { name: t('exportImportData'), included: false },
+        { name: t('adFreeExperience'), included: false },
       ],
       current: user ? !user.isPremium : false,
     },
     {
-      name: 'Premium',
+      name: t('premiumPlan'),
       price: '$4.99/month',
-      description: 'Advanced vehicle management',
+      description: t('advancedVehicleManagement'),
       features: [
-        { name: 'Unlimited vehicles', included: true },
-        { name: 'Advanced AI diagnostics', included: true },
-        { name: 'Detailed maintenance calendar', included: true },
-        { name: 'Full knowledge base access', included: true },
-        { name: 'OBD-II scanner', included: true },
-        { name: 'Advanced diagnostics', included: true },
-        { name: 'Multiple vehicles', included: true },
-        { name: 'Export/import data', included: true },
-        { name: 'Ad-free experience', included: true },
+        { name: t('unlimitedVehicles'), included: true },
+        { name: t('advancedAIDiagnostics'), included: true },
+        { name: t('detailedMaintenanceCalendar'), included: true },
+        { name: t('fullKnowledgeBaseAccess'), included: true },
+        { name: t('obdScanner'), included: true },
+        { name: t('advancedDiagnostics'), included: true },
+        { name: t('multipleVehicles'), included: true },
+        { name: t('exportImportData'), included: true },
+        { name: t('adFreeExperience'), included: true },
       ],
       current: user ? user.isPremium : false,
     },
@@ -51,9 +53,9 @@ export const PlanComparison = () => {
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold">Choose Your Plan</h2>
+        <h2 className="text-2xl font-bold">{t('choosePlan')}</h2>
         <p className="text-muted-foreground">
-          Select the plan that best fits your vehicle maintenance needs
+          {t('selectPlan')}
         </p>
       </div>
 
@@ -70,13 +72,13 @@ export const PlanComparison = () => {
                 {plan.name}
                 {plan.current && (
                   <span className="ml-2 text-xs bg-primary text-primary-foreground px-2 py-1 rounded-full">
-                    Current
+                    {t('currentPlan')}
                   </span>
                 )}
               </CardTitle>
               <div className="flex items-end gap-1">
                 <span className="text-3xl font-bold">{plan.price}</span>
-                {plan.name === 'Premium' && (
+                {plan.name === t('premiumPlan') && (
                   <span className="text-muted-foreground text-sm mb-1">
                     /month
                   </span>
@@ -105,17 +107,17 @@ export const PlanComparison = () => {
               </ul>
             </CardContent>
             <CardFooter>
-              {plan.name === 'Premium' && !plan.current ? (
+              {plan.name === t('premiumPlan') && !plan.current ? (
                 <Button className="w-full" onClick={handleUpgrade}>
-                  Upgrade to Premium
+                  {t('upgradeToPremium')}
                 </Button>
               ) : plan.current ? (
                 <Button className="w-full" variant="outline" disabled>
-                  Current Plan
+                  {t('currentPlan')}
                 </Button>
               ) : (
                 <Button className="w-full" variant="outline" disabled>
-                  Free Plan
+                  {t('freePlan')}
                 </Button>
               )}
             </CardFooter>

@@ -4,8 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { useVehicle } from '@/contexts/VehicleContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { format } from 'date-fns';
-import { es } from 'date-fns/locale';
+import { es, enUS, fr, de, pt } from 'date-fns/locale';
 import { Plus, Calendar as CalendarIcon } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -44,6 +45,15 @@ const maintenanceTasks = [
   }
 ];
 
+// Map language codes to date-fns locales
+const localeMap = {
+  es: es,
+  en: enUS,
+  fr: fr,
+  de: de,
+  pt: pt
+};
+
 export const CalendarView = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
@@ -53,6 +63,7 @@ export const CalendarView = () => {
     type: 'routine'
   });
   const { selectedVehicle } = useVehicle();
+  const { language, t } = useLanguage();
 
   const handleDateChange = (selectedDate: Date | undefined) => {
     setDate(selectedDate);
@@ -76,27 +87,30 @@ export const CalendarView = () => {
     });
   };
 
+  // Get the appropriate locale based on the selected language
+  const dateLocale = localeMap[language as keyof typeof localeMap] || es;
+
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Maintenance Calendar</h2>
+        <h2 className="text-2xl font-bold">{t('maintenanceCalendar')}</h2>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button>
               <Plus className="h-4 w-4 mr-2" />
-              Add Task
+              {t('addTask')}
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Add Maintenance Task</DialogTitle>
+              <DialogTitle>{t('addTask')}</DialogTitle>
               <DialogDescription>
-                Create a new maintenance task for your vehicle.
+                {t('addTaskDescription')}
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid gap-2">
-                <Label htmlFor="task-title">Task Title</Label>
+                <Label htmlFor="task-title">{t('taskTitle')}</Label>
                 <Input
                   id="task-title"
                   placeholder="e.g., Oil Change"
@@ -105,36 +119,36 @@ export const CalendarView = () => {
                 />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="task-date">Date</Label>
+                <Label htmlFor="task-date">{t('date')}</Label>
                 <div className="flex items-center gap-2">
                   <CalendarIcon className="h-4 w-4 text-muted-foreground" />
                   <span>
-                    {selectedDate ? format(selectedDate, 'PPP', { locale: es }) : 'Select a date'}
+                    {selectedDate ? format(selectedDate, 'PPP', { locale: dateLocale }) : t('selectDate')}
                   </span>
                 </div>
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="task-type">Type</Label>
+                <Label htmlFor="task-type">{t('type')}</Label>
                 <Select 
                   value={newTask.type} 
                   onValueChange={(value) => setNewTask({ ...newTask, type: value })}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Select task type" />
+                    <SelectValue placeholder={t('selectTaskType')} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="routine">Routine</SelectItem>
-                    <SelectItem value="important">Important</SelectItem>
-                    <SelectItem value="urgent">Urgent</SelectItem>
+                    <SelectItem value="routine">{t('routine')}</SelectItem>
+                    <SelectItem value="important">{t('important')}</SelectItem>
+                    <SelectItem value="urgent">{t('urgent')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
             <DialogFooter>
               <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
-                Cancel
+                {t('cancel')}
               </Button>
-              <Button onClick={handleAddTask}>Add Task</Button>
+              <Button onClick={handleAddTask}>{t('addTask')}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -143,7 +157,7 @@ export const CalendarView = () => {
       <div className="grid md:grid-cols-2 gap-4">
         <Card className="glass-card">
           <CardHeader>
-            <CardTitle>Calendar</CardTitle>
+            <CardTitle>{t('calendar')}</CardTitle>
           </CardHeader>
           <CardContent>
             <Calendar
@@ -151,6 +165,7 @@ export const CalendarView = () => {
               selected={date}
               onSelect={handleDateChange}
               className="rounded-md"
+              locale={dateLocale}
             />
           </CardContent>
         </Card>
@@ -158,7 +173,7 @@ export const CalendarView = () => {
         <Card className="glass-card">
           <CardHeader>
             <CardTitle>
-              {selectedDate ? format(selectedDate, 'PPPP', { locale: es }) : 'Selected Date'}
+              {selectedDate ? format(selectedDate, 'PPPP', { locale: dateLocale }) : t('selectedDate')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -190,10 +205,10 @@ export const CalendarView = () => {
                           }
                         `}
                       >
-                        {task.type.charAt(0).toUpperCase() + task.type.slice(1)}
+                        {t(task.type)}
                       </span>
                       <Button size="sm" variant="ghost">
-                        Complete
+                        {t('complete')}
                       </Button>
                     </div>
                   </div>
@@ -201,7 +216,7 @@ export const CalendarView = () => {
               ) : (
                 <div className="text-center py-6">
                   <p className="text-muted-foreground">
-                    No maintenance tasks scheduled for this date
+                    {t('noTasks')}
                   </p>
                   <Button
                     variant="outline"
@@ -209,7 +224,7 @@ export const CalendarView = () => {
                     onClick={() => setIsDialogOpen(true)}
                   >
                     <Plus className="h-4 w-4 mr-2" />
-                    Add Task
+                    {t('addTask')}
                   </Button>
                 </div>
               )}

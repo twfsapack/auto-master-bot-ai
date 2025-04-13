@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useVehicle } from '@/contexts/VehicleContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
@@ -29,6 +30,7 @@ export const VehicleForm = () => {
   const { addVehicle } = useVehicle();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,17 +67,17 @@ export const VehicleForm = () => {
     <Card className="w-full max-w-md mx-auto glass-card animate-fade-in">
       <form onSubmit={handleSubmit}>
         <CardHeader>
-          <CardTitle className="text-2xl text-center">Vehicle Details</CardTitle>
+          <CardTitle className="text-2xl text-center">{t('vehicleDetails')}</CardTitle>
           <CardDescription className="text-center">
-            Add your vehicle information to get started
+            {t('addVehicleDescription')}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="make">Make *</Label>
+            <Label htmlFor="make">{t('make')} *</Label>
             <Select onValueChange={setMake} required>
               <SelectTrigger>
-                <SelectValue placeholder="Select make" />
+                <SelectValue placeholder={t('selectMake')} />
               </SelectTrigger>
               <SelectContent>
                 {carMakes.map((make) => (
@@ -88,7 +90,7 @@ export const VehicleForm = () => {
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="model">Model *</Label>
+            <Label htmlFor="model">{t('model')} *</Label>
             <Input
               id="model"
               placeholder="e.g. Corolla, Civic, F-150"
@@ -99,10 +101,10 @@ export const VehicleForm = () => {
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="year">Year *</Label>
+            <Label htmlFor="year">{t('year')} *</Label>
             <Select onValueChange={(value) => setYear(parseInt(value))} defaultValue={currentYear.toString()} required>
               <SelectTrigger>
-                <SelectValue placeholder="Select year" />
+                <SelectValue placeholder={t('selectYear')} />
               </SelectTrigger>
               <SelectContent>
                 {years.map((year) => (
@@ -115,17 +117,17 @@ export const VehicleForm = () => {
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="vin">VIN (Optional)</Label>
+            <Label htmlFor="vin">{t('vin')} ({t('optional')})</Label>
             <Input
               id="vin"
-              placeholder="Vehicle Identification Number"
+              placeholder={t('vinPlaceholder')}
               value={vin}
               onChange={(e) => setVin(e.target.value)}
             />
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="mileage">Current Mileage (Optional)</Label>
+            <Label htmlFor="mileage">{t('mileage')} ({t('optional')})</Label>
             <Input
               id="mileage"
               type="number"
@@ -137,10 +139,10 @@ export const VehicleForm = () => {
         </CardContent>
         <CardFooter className="flex justify-between">
           <Button type="button" variant="outline" onClick={handleSkip}>
-            Skip
+            {t('skip')}
           </Button>
           <Button type="submit">
-            Add Vehicle
+            {t('addVehicle')}
           </Button>
         </CardFooter>
       </form>

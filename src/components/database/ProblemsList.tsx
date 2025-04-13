@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -6,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Search, BookOpen, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // Mock problems database
 const problemsData = [
@@ -81,17 +81,17 @@ const problemsData = [
   },
 ];
 
-const categories = [
-  { id: 'all', name: 'All Problems' },
-  { id: 'diagnostics', name: 'Diagnostics' },
-  { id: 'engine', name: 'Engine' },
-  { id: 'brakes', name: 'Brakes' },
-  { id: 'electrical', name: 'Electrical' },
-  { id: 'transmission', name: 'Transmission' },
-  { id: 'hvac', name: 'HVAC' },
-  { id: 'suspension', name: 'Suspension' },
-  { id: 'fuel', name: 'Fuel System' },
-  { id: 'exhaust', name: 'Exhaust' },
+const categoriesData = [
+  { id: 'all', nameKey: 'allProblems' },
+  { id: 'diagnostics', nameKey: 'diagnostics' },
+  { id: 'engine', nameKey: 'engine' },
+  { id: 'brakes', nameKey: 'brakes' },
+  { id: 'electrical', nameKey: 'electrical' },
+  { id: 'transmission', nameKey: 'transmission' },
+  { id: 'hvac', nameKey: 'hvac' },
+  { id: 'suspension', nameKey: 'suspension' },
+  { id: 'fuel', nameKey: 'fuelSystem' },
+  { id: 'exhaust', nameKey: 'exhaust' },
 ];
 
 export const ProblemsList = () => {
@@ -99,6 +99,7 @@ export const ProblemsList = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { t } = useLanguage();
 
   const filteredProblems = problemsData.filter((problem) => {
     const matchesSearch = problem.title.toLowerCase().includes(searchQuery.toLowerCase());
@@ -109,16 +110,16 @@ export const ProblemsList = () => {
   return (
     <div className="space-y-6">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold mb-2">Problems & Solutions</h2>
+        <h2 className="text-2xl font-bold mb-2">{t('problemsSolutions')}</h2>
         <p className="text-muted-foreground">
-          Browse common vehicle problems and their solutions
+          {t('browseProblems')}
         </p>
       </div>
 
       <div className="relative">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
         <Input
-          placeholder="Search problems..."
+          placeholder={t('searchProblems')}
           className="pl-10"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -126,7 +127,7 @@ export const ProblemsList = () => {
       </div>
 
       <div className="flex gap-2 overflow-x-auto pb-2">
-        {categories.map((category) => (
+        {categoriesData.map((category) => (
           <Button
             key={category.id}
             variant={selectedCategory === category.id ? 'default' : 'outline'}
@@ -134,7 +135,7 @@ export const ProblemsList = () => {
             onClick={() => setSelectedCategory(category.id)}
             className="whitespace-nowrap"
           >
-            {category.name}
+            {t(category.nameKey)}
           </Button>
         ))}
       </div>
@@ -157,7 +158,7 @@ export const ProblemsList = () => {
               <p className="text-sm text-muted-foreground">{problem.description}</p>
               <div className="mt-4 flex justify-between items-center">
                 <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
-                  {categories.find(c => c.id === problem.category)?.name || problem.category}
+                  {t(categoriesData.find(c => c.id === problem.category)?.nameKey || problem.category)}
                 </span>
                 <Button
                   variant="ghost"
@@ -166,7 +167,7 @@ export const ProblemsList = () => {
                   disabled={problem.isPremium && !user?.isPremium}
                   onClick={() => navigate(`/database/${problem.id}`)}
                 >
-                  {problem.isPremium && !user?.isPremium ? 'Upgrade to View' : 'View Solution'}
+                  {problem.isPremium && !user?.isPremium ? t('upgradeToView') : t('viewSolution')}
                   <ChevronRight className="h-4 w-4 ml-1" />
                 </Button>
               </div>
@@ -176,7 +177,7 @@ export const ProblemsList = () => {
 
         {filteredProblems.length === 0 && (
           <div className="text-center py-8">
-            <p className="text-muted-foreground">No problems found matching your search criteria.</p>
+            <p className="text-muted-foreground">{t('noProblemsFound')}</p>
           </div>
         )}
       </div>

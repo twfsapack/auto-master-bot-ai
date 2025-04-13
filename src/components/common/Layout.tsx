@@ -3,6 +3,7 @@ import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { 
   Home,
   MessageSquare,
@@ -29,14 +30,15 @@ const Layout = ({ children }: LayoutProps) => {
   const { isDarkMode, toggleTheme } = useTheme();
   const { logout } = useAuth();
   const { selectedVehicle } = useVehicle();
+  const { t } = useLanguage();
   
   const navItems = [
-    { name: 'Home', path: '/dashboard', icon: <Home className="w-5 h-5" /> },
-    { name: 'Chat', path: '/chat', icon: <MessageSquare className="w-5 h-5" /> },
-    { name: 'Maintenance', path: '/maintenance', icon: <Calendar className="w-5 h-5" /> },
-    { name: 'Database', path: '/database', icon: <Database className="w-5 h-5" /> },
-    { name: 'Vehicle', path: '/vehicle', icon: <Car className="w-5 h-5" /> },
-    { name: 'Settings', path: '/settings', icon: <Settings className="w-5 h-5" /> },
+    { name: t('home'), path: '/dashboard', icon: <Home className="w-5 h-5" /> },
+    { name: t('chat'), path: '/chat', icon: <MessageSquare className="w-5 h-5" /> },
+    { name: t('maintenance'), path: '/maintenance', icon: <Calendar className="w-5 h-5" /> },
+    { name: t('database'), path: '/database', icon: <Database className="w-5 h-5" /> },
+    { name: t('vehicle'), path: '/vehicle', icon: <Car className="w-5 h-5" /> },
+    { name: t('settings'), path: '/settings', icon: <Settings className="w-5 h-5" /> },
   ];
 
   // Don't show navigation on auth screens
