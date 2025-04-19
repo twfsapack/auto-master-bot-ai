@@ -1,12 +1,12 @@
-
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Send, AlertCircle } from 'lucide-react';
+import { Send } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useVehicle } from '@/contexts/VehicleContext';
+import { getRelevantResponse } from '@/utils/chatResponses';
 
 type Message = {
   id: string;
@@ -30,89 +30,13 @@ export const ChatInterface = () => {
   const { user } = useAuth();
   const { selectedVehicle } = useVehicle();
 
-  const vehicleSpecificResponses = {
-    // Convertimos a objeto para mayor especificidad
-    'aceite': {
-      default: [
-        "Generalmente, los vehículos necesitan cambiar el aceite cada 5,000-7,500 kilómetros.",
-        "El cambio de aceite es crucial para mantener el motor en buenas condiciones."
-      ],
-      specific: {
-        'Toyota': [
-          "Para los Toyota, recomendamos aceite sintético 5W-30 específico para tu modelo.",
-          "Los Toyota suelen tener intervalos de cambio de aceite cada 7,000 kilómetros."
-        ],
-        'Honda': [
-          "Los Honda funcionan mejor con aceite sintético 0W-20.",
-          "Para tu Honda, el cambio de aceite es recomendable cada 6,000-7,000 kilómetros."
-        ],
-        // Añadir más marcas según sea necesario
-      }
-    },
-    'frenos': {
-      default: [
-        "Las pastillas de freno generalmente duran entre 30,000 y 50,000 kilómetros.",
-        "Es importante revisar los frenos periódicamente para garantizar tu seguridad."
-      ],
-      specific: {
-        'Toyota': [
-          "En Toyota, las pastillas de freno pueden durar hasta 50,000 kilómetros con un mantenimiento adecuado.",
-          "Presta atención a cualquier chirrido inusual en los frenos de tu Toyota."
-        ],
-        'Honda': [
-          "Los Honda suelen tener pastillas de freno que duran alrededor de 40,000 kilómetros.",
-          "Mantén un registro de tus revisiones de frenos para tu Honda."
-        ],
-      }
-    },
-    // Añadir más categorías con respuestas genéricas y específicas
-  };
-
-  const getRelevantResponse = (input: string) => {
-    const lowercaseInput = input.toLowerCase();
-    let response = "Lo siento, no entiendo tu pregunta. ¿Podrías reformularla?";
-    
-    // Verificamos si el usuario es premium y tiene un vehículo seleccionado
-    if (!user?.isPremium) {
-      return "Esta función está disponible solo para usuarios premium. Por favor, actualiza tu cuenta.";
-    }
-
-    if (!selectedVehicle) {
-      return "Por favor, agrega un vehículo en la sección de vehículos para obtener respuestas personalizadas.";
-    }
-
-    // Buscar coincidencias en las categorías
-    for (const [key, responses] of Object.entries(vehicleSpecificResponses)) {
-      if (lowercaseInput.includes(key)) {
-        // Primero intentamos con respuesta específica por marca
-        if (responses.specific[selectedVehicle.make]) {
-          const specificResponses = responses.specific[selectedVehicle.make];
-          response = specificResponses[Math.floor(Math.random() * specificResponses.length)];
-        } else {
-          // Si no hay respuesta específica, usamos la respuesta genérica
-          const defaultResponses = responses.default;
-          response = defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
-        }
-
-        // Reemplazar marcadores si es necesario
-        response = response.replace(
-          '{vehicle}', 
-          `${selectedVehicle.year} ${selectedVehicle.make} ${selectedVehicle.model}`
-        );
-        break;
-      }
-    }
-    
-    return response;
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -131,7 +55,7 @@ export const ChatInterface = () => {
 
     // Generate AI response
     setTimeout(() => {
-      const aiResponse = getRelevantResponse(input);
+      const aiResponse = getRelevantResponse(input, user?.isPremium, selectedVehicle);
       
       const botMessage: Message = {
         id: Date.now().toString(),
