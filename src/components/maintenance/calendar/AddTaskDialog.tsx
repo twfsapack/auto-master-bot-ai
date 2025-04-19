@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Plus, CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { useLanguage } from '@/contexts/LanguageContext';
+import type { Locale } from 'date-fns';
 
 interface AddTaskDialogProps {
   isOpen: boolean;
