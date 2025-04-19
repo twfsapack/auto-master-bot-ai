@@ -1,10 +1,9 @@
-
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Send } from 'lucide-react';
+import { Send, AlertCircle } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useVehicle } from '@/contexts/VehicleContext';
 
@@ -19,7 +18,7 @@ export const ChatInterface = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      content: 'Hello! I\'m your Auto Master Bot assistant. How can I help you with your vehicle today?',
+      content: 'Hola! Soy tu asistente Auto Master. ¿Cómo puedo ayudarte con tu vehículo hoy?',
       sender: 'bot',
       timestamp: new Date(),
     },
@@ -30,16 +29,51 @@ export const ChatInterface = () => {
   const { user } = useAuth();
   const { selectedVehicle } = useVehicle();
 
-  // Sample responses for demo
-  const sampleResponses = [
-    "Based on your description, it sounds like you might have an issue with the alternator. This could explain the battery drain and electrical problems.",
-    "For that check engine light, I'd recommend reading the OBD-II code first. You can use the scanner feature in this app to diagnose the specific code.",
-    "Regular oil changes are essential. For your vehicle, I recommend changing the oil every 5,000 to 7,500 miles with synthetic oil.",
-    "That grinding noise when braking likely indicates worn brake pads. I'd suggest having them inspected and replaced if necessary.",
-    "Based on the mileage of your vehicle, you're due for a timing belt replacement. This is a critical maintenance item.",
-    "The AC not blowing cold air could be due to low refrigerant levels. Check for leaks or have it recharged by a professional.",
-    "For optimal fuel efficiency in your vehicle, ensure proper tire pressure, regular maintenance, and avoid aggressive acceleration.",
-  ];
+  const vehicleSpecificResponses = {
+    'aceite': [
+      "Para tu {vehicle}, recomiendo usar aceite sintético 5W-30. Cambia el aceite cada 5,000-7,500 kilómetros.",
+      "El aceite recomendado para tu {vehicle} es sintético 5W-30 o 5W-40, dependiendo del clima de tu región.",
+    ],
+    'frenos': [
+      "Si escuchas un chirrido en los frenos de tu {vehicle}, probablemente necesites cambiar las pastillas. Es recomendable revisarlas cada 20,000 kilómetros.",
+      "Para tu {vehicle}, las pastillas de freno deberían durar entre 30,000 y 50,000 kilómetros, dependiendo de tu estilo de conducción.",
+    ],
+    'batería': [
+      "La batería de tu {vehicle} debería durar entre 3-5 años. Si notas que el arranque es más lento, es hora de revisarla.",
+      "Para tu {vehicle}, recomiendo una batería de 12V con capacidad similar a la original. Revisa los terminales regularmente.",
+    ],
+    'diagnóstico': [
+      "Basado en tu descripción, tu {vehicle} podría tener un problema con {issue}. Te recomiendo revisar {component}.",
+      "Para tu {vehicle}, ese síntoma suele estar relacionado con {issue}. Un diagnóstico profesional sería recomendable.",
+    ],
+    'mantenimiento': [
+      "El programa de mantenimiento para tu {vehicle} sugiere: cambio de aceite cada 5,000-7,500 km, filtros cada 15,000 km, y revisión general cada 10,000 km.",
+      "Para mantener tu {vehicle} en óptimas condiciones, revisa: niveles de fluidos mensualmente, presión de neumáticos cada 2 semanas, y realiza una inspección visual semanal.",
+    ],
+  };
+
+  const getRelevantResponse = (input: string) => {
+    const lowercaseInput = input.toLowerCase();
+    let response = "Lo siento, no entiendo tu pregunta. ¿Podrías reformularla?";
+    
+    // Check for keywords in the input
+    for (const [key, responses] of Object.entries(vehicleSpecificResponses)) {
+      if (lowercaseInput.includes(key)) {
+        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+        if (selectedVehicle) {
+          response = randomResponse.replace(
+            '{vehicle}',
+            `${selectedVehicle.year} ${selectedVehicle.make} ${selectedVehicle.model}`
+          );
+        } else {
+          response = "Por favor, primero agrega tu vehículo en la sección de vehículos para poder darte información más específica.";
+        }
+        break;
+      }
+    }
+    
+    return response;
+  };
 
   useEffect(() => {
     scrollToBottom();
@@ -53,38 +87,31 @@ export const ChatInterface = () => {
     e.preventDefault();
     if (!input.trim()) return;
 
-    // Add user message
     const userMessage: Message = {
       id: Date.now().toString(),
       content: input,
       sender: 'user',
       timestamp: new Date(),
     };
+    
     setMessages((prev) => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
 
-    // Simulate bot response
+    // Generate AI response
     setTimeout(() => {
-      const randomResponse = sampleResponses[Math.floor(Math.random() * sampleResponses.length)];
-      
-      let botResponse = randomResponse;
-      
-      // Personalize the response if vehicle is available
-      if (selectedVehicle) {
-        botResponse = botResponse.replace('your vehicle', `your ${selectedVehicle.year} ${selectedVehicle.make} ${selectedVehicle.model}`);
-      }
+      const aiResponse = getRelevantResponse(input);
       
       const botMessage: Message = {
         id: Date.now().toString(),
-        content: botResponse,
+        content: aiResponse,
         sender: 'bot',
         timestamp: new Date(),
       };
       
       setMessages((prev) => [...prev, botMessage]);
       setIsLoading(false);
-    }, 1500);
+    }, 1000);
   };
 
   return (
