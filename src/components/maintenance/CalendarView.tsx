@@ -12,6 +12,11 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+
+interface CalendarViewProps {
+  onShowTaskDetails?: (task: any) => void;
+}
 
 // Mock maintenance tasks
 const maintenanceTasks = [
@@ -20,28 +25,32 @@ const maintenanceTasks = [
     title: 'Oil Change',
     date: new Date(2025, 3, 15), // April 15, 2025
     vehicle: '123',
-    type: 'routine'
+    type: 'routine',
+    description: 'Regular oil change to ensure optimal engine performance and longevity. Recommended every 5,000 miles or 6 months.'
   },
   {
     id: '2',
     title: 'Tire Rotation',
     date: new Date(2025, 3, 20), // April 20, 2025
     vehicle: '123',
-    type: 'routine'
+    type: 'routine',
+    description: 'Rotate tires to ensure even wear and extend tire life. Check tire pressure and balance as needed.'
   },
   {
     id: '3',
     title: 'Brake Inspection',
     date: new Date(2025, 3, 10), // April 10, 2025
     vehicle: '123',
-    type: 'important'
+    type: 'important',
+    description: 'Inspect brake pads, rotors, and fluid levels. Critical for vehicle safety.'
   },
   {
     id: '4',
     title: 'Air Filter Replacement',
     date: new Date(2025, 4, 5), // May 5, 2025
     vehicle: '123',
-    type: 'routine'
+    type: 'routine',
+    description: 'Replace air filter to ensure proper engine airflow and improve fuel efficiency.'
   }
 ];
 
@@ -54,13 +63,14 @@ const localeMap = {
   pt: pt
 };
 
-export const CalendarView = () => {
+export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [newTask, setNewTask] = useState({
     title: '',
-    type: 'routine'
+    type: 'routine',
+    description: ''
   });
   const { selectedVehicle } = useVehicle();
   const { language, t } = useLanguage();
@@ -83,8 +93,19 @@ export const CalendarView = () => {
     setIsDialogOpen(false);
     setNewTask({
       title: '',
-      type: 'routine'
+      type: 'routine',
+      description: ''
     });
+  };
+
+  const handleShowDetails = (task: any) => {
+    if (onShowTaskDetails) {
+      // Map the task format to match the expected format
+      onShowTaskDetails({
+        ...task,
+        dueDate: task.date
+      });
+    }
   };
 
   // Get the appropriate locale based on the selected language
@@ -142,6 +163,16 @@ export const CalendarView = () => {
                     <SelectItem value="urgent">{t('urgent')}</SelectItem>
                   </SelectContent>
                 </Select>
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="task-description">{t('description')}</Label>
+                <Textarea
+                  id="task-description"
+                  placeholder={t('descriptionPlaceholder')}
+                  value={newTask.description}
+                  onChange={(e) => setNewTask({ ...newTask, description: e.target.value })}
+                  rows={3}
+                />
               </div>
             </div>
             <DialogFooter>
@@ -207,9 +238,15 @@ export const CalendarView = () => {
                       >
                         {t(task.type)}
                       </span>
-                      <Button size="sm" variant="ghost">
-                        {t('complete')}
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button 
+                          size="sm" 
+                          variant="ghost"
+                          onClick={() => handleShowDetails(task)}
+                        >
+                          {t('details')}
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 ))

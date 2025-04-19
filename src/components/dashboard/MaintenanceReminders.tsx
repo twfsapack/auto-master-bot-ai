@@ -4,11 +4,15 @@ import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useVehicle } from '@/contexts/VehicleContext';
 import { useToast } from '@/hooks/use-toast';
+import { useState } from 'react';
+import { TaskDetailsModal } from '@/components/maintenance/TaskDetailsModal';
 
 export const MaintenanceReminders = () => {
   const navigate = useNavigate();
   const { selectedVehicle } = useVehicle();
   const { toast } = useToast();
+  const [selectedTask, setSelectedTask] = useState<any>(null);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
 
   // Mock maintenance data
   const maintenanceItems = [
@@ -16,19 +20,22 @@ export const MaintenanceReminders = () => {
       id: '1',
       title: 'Oil Change',
       dueDate: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000), // 15 days from now
-      type: 'routine'
+      type: 'routine',
+      description: 'Regular oil change to ensure optimal engine performance and longevity. Recommended every 5,000 miles or 6 months.'
     },
     {
       id: '2',
       title: 'Tire Rotation',
       dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
-      type: 'routine'
+      type: 'routine',
+      description: 'Rotate tires to ensure even wear and extend tire life. Check tire pressure and balance as needed.'
     },
     {
       id: '3',
       title: 'Brake Inspection',
       dueDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago (overdue)
-      type: 'important'
+      type: 'important',
+      description: 'Inspect brake pads, rotors, and fluid levels. Critical for vehicle safety.'
     }
   ];
 
@@ -91,6 +98,11 @@ export const MaintenanceReminders = () => {
     }
   };
 
+  const handleShowDetails = (task: any) => {
+    setSelectedTask(task);
+    setIsDetailsModalOpen(true);
+  };
+
   return (
     <Card className="glass-card animate-fade-in">
       <CardHeader className="pb-2">
@@ -140,7 +152,11 @@ export const MaintenanceReminders = () => {
                 >
                   <Bell className="h-4 w-4" />
                 </Button>
-                <Button size="sm" variant="ghost">
+                <Button 
+                  size="sm" 
+                  variant="ghost"
+                  onClick={() => handleShowDetails(item)}
+                >
                   Details
                 </Button>
               </div>
@@ -148,6 +164,14 @@ export const MaintenanceReminders = () => {
           ))}
         </div>
       </CardContent>
+      
+      {selectedTask && (
+        <TaskDetailsModal
+          isOpen={isDetailsModalOpen}
+          onClose={() => setIsDetailsModalOpen(false)}
+          task={selectedTask}
+        />
+      )}
     </Card>
   );
 };
