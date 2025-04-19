@@ -48,19 +48,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      // Mock login
+      // Mock login with premium user
       setTimeout(() => {
         const mockUser = {
           id: '123',
           email,
           name: email.split('@')[0],
-          isPremium: false
+          isPremium: true  // Set to true to create a premium user
         };
         setUser(mockUser);
         localStorage.setItem('auto_master_user', JSON.stringify(mockUser));
         toast({
           title: "Login successful",
-          description: "Welcome back!",
+          description: "Welcome back Premium user!",
         });
         setIsLoading(false);
       }, 1000);
