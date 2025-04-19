@@ -1,18 +1,12 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { useVehicle } from '@/contexts/VehicleContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { format } from 'date-fns';
 import { es, enUS, fr, de, pt } from 'date-fns/locale';
-import { Plus, Calendar as CalendarIcon } from 'lucide-react';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
+import { AddTaskDialog } from './calendar/AddTaskDialog';
+import { TaskList } from './calendar/TaskList';
 
 interface CalendarViewProps {
   onShowTaskDetails?: (task: any) => void;
@@ -72,6 +66,7 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
     type: 'routine',
     description: ''
   });
+  
   const { selectedVehicle } = useVehicle();
   const { language, t } = useLanguage();
 
@@ -88,8 +83,6 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
   };
 
   const handleAddTask = () => {
-    // In a real app, this would add the task to the database
-    // For now, we're just closing the dialog
     setIsDialogOpen(false);
     setNewTask({
       title: '',
@@ -100,7 +93,6 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
 
   const handleShowDetails = (task: any) => {
     if (onShowTaskDetails) {
-      // Map the task format to match the expected format
       onShowTaskDetails({
         ...task,
         dueDate: task.date
@@ -115,74 +107,15 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
     <div className="space-y-4">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">{t('maintenanceCalendar')}</h2>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <Plus className="h-4 w-4 mr-2" />
-              {t('addTask')}
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>{t('addTask')}</DialogTitle>
-              <DialogDescription>
-                {t('addTaskDescription')}
-              </DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid gap-2">
-                <Label htmlFor="task-title">{t('taskTitle')}</Label>
-                <Input
-                  id="task-title"
-                  placeholder="e.g., Oil Change"
-                  value={newTask.title}
-                  onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="task-date">{t('date')}</Label>
-                <div className="flex items-center gap-2">
-                  <CalendarIcon className="h-4 w-4 text-muted-foreground" />
-                  <span>
-                    {selectedDate ? format(selectedDate, 'PPP', { locale: dateLocale }) : t('selectDate')}
-                  </span>
-                </div>
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="task-type">{t('type')}</Label>
-                <Select 
-                  value={newTask.type} 
-                  onValueChange={(value) => setNewTask({ ...newTask, type: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder={t('selectTaskType')} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="routine">{t('routine')}</SelectItem>
-                    <SelectItem value="important">{t('important')}</SelectItem>
-                    <SelectItem value="urgent">{t('urgent')}</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="task-description">{t('description')}</Label>
-                <Textarea
-                  id="task-description"
-                  placeholder={t('descriptionPlaceholder')}
-                  value={newTask.description}
-                  onChange={(e) => setNewTask({ ...newTask, description: e.target.value })}
-                  rows={3}
-                />
-              </div>
-            </div>
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
-                {t('cancel')}
-              </Button>
-              <Button onClick={handleAddTask}>{t('addTask')}</Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <AddTaskDialog
+          isOpen={isDialogOpen}
+          onOpenChange={setIsDialogOpen}
+          selectedDate={selectedDate}
+          newTask={newTask}
+          onNewTaskChange={setNewTask}
+          onAddTask={handleAddTask}
+          dateLocale={dateLocale}
+        />
       </div>
 
       <div className="grid md:grid-cols-2 gap-4">
@@ -208,64 +141,11 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-2">
-              {selectedDate && getEventsForDate(selectedDate).length > 0 ? (
-                getEventsForDate(selectedDate).map((task) => (
-                  <div
-                    key={task.id}
-                    className={`p-3 rounded-lg
-                      ${
-                        task.type === 'urgent'
-                          ? 'bg-destructive/10 dark:bg-destructive/20'
-                          : task.type === 'important'
-                          ? 'bg-secondary/10 dark:bg-secondary/20'
-                          : 'bg-primary/5 dark:bg-primary/10'
-                      }
-                    `}
-                  >
-                    <h3 className="font-medium">{task.title}</h3>
-                    <div className="flex justify-between items-center mt-2">
-                      <span
-                        className={`text-xs px-2 py-1 rounded-full
-                          ${
-                            task.type === 'urgent'
-                              ? 'bg-destructive/20 text-destructive'
-                              : task.type === 'important'
-                              ? 'bg-secondary/20 text-secondary'
-                              : 'bg-primary/20 text-primary'
-                          }
-                        `}
-                      >
-                        {t(task.type)}
-                      </span>
-                      <div className="flex gap-2">
-                        <Button 
-                          size="sm" 
-                          variant="ghost"
-                          onClick={() => handleShowDetails(task)}
-                        >
-                          {t('details')}
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <div className="text-center py-6">
-                  <p className="text-muted-foreground">
-                    {t('noTasks')}
-                  </p>
-                  <Button
-                    variant="outline"
-                    className="mt-4"
-                    onClick={() => setIsDialogOpen(true)}
-                  >
-                    <Plus className="h-4 w-4 mr-2" />
-                    {t('addTask')}
-                  </Button>
-                </div>
-              )}
-            </div>
+            <TaskList
+              tasks={selectedDate ? getEventsForDate(selectedDate) : []}
+              onShowDetails={handleShowDetails}
+              onAddTaskClick={() => setIsDialogOpen(true)}
+            />
           </CardContent>
         </Card>
       </div>
