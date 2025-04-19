@@ -1,13 +1,14 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Calendar, ArrowRight } from 'lucide-react';
+import { Calendar, ArrowRight, Bell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useVehicle } from '@/contexts/VehicleContext';
+import { useToast } from '@/hooks/use-toast';
 
 export const MaintenanceReminders = () => {
   const navigate = useNavigate();
   const { selectedVehicle } = useVehicle();
+  const { toast } = useToast();
 
   // Mock maintenance data
   const maintenanceItems = [
@@ -31,8 +32,49 @@ export const MaintenanceReminders = () => {
     }
   ];
 
+  const requestNotificationPermission = async () => {
+    try {
+      const permission = await Notification.requestPermission();
+      if (permission === "granted") {
+        toast({
+          title: "Notifications enabled",
+          description: "You will receive reminders for maintenance tasks",
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Could not enable notifications",
+      });
+    }
+  };
+
+  const scheduleNotification = (task: { title: string, dueDate: Date }) => {
+    if (Notification.permission === "granted") {
+      const now = new Date().getTime();
+      const taskTime = task.dueDate.getTime();
+      
+      if (taskTime > now) {
+        setTimeout(() => {
+          new Notification("Maintenance Reminder", {
+            body: `Time for ${task.title}!`,
+            icon: "/logo.png"
+          });
+        }, taskTime - now);
+
+        toast({
+          title: "Reminder set",
+          description: `You will be notified when it's time for ${task.title}`,
+        });
+      }
+    } else {
+      requestNotificationPermission();
+    }
+  };
+
   if (!selectedVehicle) {
-    return null; // Don't show if no vehicle is selected
+    return null;
   }
 
   const formatDueDate = (date: Date) => {
@@ -90,9 +132,18 @@ export const MaintenanceReminders = () => {
                   {formatDueDate(item.dueDate)}
                 </p>
               </div>
-              <Button size="sm" variant="ghost">
-                Details
-              </Button>
+              <div className="flex gap-2">
+                <Button 
+                  size="sm" 
+                  variant="ghost"
+                  onClick={() => scheduleNotification(item)}
+                >
+                  <Bell className="h-4 w-4" />
+                </Button>
+                <Button size="sm" variant="ghost">
+                  Details
+                </Button>
+              </div>
             </div>
           ))}
         </div>
