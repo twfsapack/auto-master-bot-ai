@@ -17,6 +17,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { useVehicle } from '@/contexts/VehicleContext';
 import LanguageSelector from './LanguageSelector';
+import { cn } from '@/lib/utils';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -31,7 +32,23 @@ const Layout = ({ children }: LayoutProps) => {
   const { t } = useLanguage();
   
   const navItems = [
-    { name: t('home'), path: '/dashboard', icon: <Home className="w-5 h-5" /> },
+    { 
+      name: t('home'), 
+      path: '/dashboard', 
+      icon: selectedVehicle?.image ? (
+        <div className="relative w-5 h-5 rounded-full overflow-hidden">
+          <img 
+            src={selectedVehicle.image} 
+            alt={`${selectedVehicle.make} ${selectedVehicle.model}`}
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              e.currentTarget.src = '/placeholder.svg';
+              e.currentTarget.onerror = null;
+            }}
+          />
+        </div>
+      ) : <Home className="w-5 h-5" />
+    },
     { name: t('chat'), path: '/chat', icon: <MessageSquare className="w-5 h-5" /> },
     { name: t('maintenance'), path: '/maintenance', icon: <Calendar className="w-5 h-5" /> },
     { name: t('database'), path: '/database', icon: <Database className="w-5 h-5" /> },

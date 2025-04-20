@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from './AuthContext';
@@ -11,6 +10,7 @@ export type Vehicle = {
   vin?: string;
   mileage?: number;
   lastService?: string;
+  image?: string;
 };
 
 type VehicleContextType = {
@@ -40,10 +40,8 @@ export const VehicleProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const { toast } = useToast();
   const { user } = useAuth();
 
-  // Initialize vehicles
   useEffect(() => {
     if (user) {
-      // Mock fetch vehicles from storage
       const storedVehicles = localStorage.getItem(`auto_master_vehicles_${user.id}`);
       if (storedVehicles) {
         const parsedVehicles = JSON.parse(storedVehicles);
@@ -56,7 +54,6 @@ export const VehicleProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setIsLoading(false);
   }, [user]);
 
-  // Save vehicles to storage whenever they change
   useEffect(() => {
     if (user && vehicles.length > 0) {
       localStorage.setItem(`auto_master_vehicles_${user.id}`, JSON.stringify(vehicles));
@@ -96,7 +93,6 @@ export const VehicleProvider: React.FC<{ children: React.ReactNode }> = ({ child
       )
     );
 
-    // If updating the selected vehicle, also update that
     if (selectedVehicle?.id === id) {
       setSelectedVehicle(prev => prev ? { ...prev, ...updates } : null);
     }
@@ -110,7 +106,6 @@ export const VehicleProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const deleteVehicle = (id: string) => {
     setVehicles((prev) => prev.filter((vehicle) => vehicle.id !== id));
     
-    // If deleting the selected vehicle, select another one if available
     if (selectedVehicle?.id === id) {
       setSelectedVehicle((prev) => {
         const remaining = vehicles.filter(v => v.id !== id);
