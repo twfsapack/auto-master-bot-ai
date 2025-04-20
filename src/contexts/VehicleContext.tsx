@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from './AuthContext';
 
-type Vehicle = {
+export type Vehicle = {
   id: string;
   make: string;
   model: string;
