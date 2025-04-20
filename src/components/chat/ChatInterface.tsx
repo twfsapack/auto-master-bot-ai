@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,9 +9,20 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useVehicle } from '@/contexts/VehicleContext';
 import { getRelevantResponse } from '@/utils/chatResponses';
 
+type MessageContent = {
+  text: string;
+  imageUrl?: string;
+  parts?: {
+    name: string;
+    description: string;
+    imageUrl?: string;
+    estimatedCost?: string;
+  }[];
+};
+
 type Message = {
   id: string;
-  content: string;
+  content: MessageContent;
   sender: 'user' | 'bot';
   timestamp: Date;
 };
@@ -19,7 +31,9 @@ export const ChatInterface = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      content: 'Hola! Soy tu asistente Auto Master. ¿Cómo puedo ayudarte con tu vehículo hoy?',
+      content: {
+        text: 'Hola! Soy tu asistente Auto Master. ¿Cómo puedo ayudarte con tu vehículo hoy?'
+      },
       sender: 'bot',
       timestamp: new Date(),
     },
@@ -44,7 +58,7 @@ export const ChatInterface = () => {
 
     const userMessage: Message = {
       id: Date.now().toString(),
-      content: input,
+      content: { text: input },
       sender: 'user',
       timestamp: new Date(),
     };
@@ -53,7 +67,6 @@ export const ChatInterface = () => {
     setInput('');
     setIsLoading(true);
 
-    // Generate AI response
     setTimeout(() => {
       const aiResponse = getRelevantResponse(input, user?.isPremium, selectedVehicle);
       
@@ -100,9 +113,30 @@ export const ChatInterface = () => {
                     : 'bg-secondary bg-opacity-10'
                 }`}
               >
-                <CardContent className="p-3">
-                  <p className="text-sm">{message.content}</p>
-                  <p className="text-xs text-muted-foreground mt-1">
+                <CardContent className="p-3 space-y-3">
+                  <p className="text-sm">{message.content.text}</p>
+                  {message.sender === 'bot' && message.content.imageUrl && (
+                    <img 
+                      src={message.content.imageUrl} 
+                      alt="Diagnóstico visual" 
+                      className="rounded-lg max-w-full h-auto"
+                    />
+                  )}
+                  {message.sender === 'bot' && message.content.parts && (
+                    <div className="space-y-2">
+                      <p className="font-semibold text-sm">Refacciones recomendadas:</p>
+                      {message.content.parts.map((part, index) => (
+                        <div key={index} className="bg-background/50 p-2 rounded-lg">
+                          <p className="font-medium text-sm">{part.name}</p>
+                          <p className="text-xs text-muted-foreground">{part.description}</p>
+                          {part.estimatedCost && (
+                            <p className="text-xs text-primary">Costo estimado: {part.estimatedCost}</p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <p className="text-xs text-muted-foreground">
                     {message.timestamp.toLocaleTimeString([], {
                       hour: '2-digit',
                       minute: '2-digit',
@@ -137,7 +171,7 @@ export const ChatInterface = () => {
       
       <form onSubmit={handleSubmit} className="flex items-center gap-2 mt-2">
         <Input
-          placeholder="Ask me about your vehicle..."
+          placeholder="Pregunta sobre tu vehículo..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
           className="flex-1"
