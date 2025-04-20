@@ -1,4 +1,3 @@
-
 import { Vehicle } from '@/contexts/VehicleContext';
 
 type PartSpecification = {
@@ -131,12 +130,6 @@ export const getRelevantResponse = (
   imageUrl?: string;
   parts?: PartSpecification[];
 } => {
-  if (!isPremium) {
-    return {
-      text: "Esta función está disponible solo para usuarios premium. Por favor, actualiza tu cuenta."
-    };
-  }
-
   if (!selectedVehicle) {
     return {
       text: "Por favor, agrega un vehículo en la sección de vehículos para obtener respuestas personalizadas."
@@ -156,15 +149,19 @@ export const getRelevantResponse = (
         const specificResponse = responses.specific[selectedVehicle.make];
         response = {
           text: specificResponse.text[Math.floor(Math.random() * specificResponse.text.length)],
-          imageUrl: specificResponse.imageUrl,
-          parts: specificResponse.parts
+          ...(isPremium && {
+            imageUrl: specificResponse.imageUrl,
+            parts: specificResponse.parts
+          })
         };
       } else {
         const defaultResponse = responses.default;
         response = {
           text: defaultResponse.text[Math.floor(Math.random() * defaultResponse.text.length)],
-          imageUrl: defaultResponse.imageUrl,
-          parts: defaultResponse.parts
+          ...(isPremium && {
+            imageUrl: defaultResponse.imageUrl,
+            parts: defaultResponse.parts
+          })
         };
       }
 

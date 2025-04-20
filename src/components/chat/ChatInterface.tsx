@@ -72,7 +72,7 @@ export const ChatInterface = () => {
       
       const botMessage: Message = {
         id: Date.now().toString(),
-        content: aiResponse,
+        content: user?.isPremium ? aiResponse : { text: aiResponse.text },
         sender: 'bot',
         timestamp: new Date(),
       };
@@ -115,26 +115,30 @@ export const ChatInterface = () => {
               >
                 <CardContent className="p-3 space-y-3">
                   <p className="text-sm">{message.content.text}</p>
-                  {message.sender === 'bot' && message.content.imageUrl && (
-                    <img 
-                      src={message.content.imageUrl} 
-                      alt="Diagnóstico visual" 
-                      className="rounded-lg max-w-full h-auto"
-                    />
-                  )}
-                  {message.sender === 'bot' && message.content.parts && (
-                    <div className="space-y-2">
-                      <p className="font-semibold text-sm">Refacciones recomendadas:</p>
-                      {message.content.parts.map((part, index) => (
-                        <div key={index} className="bg-background/50 p-2 rounded-lg">
-                          <p className="font-medium text-sm">{part.name}</p>
-                          <p className="text-xs text-muted-foreground">{part.description}</p>
-                          {part.estimatedCost && (
-                            <p className="text-xs text-primary">Costo estimado: {part.estimatedCost}</p>
-                          )}
+                  {message.sender === 'bot' && user?.isPremium && (
+                    <>
+                      {message.content.imageUrl && (
+                        <img 
+                          src={message.content.imageUrl} 
+                          alt="Diagnóstico visual" 
+                          className="rounded-lg max-w-full h-auto"
+                        />
+                      )}
+                      {message.content.parts && (
+                        <div className="space-y-2">
+                          <p className="font-semibold text-sm">Refacciones recomendadas:</p>
+                          {message.content.parts.map((part, index) => (
+                            <div key={index} className="bg-background/50 p-2 rounded-lg">
+                              <p className="font-medium text-sm">{part.name}</p>
+                              <p className="text-xs text-muted-foreground">{part.description}</p>
+                              {part.estimatedCost && (
+                                <p className="text-xs text-primary">Costo estimado: {part.estimatedCost}</p>
+                              )}
+                            </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
+                      )}
+                    </>
                   )}
                   <p className="text-xs text-muted-foreground">
                     {message.timestamp.toLocaleTimeString([], {
@@ -184,3 +188,4 @@ export const ChatInterface = () => {
     </div>
   );
 };
+
