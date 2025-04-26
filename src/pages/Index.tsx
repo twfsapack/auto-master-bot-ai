@@ -1,26 +1,33 @@
+
 import React from 'react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { Bot, Wrench } from 'lucide-react';
+
 const Index = () => {
-  const {
-    user
-  } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
+
   useEffect(() => {
-    // If user is already logged in, redirect to dashboard
+    // Si el usuario ya está logueado, redirigir al dashboard
     if (user) {
       navigate('/dashboard');
     }
   }, [user, navigate]);
-  return <div className="min-h-screen gradient-bg text-white flex flex-col">
+
+  return (
+    <div className="min-h-screen gradient-bg text-white flex flex-col">
       <main className="flex-1 flex flex-col items-center justify-center p-6 text-center">
         <div className="animate-fade-in">
           <div className="mb-8 flex justify-center">
             <div className="relative">
-              <img alt="Auto Master Bot Logo" className="h-24 w-24 mb-4" src="/lovable-uploads/bbfc45ae-c468-4d9c-b939-c35eb61a6ef0.png" />
+              <img 
+                alt="Auto Master Bot Logo" 
+                className="h-24 w-24 mb-4" 
+                src="/logo.png"  // Cambiar a la ruta del logo existente
+              />
             </div>
           </div>
           
@@ -29,7 +36,7 @@ const Index = () => {
           </h1>
           
           <p className="text-xl mb-8 max-w-md mx-auto">
-            Your intelligent assistant for vehicle diagnostics and maintenance
+            Tu asistente inteligente para diagnósticos y mantenimiento de vehículos
           </p>
           
           <div className="grid grid-cols-3 gap-6 mb-12 max-w-md mx-auto">
@@ -65,8 +72,10 @@ const Index = () => {
       </main>
       
       <footer className="text-center p-4 text-white/60 text-sm">
-        <p>Auto Master Bot &copy; 2025 | Your Vehicle's AI Assistant</p>
+        <p>Auto Master Bot &copy; 2025 | Tu asistente de IA para vehículos</p>
       </footer>
-    </div>;
+    </div>
+  );
 };
+
 export default Index;
