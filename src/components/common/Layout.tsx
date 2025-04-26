@@ -19,6 +19,7 @@ import { Button } from '@/components/ui/button';
 import { useVehicle } from '@/contexts/VehicleContext';
 import LanguageSelector from './LanguageSelector';
 import { cn } from '@/lib/utils';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -118,21 +119,23 @@ const Layout = ({ children }: LayoutProps) => {
       <main className="flex-1 container mx-auto px-4 pb-20 animate-fade-in">{children}</main>
 
       <nav className="fixed bottom-0 w-full glass-card px-4 py-2 z-50 animate-slide-up">
-        <div className="flex justify-around items-center">
-          {navItems.map((item) => (
-            <button
-              key={item.path}
-              onClick={() => item.external ? window.open(item.path, '_blank') : navigate(item.path)}
-              className={cn(
-                "nav-item flex flex-col items-center transition-all duration-300 transform hover:scale-110",
-                location.pathname === item.path && "active"
-              )}
-            >
-              {item.icon}
-              <span className="text-xs mt-1">{item.name}</span>
-            </button>
-          ))}
-        </div>
+        <ScrollArea className="w-full">
+          <div className="flex justify-start md:justify-around items-center min-w-max px-2">
+            {navItems.map((item) => (
+              <button
+                key={item.path}
+                onClick={() => item.external ? window.open(item.path, '_blank') : navigate(item.path)}
+                className={cn(
+                  "nav-item flex flex-col items-center transition-all duration-300 transform hover:scale-110 px-4",
+                  location.pathname === item.path && "active"
+                )}
+              >
+                {item.icon}
+                <span className="text-xs mt-1">{item.name}</span>
+              </button>
+            ))}
+          </div>
+        </ScrollArea>
       </nav>
     </div>
   );
