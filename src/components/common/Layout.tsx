@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -78,12 +77,9 @@ const Layout = ({ children }: LayoutProps) => {
           <div className="flex items-center space-x-2">
             <img 
               src="/logo.png" 
-              alt="Auto Master Bot Logo" 
+              alt="Logo" 
               className="h-10 w-10 mr-2 animate-fade-in"
             />
-            <span className="font-bold text-xl bg-gradient-to-r from-navy to-purple text-transparent bg-clip-text animate-fade-in">
-              Auto Master Bot
-            </span>
             {selectedVehicle && (
               <span className="text-sm text-muted-foreground hidden md:inline-block animate-fade-in">
                 {selectedVehicle.make} {selectedVehicle.model} ({selectedVehicle.year})
