@@ -73,11 +73,11 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
     description: ''
   });
   
-  // Add status to maintenanceTasks
+  // Add status to maintenanceTasks with explicit "active" | "completed" type
   const [tasks, setTasks] = useState([
     ...maintenanceTasks.map(task => ({
       ...task,
-      status: 'active'
+      status: 'active' as 'active' | 'completed'
     }))
   ]);
 
