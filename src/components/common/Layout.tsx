@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -65,29 +64,29 @@ const Layout = ({ children }: LayoutProps) => {
   ];
 
   if (location.pathname === '/' || location.pathname.includes('/auth')) {
-    return <main className="min-h-screen">{children}</main>;
+    return <main className="min-h-screen animate-fade-in">{children}</main>;
   }
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <header className="sticky top-0 w-full glass-card z-50 px-4 py-2 mb-4 shadow-sm">
+      <header className="sticky top-0 w-full glass-card z-50 px-4 py-2 mb-4 shadow-sm animate-slide-down">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <img 
               src="/logo.png" 
               alt="Auto Master Bot Logo" 
-              className="h-10 w-10 mr-2"
+              className="h-10 w-10 mr-2 animate-fade-in"
             />
-            <span className="font-bold text-xl bg-gradient-to-r from-navy to-purple text-transparent bg-clip-text">
+            <span className="font-bold text-xl bg-gradient-to-r from-navy to-purple text-transparent bg-clip-text animate-fade-in">
               Auto Master Bot
             </span>
             {selectedVehicle && (
-              <span className="text-sm text-muted-foreground hidden md:inline-block">
+              <span className="text-sm text-muted-foreground hidden md:inline-block animate-fade-in">
                 {selectedVehicle.make} {selectedVehicle.model} ({selectedVehicle.year})
               </span>
             )}
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 animate-fade-in">
             <LanguageSelector />
             <Button 
               variant="ghost" 
@@ -116,16 +115,16 @@ const Layout = ({ children }: LayoutProps) => {
         </div>
       </header>
 
-      <main className="flex-1 container mx-auto px-4 pb-20">{children}</main>
+      <main className="flex-1 container mx-auto px-4 pb-20 animate-fade-in">{children}</main>
 
-      <nav className="fixed bottom-0 w-full glass-card px-4 py-2 z-50">
+      <nav className="fixed bottom-0 w-full glass-card px-4 py-2 z-50 animate-slide-up">
         <div className="flex justify-around items-center">
           {navItems.map((item) => (
             <button
               key={item.path}
               onClick={() => item.external ? window.open(item.path, '_blank') : navigate(item.path)}
               className={cn(
-                "nav-item flex flex-col items-center",
+                "nav-item flex flex-col items-center transition-all duration-300 transform hover:scale-110",
                 location.pathname === item.path && "active"
               )}
             >

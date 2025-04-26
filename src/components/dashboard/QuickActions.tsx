@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Scan, AlertCircle, Settings, Zap, BadgeInfo } from 'lucide-react';
@@ -12,7 +11,7 @@ export const QuickActions = () => {
   return (
     <Card className="glass-card animate-fade-in">
       <CardHeader className="pb-2">
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 animate-fade-in">
           <Zap className="h-5 w-5" />
           Quick Actions
         </CardTitle>
@@ -21,7 +20,7 @@ export const QuickActions = () => {
         <div className="grid grid-cols-2 gap-2">
           <Button
             variant="outline"
-            className="flex flex-col items-center justify-center h-20"
+            className="flex flex-col items-center justify-center h-20 transition-all duration-300 transform hover:scale-105 animate-fade-in"
             onClick={() => navigate('/chat')}
           >
             <AlertCircle className="h-5 w-5 mb-1" />
@@ -30,7 +29,7 @@ export const QuickActions = () => {
           
           <Button
             variant="outline"
-            className="flex flex-col items-center justify-center h-20"
+            className="flex flex-col items-center justify-center h-20 transition-all duration-300 transform hover:scale-105 animate-fade-in"
             onClick={() => navigate('/scanner')}
             disabled={!user?.isPremium}
           >
@@ -43,7 +42,7 @@ export const QuickActions = () => {
           
           <Button
             variant="outline"
-            className="flex flex-col items-center justify-center h-20"
+            className="flex flex-col items-center justify-center h-20 transition-all duration-300 transform hover:scale-105 animate-fade-in"
             onClick={() => navigate('/database')}
           >
             <BadgeInfo className="h-5 w-5 mb-1" />
@@ -52,7 +51,7 @@ export const QuickActions = () => {
           
           <Button
             variant="outline"
-            className="flex flex-col items-center justify-center h-20"
+            className="flex flex-col items-center justify-center h-20 transition-all duration-300 transform hover:scale-105 animate-fade-in"
             onClick={() => navigate('/settings')}
           >
             <Settings className="h-5 w-5 mb-1" />

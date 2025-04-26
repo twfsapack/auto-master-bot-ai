@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Car, Calendar, Wrench, AlertTriangle } from 'lucide-react';
@@ -30,7 +29,7 @@ export const VehicleCard = () => {
   return (
     <Card className="glass-card animate-fade-in">
       <CardHeader className="pb-2">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center animate-fade-in">
           <CardTitle className="flex items-center gap-2">
             <Car className="h-5 w-5" />
             Current Vehicle
@@ -38,7 +37,7 @@ export const VehicleCard = () => {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
+        <div className="space-y-4 animate-fade-in">
           <div className="text-2xl font-bold">
             {selectedVehicle.year} {selectedVehicle.make} {selectedVehicle.model}
           </div>
@@ -58,7 +57,7 @@ export const VehicleCard = () => {
           <div className="grid grid-cols-3 gap-2 mt-4">
             <Button 
               variant="outline" 
-              className="flex flex-col items-center justify-center h-20"
+              className="flex flex-col items-center justify-center h-20 transition-all duration-300 transform hover:scale-105 animate-fade-in"
               onClick={() => navigate('/maintenance')}
             >
               <Calendar className="h-5 w-5 mb-1" />
@@ -66,7 +65,7 @@ export const VehicleCard = () => {
             </Button>
             <Button 
               variant="outline" 
-              className="flex flex-col items-center justify-center h-20"
+              className="flex flex-col items-center justify-center h-20 transition-all duration-300 transform hover:scale-105 animate-fade-in"
               onClick={() => navigate('/chat')}
             >
               <AlertTriangle className="h-5 w-5 mb-1" />
@@ -74,7 +73,7 @@ export const VehicleCard = () => {
             </Button>
             <Button 
               variant="outline" 
-              className="flex flex-col items-center justify-center h-20"
+              className="flex flex-col items-center justify-center h-20 transition-all duration-300 transform hover:scale-105 animate-fade-in"
               onClick={() => navigate('/database')}
             >
               <Wrench className="h-5 w-5 mb-1" />

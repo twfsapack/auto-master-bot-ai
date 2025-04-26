@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -32,23 +31,21 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-b from-[#1A1F2C] to-[#0F1218] text-white flex flex-col items-center">
       <div className="flex-1 flex flex-col items-center justify-center w-full px-4 animate-fade-in">
         <div className="w-full max-w-md space-y-8">
-          <div className="flex flex-col items-center space-y-6">
+          <div className="flex flex-col items-center space-y-6 animate-slide-down">
             <img 
               src="/logo.png"
               alt="Auto Master Bot Logo"
-              className="w-32 h-32 mb-4 object-contain"
+              className="w-32 h-32 mb-4 object-contain animate-fade-in"
             />
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center animate-fade-in">
               <h1 className="text-2xl font-bold text-center">
                 AUTO MASTER BOT
               </h1>
-              <p 
-                className="text-xs text-gray-400 mt-1 italic opacity-80"
-              >
+              <p className="text-xs text-gray-400 mt-1 italic opacity-80">
                 powered by Trucktruest.com
               </p>
             </div>
-            <p className="text-sm text-center text-gray-400 mb-8">
+            <p className="text-sm text-center text-gray-400 mb-8 animate-fade-in">
               TO INTERACT WITH THE APPLICATION<br />
               YOU NEED TO SIGN IN
             </p>
@@ -57,7 +54,7 @@ const Index = () => {
           <div className="space-y-4">
             <Button
               onClick={handleGoogleSignIn}
-              className="w-full h-12 bg-gradient-to-r from-[#8B5CF6] to-[#7C3AED] hover:opacity-90 rounded-full"
+              className="w-full h-12 bg-gradient-to-r from-[#8B5CF6] to-[#7C3AED] hover:opacity-90 rounded-full transition-all duration-300 transform hover:scale-105 animate-slide-up"
             >
               <svg className="mr-2 h-5 w-5" viewBox="0 0 24 24">
                 <path 
@@ -70,7 +67,7 @@ const Index = () => {
 
             <Button
               onClick={handleAppleSignIn}
-              className="w-full h-12 bg-gradient-to-r from-[#8B5CF6] to-[#7C3AED] hover:opacity-90 rounded-full"
+              className="w-full h-12 bg-gradient-to-r from-[#8B5CF6] to-[#7C3AED] hover:opacity-90 rounded-full transition-all duration-300 transform hover:scale-105 animate-slide-up"
             >
               <Apple className="mr-2 h-5 w-5" />
               SIGN IN WITH APPLE
@@ -78,7 +75,7 @@ const Index = () => {
 
             <Button
               onClick={handleEmailSignIn}
-              className="w-full h-12 bg-gradient-to-r from-[#8B5CF6] to-[#7C3AED] hover:opacity-90 rounded-full"
+              className="w-full h-12 bg-gradient-to-r from-[#8B5CF6] to-[#7C3AED] hover:opacity-90 rounded-full transition-all duration-300 transform hover:scale-105 animate-slide-up"
             >
               <Mail className="mr-2 h-5 w-5" />
               SIGN IN WITH EMAIL
