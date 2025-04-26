@@ -36,11 +36,18 @@ const Index = () => {
             <img 
               src="/logo.png"
               alt="Auto Master Bot Logo"
-              className="w-24 h-24 mb-4"
+              className="w-32 h-32 mb-4 object-contain"
             />
-            <h1 className="text-2xl font-bold text-center">
-              AUTO MASTER BOT
-            </h1>
+            <div className="flex flex-col items-center">
+              <h1 className="text-2xl font-bold text-center">
+                AUTO MASTER BOT
+              </h1>
+              <p 
+                className="text-xs text-gray-400 mt-1 transform -rotate-6 opacity-80"
+              >
+                powered by Trucktruest.com
+              </p>
+            </div>
             <p className="text-sm text-center text-gray-400 mb-8">
               TO INTERACT WITH THE APPLICATION<br />
               YOU NEED TO SIGN IN
