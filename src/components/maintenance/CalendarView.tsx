@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Calendar } from '@/components/ui/calendar';
@@ -7,6 +8,10 @@ import { format } from 'date-fns';
 import { es, enUS, fr, de, pt } from 'date-fns/locale';
 import { AddTaskDialog } from './calendar/AddTaskDialog';
 import { TaskList } from './calendar/TaskList';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Plus } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { recommendedTasks } from '@/data/recommendedTasks';
 
 interface CalendarViewProps {
   onShowTaskDetails?: (task: any) => void;
@@ -61,12 +66,21 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
   const [newTask, setNewTask] = useState({
     title: '',
     type: 'routine',
     description: ''
   });
   
+  // Add status to maintenanceTasks
+  const [tasks, setTasks] = useState([
+    ...maintenanceTasks.map(task => ({
+      ...task,
+      status: 'active'
+    }))
+  ]);
+
   const { selectedVehicle } = useVehicle();
   const { language, t } = useLanguage();
 
@@ -77,7 +91,7 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
 
   const getEventsForDate = (date: Date) => {
     if (!date) return [];
-    return maintenanceTasks.filter(
+    return tasks.filter(
       (task) => format(task.date, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd')
     );
   };
@@ -89,6 +103,15 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
       type: 'routine',
       description: ''
     });
+  };
+
+  const handleRecommendedTaskSelect = (task: typeof recommendedTasks[0]) => {
+    setNewTask({
+      title: task.title,
+      type: task.type,
+      description: task.description
+    });
+    setIsDialogOpen(true);
   };
 
   const handleShowDetails = (task: any) => {
@@ -107,15 +130,24 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
     <div className="space-y-4">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">{t('maintenanceCalendar')}</h2>
-        <AddTaskDialog
-          isOpen={isDialogOpen}
-          onOpenChange={setIsDialogOpen}
-          selectedDate={selectedDate}
-          newTask={newTask}
-          onNewTaskChange={setNewTask}
-          onAddTask={handleAddTask}
-          dateLocale={dateLocale}
-        />
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button>
+              <Plus className="h-4 w-4 mr-2" />
+              {t('addTask')}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56">
+            {recommendedTasks.map(task => (
+              <DropdownMenuItem
+                key={task.id}
+                onClick={() => handleRecommendedTaskSelect(task)}
+              >
+                {task.title}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       <div className="grid md:grid-cols-2 gap-4">
@@ -149,6 +181,16 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
           </CardContent>
         </Card>
       </div>
+
+      <AddTaskDialog
+        isOpen={isDialogOpen}
+        onOpenChange={setIsDialogOpen}
+        selectedDate={selectedDate}
+        newTask={newTask}
+        onNewTaskChange={setNewTask}
+        onAddTask={handleAddTask}
+        dateLocale={dateLocale}
+      />
     </div>
   );
 };
