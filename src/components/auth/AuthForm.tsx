@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -98,7 +97,11 @@ export const AuthForm = () => {
               </div>
             </CardContent>
             <CardFooter className="flex flex-col space-y-4">
-              <Button type="submit" className="w-full" disabled={isLoading}>
+              <Button 
+                type="submit" 
+                className="w-full bg-purple hover:bg-purple/90 text-white" 
+                disabled={isLoading}
+              >
                 {isLoading ? "Signing in..." : "Sign In"}
               </Button>
               <div className="relative w-full">
@@ -112,10 +115,22 @@ export const AuthForm = () => {
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-2 w-full">
-                <Button type="button" variant="outline" onClick={handleGoogleSignIn} disabled={isLoading}>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  className="hover:bg-purple/10 border-purple/50 text-purple" 
+                  onClick={handleGoogleSignIn} 
+                  disabled={isLoading}
+                >
                   Google
                 </Button>
-                <Button type="button" variant="outline" onClick={handleAppleSignIn} disabled={isLoading}>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  className="hover:bg-purple/10 border-purple/50 text-purple" 
+                  onClick={handleAppleSignIn} 
+                  disabled={isLoading}
+                >
                   Apple
                 </Button>
               </div>
@@ -166,7 +181,11 @@ export const AuthForm = () => {
               </div>
             </CardContent>
             <CardFooter className="flex flex-col space-y-4">
-              <Button type="submit" className="w-full" disabled={isLoading}>
+              <Button 
+                type="submit" 
+                className="w-full bg-purple hover:bg-purple/90 text-white" 
+                disabled={isLoading}
+              >
                 {isLoading ? "Creating Account..." : "Create Account"}
               </Button>
               <div className="relative w-full">
@@ -180,10 +199,22 @@ export const AuthForm = () => {
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-2 w-full">
-                <Button type="button" variant="outline" onClick={handleGoogleSignIn} disabled={isLoading}>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  className="hover:bg-purple/10 border-purple/50 text-purple" 
+                  onClick={handleGoogleSignIn} 
+                  disabled={isLoading}
+                >
                   Google
                 </Button>
-                <Button type="button" variant="outline" onClick={handleAppleSignIn} disabled={isLoading}>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  className="hover:bg-purple/10 border-purple/50 text-purple" 
+                  onClick={handleAppleSignIn} 
+                  disabled={isLoading}
+                >
                   Apple
                 </Button>
               </div>
