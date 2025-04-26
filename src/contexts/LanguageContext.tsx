@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 // Define translations for different languages
@@ -491,10 +490,8 @@ const LanguageContext = createContext<LanguageContextType>({
 
 // Provider component
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  // State to store the current language
-  const [language, setLanguage] = useState('es');
+  const [language, setLanguage] = useState('en');
 
-  // Function to translate a key based on the current language
   const t = (key: string): string => {
     // @ts-ignore
     return translations[language]?.[key] || key;

@@ -35,7 +35,7 @@ const Layout = ({ children }: LayoutProps) => {
   
   const navItems = [
     { 
-      name: t('home'), 
+      name: 'Home', 
       path: '/dashboard', 
       icon: selectedVehicle?.image ? (
         <div className="relative w-5 h-5 rounded-full overflow-hidden">
@@ -51,17 +51,17 @@ const Layout = ({ children }: LayoutProps) => {
         </div>
       ) : <Home className="w-5 h-5" />
     },
-    { name: t('chat'), path: '/chat', icon: <MessageSquare className="w-5 h-5" /> },
-    { name: t('maintenance'), path: '/maintenance', icon: <Calendar className="w-5 h-5" /> },
-    { name: t('database'), path: '/database', icon: <Database className="w-5 h-5" /> },
-    { name: t('vehicle'), path: '/vehicle', icon: <Car className="w-5 h-5" /> },
+    { name: 'Chat', path: '/chat', icon: <MessageSquare className="w-5 h-5" /> },
+    { name: 'Maintenance', path: '/maintenance', icon: <Calendar className="w-5 h-5" /> },
+    { name: 'Database', path: '/database', icon: <Database className="w-5 h-5" /> },
+    { name: 'Vehicle', path: '/vehicle', icon: <Car className="w-5 h-5" /> },
     { 
-      name: 'Tienda', 
+      name: 'Store', 
       path: 'https://autoparts.trucktruest.com', 
       icon: <ShoppingCart className="w-5 h-5" />,
       external: true 
     },
-    { name: t('settings'), path: '/settings', icon: <Settings className="w-5 h-5" /> },
+    { name: 'Settings', path: '/settings', icon: <Settings className="w-5 h-5" /> },
   ];
 
   if (location.pathname === '/' || location.pathname.includes('/auth')) {
@@ -124,9 +124,10 @@ const Layout = ({ children }: LayoutProps) => {
             <button
               key={item.path}
               onClick={() => item.external ? window.open(item.path, '_blank') : navigate(item.path)}
-              className={`nav-item ${
-                location.pathname === item.path ? 'active' : ''
-              } flex flex-col items-center`}
+              className={cn(
+                "nav-item flex flex-col items-center",
+                location.pathname === item.path && "active"
+              )}
             >
               {item.icon}
               <span className="text-xs mt-1">{item.name}</span>
@@ -139,4 +140,3 @@ const Layout = ({ children }: LayoutProps) => {
 };
 
 export default Layout;
-
