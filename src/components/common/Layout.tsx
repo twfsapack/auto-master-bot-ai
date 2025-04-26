@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -13,6 +14,7 @@ import {
   Moon,
   Sun,
   Car,
+  ShoppingCart
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useVehicle } from '@/contexts/VehicleContext';
@@ -53,6 +55,12 @@ const Layout = ({ children }: LayoutProps) => {
     { name: t('maintenance'), path: '/maintenance', icon: <Calendar className="w-5 h-5" /> },
     { name: t('database'), path: '/database', icon: <Database className="w-5 h-5" /> },
     { name: t('vehicle'), path: '/vehicle', icon: <Car className="w-5 h-5" /> },
+    { 
+      name: 'Tienda', 
+      path: 'https://autoparts.trucktruest.com', 
+      icon: <ShoppingCart className="w-5 h-5" />,
+      external: true 
+    },
     { name: t('settings'), path: '/settings', icon: <Settings className="w-5 h-5" /> },
   ];
 
@@ -115,7 +123,7 @@ const Layout = ({ children }: LayoutProps) => {
           {navItems.map((item) => (
             <button
               key={item.path}
-              onClick={() => navigate(item.path)}
+              onClick={() => item.external ? window.open(item.path, '_blank') : navigate(item.path)}
               className={`nav-item ${
                 location.pathname === item.path ? 'active' : ''
               } flex flex-col items-center`}
@@ -131,3 +139,4 @@ const Layout = ({ children }: LayoutProps) => {
 };
 
 export default Layout;
+
