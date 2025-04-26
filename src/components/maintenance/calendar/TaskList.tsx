@@ -44,12 +44,12 @@ export const TaskList = ({ tasks, onShowDetails, onAddTaskClick }: TaskListProps
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 max-h-[calc(100vh-300px)] overflow-y-auto p-2">
       {activeTasks.length > 0 && (
         <div>
           <h3 className="font-medium mb-2 flex items-center gap-2">
             <ListTodo className="h-4 w-4" />
-            {t('activeTasks')}
+            {t('activeTasks')} ({activeTasks.length})
           </h3>
           <div className="space-y-2">
             {activeTasks.map((task) => (
@@ -66,7 +66,7 @@ export const TaskList = ({ tasks, onShowDetails, onAddTaskClick }: TaskListProps
                 `}
                 onClick={() => onShowDetails(task)}
               >
-                <h4 className="font-medium">{task.title}</h4>
+                <h4 className="font-medium truncate">{task.title}</h4>
                 <div className="flex justify-between items-center mt-2">
                   <span className="text-xs text-muted-foreground">
                     {format(task.date, 'PPP')}
@@ -95,7 +95,7 @@ export const TaskList = ({ tasks, onShowDetails, onAddTaskClick }: TaskListProps
         <div>
           <h3 className="font-medium mb-2 flex items-center gap-2">
             <CalendarCheck className="h-4 w-4" />
-            {t('completedTasks')}
+            {t('completedTasks')} ({completedTasks.length})
           </h3>
           <div className="space-y-2">
             {completedTasks.map((task) => (
@@ -106,7 +106,7 @@ export const TaskList = ({ tasks, onShowDetails, onAddTaskClick }: TaskListProps
               >
                 <div className="flex items-center gap-2">
                   <Check className="h-4 w-4 text-primary" />
-                  <h4 className="font-medium line-through">{task.title}</h4>
+                  <h4 className="font-medium line-through truncate">{task.title}</h4>
                 </div>
                 <div className="flex justify-between items-center mt-2">
                   <span className="text-xs text-muted-foreground">
