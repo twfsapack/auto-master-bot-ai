@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Calendar } from '@/components/ui/calendar';
@@ -17,7 +16,6 @@ interface CalendarViewProps {
   onShowTaskDetails?: (task: any) => void;
 }
 
-// Mock maintenance tasks
 const maintenanceTasks = [
   {
     id: '1',
@@ -53,7 +51,6 @@ const maintenanceTasks = [
   }
 ];
 
-// Map language codes to date-fns locales
 const localeMap = {
   es: es,
   en: enUS,
@@ -73,7 +70,6 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
     description: ''
   });
   
-  // Add status to maintenanceTasks with explicit "active" | "completed" type
   const [tasks, setTasks] = useState([
     ...maintenanceTasks.map(task => ({
       ...task,
@@ -123,7 +119,6 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
     }
   };
 
-  // Get the appropriate locale based on the selected language
   const dateLocale = localeMap[language as keyof typeof localeMap] || es;
 
   return (
