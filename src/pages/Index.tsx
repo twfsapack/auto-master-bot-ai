@@ -4,76 +4,76 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
-import { Bot, Wrench } from 'lucide-react';
+import { Google, Mail, Apple } from 'lucide-react';
 
 const Index = () => {
-  const { user } = useAuth();
+  const { user, googleSignIn, appleSignIn } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Si el usuario ya está logueado, redirigir al dashboard
     if (user) {
       navigate('/dashboard');
     }
   }, [user, navigate]);
 
+  const handleGoogleSignIn = async () => {
+    await googleSignIn();
+  };
+
+  const handleAppleSignIn = async () => {
+    await appleSignIn();
+  };
+
+  const handleEmailSignIn = () => {
+    navigate('/auth/login');
+  };
+
   return (
-    <div className="min-h-screen gradient-bg text-white flex flex-col">
-      <main className="flex-1 flex flex-col items-center justify-center p-6 text-center">
-        <div className="animate-fade-in">
-          <div className="mb-8 flex justify-center">
-            <div className="relative">
-              <img 
-                alt="Auto Master Bot Logo" 
-                className="h-24 w-24 mb-4" 
-                src="/logo.png"  // Cambiar a la ruta del logo existente
-              />
-            </div>
+    <div className="min-h-screen bg-gradient-to-b from-[#1A1F2C] to-[#0F1218] text-white flex flex-col items-center">
+      <div className="flex-1 flex flex-col items-center justify-center w-full px-4 animate-fade-in">
+        <div className="w-full max-w-md space-y-8">
+          <div className="flex flex-col items-center space-y-6">
+            <img 
+              src="/logo.png"
+              alt="Auto Master Bot Logo"
+              className="w-24 h-24 mb-4"
+            />
+            <h1 className="text-2xl font-bold text-center">
+              AUTO MASTER BOT
+            </h1>
+            <p className="text-sm text-center text-gray-400 mb-8">
+              PARA INTERACTUAR CON LA APLICACIÓN<br />
+              NECESITAS INICIAR SESIÓN
+            </p>
           </div>
-          
-          <h1 className="text-4xl font-bold mb-4">
-            Auto Master Bot
-          </h1>
-          
-          <p className="text-xl mb-8 max-w-md mx-auto">
-            Tu asistente inteligente para diagnósticos y mantenimiento de vehículos
-          </p>
-          
-          <div className="grid grid-cols-3 gap-6 mb-12 max-w-md mx-auto">
-            <div className="flex flex-col items-center">
-              <div className="bg-purple/20 p-3 rounded-lg mb-2">
-                <Bot className="h-6 w-6" />
-              </div>
-              <span className="text-sm">AI Diagnostics</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="bg-purple/20 p-3 rounded-lg mb-2">
-                <Wrench className="h-6 w-6" />
-              </div>
-              <span className="text-sm">Maintenance</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="bg-purple/20 p-3 rounded-lg mb-2">
-                <Wrench className="h-6 w-6" />
-              </div>
-              <span className="text-sm">Repair Guides</span>
-            </div>
-          </div>
-          
-          <div className="space-x-4">
-            <Button size="lg" className="bg-purple hover:bg-purple/90" onClick={() => navigate('/auth/login')}>
-              Get Started
+
+          <div className="space-y-4">
+            <Button
+              onClick={handleGoogleSignIn}
+              className="w-full h-12 bg-gradient-to-r from-purple-600 to-purple-800 hover:opacity-90 rounded-full"
+            >
+              <Google className="mr-2 h-5 w-5" />
+              INICIAR SESIÓN CON GOOGLE
             </Button>
-            <Button variant="outline" size="lg" className="border-white/20 hover:bg-white/10" onClick={() => navigate('/auth/register')}>
-              Sign Up
+
+            <Button
+              onClick={handleAppleSignIn}
+              className="w-full h-12 bg-gradient-to-r from-purple-600 to-purple-800 hover:opacity-90 rounded-full"
+            >
+              <Apple className="mr-2 h-5 w-5" />
+              INICIAR SESIÓN CON APPLE
+            </Button>
+
+            <Button
+              onClick={handleEmailSignIn}
+              className="w-full h-12 bg-gradient-to-r from-purple-600 to-purple-800 hover:opacity-90 rounded-full"
+            >
+              <Mail className="mr-2 h-5 w-5" />
+              INICIAR SESIÓN CON E-MAIL
             </Button>
           </div>
         </div>
-      </main>
-      
-      <footer className="text-center p-4 text-white/60 text-sm">
-        <p>Auto Master Bot &copy; 2025 | Tu asistente de IA para vehículos</p>
-      </footer>
+      </div>
     </div>
   );
 };
