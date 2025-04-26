@@ -93,6 +93,20 @@
   body {
     @apply bg-background text-foreground font-sans;
   }
+  
+  /* Hacer visible la barra de desplazamiento en dispositivos móviles */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary/30 rounded-full hover:bg-primary/50 transition-colors;
+  }
 }
 
 @layer components {

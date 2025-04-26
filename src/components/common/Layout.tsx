@@ -19,7 +19,8 @@ import { Button } from '@/components/ui/button';
 import { useVehicle } from '@/contexts/VehicleContext';
 import LanguageSelector from './LanguageSelector';
 import { cn } from '@/lib/utils';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -32,6 +33,7 @@ const Layout = ({ children }: LayoutProps) => {
   const { logout } = useAuth();
   const { selectedVehicle } = useVehicle();
   const { t } = useLanguage();
+  const isMobile = useIsMobile();
   
   const navItems = [
     { 
@@ -119,7 +121,7 @@ const Layout = ({ children }: LayoutProps) => {
       <main className="flex-1 container mx-auto px-4 pb-20 animate-fade-in">{children}</main>
 
       <nav className="fixed bottom-0 w-full glass-card px-4 py-2 z-50 animate-slide-up">
-        <ScrollArea className="w-full">
+        <ScrollArea className="w-full" type="scroll">
           <div className="flex justify-start md:justify-around items-center min-w-max px-2">
             {navItems.map((item) => (
               <button
@@ -131,10 +133,11 @@ const Layout = ({ children }: LayoutProps) => {
                 )}
               >
                 {item.icon}
-                <span className="text-xs mt-1">{item.name}</span>
+                <span className="text-xs mt-1">{t(item.name)}</span>
               </button>
             ))}
           </div>
+          <ScrollBar orientation="horizontal" className="h-2 bg-primary/10" />
         </ScrollArea>
       </nav>
     </div>
