@@ -43,7 +43,7 @@ const Index = () => {
                 AUTO MASTER BOT
               </h1>
               <p 
-                className="text-xs text-gray-400 mt-1 transform -rotate-6 opacity-80"
+                className="text-xs text-gray-400 mt-1 italic opacity-80"
               >
                 powered by Trucktruest.com
               </p>
