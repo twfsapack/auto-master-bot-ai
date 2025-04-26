@@ -94,18 +94,19 @@
     @apply bg-background text-foreground font-sans;
   }
   
-  /* Hacer visible la barra de desplazamiento en dispositivos móviles */
+  /* Hacer más visible la barra de desplazamiento en dispositivos móviles */
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
+    display: block !important;
   }
   
   ::-webkit-scrollbar-track {
-    @apply bg-transparent;
+    @apply bg-purple/10 rounded-full;
   }
   
   ::-webkit-scrollbar-thumb {
-    @apply bg-primary/30 rounded-full hover:bg-primary/50 transition-colors;
+    @apply bg-purple/40 rounded-full hover:bg-purple/60 transition-colors border-2 border-transparent border-solid;
   }
 }
 
@@ -124,5 +125,14 @@
   
   .nav-item.active {
     @apply bg-purple/20 text-purple dark:text-purple dark:bg-purple/30;
+  }
+
+  /* Estilos personalizados para la barra de desplazamiento de Radix */
+  .scrollbar-thumb {
+    @apply bg-purple rounded-full border-2 border-transparent border-solid;
+  }
+
+  .scrollbar-track {
+    @apply bg-purple/10 rounded-full;
   }
 }

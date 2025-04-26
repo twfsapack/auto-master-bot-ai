@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -121,14 +122,14 @@ const Layout = ({ children }: LayoutProps) => {
       <main className="flex-1 container mx-auto px-4 pb-20 animate-fade-in">{children}</main>
 
       <nav className="fixed bottom-0 w-full glass-card px-4 py-2 z-50 animate-slide-up">
-        <ScrollArea className="w-full" type="scroll">
-          <div className="flex justify-start md:justify-around items-center min-w-max px-2">
+        <ScrollArea className="w-full" type="always">
+          <div className="flex justify-between md:justify-around items-center min-w-max px-2 py-1 space-x-3">
             {navItems.map((item) => (
               <button
                 key={item.path}
                 onClick={() => item.external ? window.open(item.path, '_blank') : navigate(item.path)}
                 className={cn(
-                  "nav-item flex flex-col items-center transition-all duration-300 transform hover:scale-110 px-4",
+                  "nav-item flex flex-col items-center transition-all duration-300 transform hover:scale-110 px-4 min-w-[60px]",
                   location.pathname === item.path && "active"
                 )}
               >
@@ -137,7 +138,11 @@ const Layout = ({ children }: LayoutProps) => {
               </button>
             ))}
           </div>
-          <ScrollBar orientation="horizontal" className="h-2 bg-primary/10" />
+          <ScrollBar 
+            orientation="horizontal" 
+            className="h-3 bg-purple/20 rounded-full my-1"
+            forceMount 
+          />
         </ScrollArea>
       </nav>
     </div>
