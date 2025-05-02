@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -34,8 +35,8 @@ const Index = () => {
           <div className="flex flex-col items-center space-y-6 animate-slide-down">
             <img 
               src="/logo.png"
-              alt="Auto Master Bot Logo"
-              className="w-32 h-32 mb-4 object-contain animate-fade-in"
+              alt="Truck Truest Logo"
+              className="w-40 h-40 mb-4 object-contain animate-fade-in"
             />
             <div className="flex flex-col items-center animate-fade-in">
               <h1 className="text-2xl font-bold text-center">
@@ -46,8 +47,8 @@ const Index = () => {
               </p>
             </div>
             <p className="text-sm text-center text-gray-400 mb-8 animate-fade-in">
-              TO INTERACT WITH THE APPLICATION<br />
-              YOU NEED TO SIGN IN
+              PARA INTERACTUAR CON LA APLICACIÓN<br />
+              NECESITA INICIAR SESIÓN
             </p>
           </div>
 

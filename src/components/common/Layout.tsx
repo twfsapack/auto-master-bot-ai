@@ -77,8 +77,8 @@ const Layout = ({ children }: LayoutProps) => {
           <div className="flex items-center space-x-2">
             <img 
               src="/logo.png" 
-              alt="Logo" 
-              className="h-10 w-10 mr-2 animate-fade-in"
+              alt="Truck Truest Logo" 
+              className="h-10 w-10 object-contain mr-2 animate-fade-in"
             />
             {selectedVehicle && (
               <span className="text-sm text-muted-foreground hidden md:inline-block animate-fade-in">
