@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { ArrowLeft, Camera } from 'lucide-react';
 import { useVehicle } from '@/contexts/VehicleContext';
-import { Html5QrcodeScanType, Html5Qrcode } from 'html5-qrcode';
+import { Html5Qrcode } from 'html5-qrcode';
 import Layout from '@/components/common/Layout';
 
 interface LocationState {
@@ -44,9 +44,8 @@ const Scanner = () => {
       const config = { 
         fps: 10, 
         qrbox: { width: 250, height: 250 },
-        formatsToSupport: [
-          Html5QrcodeScanType.SCAN_TYPE_1D_BAR_CODE
-        ]
+        // Usar 1D code formats para código de barras
+        formatsToSupport: ["code_39", "code_128", "ean", "upc"]
       };
 
       await html5QrCode.start(
