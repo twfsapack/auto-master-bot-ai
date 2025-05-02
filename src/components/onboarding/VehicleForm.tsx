@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,6 +9,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
+import { QrCode } from 'lucide-react';
 
 // Generate a range of years from current year to 20 years ago
 const currentYear = new Date().getFullYear();
@@ -21,7 +22,11 @@ const carMakes = [
   'Kia', 'Mazda', 'Subaru', 'Lexus', 'Acura'
 ];
 
-export const VehicleForm = () => {
+interface VehicleFormProps {
+  initialVin?: string;
+}
+
+export const VehicleForm = ({ initialVin }: VehicleFormProps = {}) => {
   const [make, setMake] = useState('');
   const [model, setModel] = useState('');
   const [year, setYear] = useState<number>(currentYear);
@@ -31,6 +36,13 @@ export const VehicleForm = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { t } = useLanguage();
+
+  // Apply initial VIN if provided
+  useEffect(() => {
+    if (initialVin) {
+      setVin(initialVin);
+    }
+  }, [initialVin]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,6 +73,10 @@ export const VehicleForm = () => {
       description: "You can add a vehicle later in the settings.",
     });
     navigate('/dashboard');
+  };
+
+  const handleScanVin = () => {
+    navigate('/scanner', { state: { returnTo: '/onboarding', field: 'vin' } });
   };
 
   return (
@@ -118,12 +134,24 @@ export const VehicleForm = () => {
           
           <div className="space-y-2">
             <Label htmlFor="vin">{t('vin')} ({t('optional')})</Label>
-            <Input
-              id="vin"
-              placeholder={t('vinPlaceholder')}
-              value={vin}
-              onChange={(e) => setVin(e.target.value)}
-            />
+            <div className="flex gap-2">
+              <Input
+                id="vin"
+                placeholder={t('vinPlaceholder')}
+                value={vin}
+                onChange={(e) => setVin(e.target.value)}
+                className="flex-1"
+              />
+              <Button 
+                type="button" 
+                variant="outline" 
+                size="icon"
+                onClick={handleScanVin}
+                title={t('scanVin')}
+              >
+                <QrCode className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
           
           <div className="space-y-2">

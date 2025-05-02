@@ -1,16 +1,21 @@
 
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Layout from '@/components/common/Layout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Car, Plus, Trash } from 'lucide-react';
+import { Car, Plus, Trash, QrCode } from 'lucide-react';
 import { useVehicle } from '@/contexts/VehicleContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
+
+interface LocationState {
+  scannedVin?: string;
+  forNewVehicle?: boolean;
+}
 
 const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 30 }, (_, i) => currentYear - i);
@@ -26,6 +31,8 @@ const Vehicle = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const location = useLocation();
+  const state = location.state as LocationState;
   
   const [isAdding, setIsAdding] = useState(false);
   const [newVehicle, setNewVehicle] = useState({
@@ -35,6 +42,19 @@ const Vehicle = () => {
     vin: '',
     mileage: undefined as number | undefined,
   });
+
+  // Handle receiving scanned VIN from scanner page
+  useEffect(() => {
+    if (state?.scannedVin) {
+      if (state.forNewVehicle) {
+        setNewVehicle(prev => ({ ...prev, vin: state.scannedVin || '' }));
+        setIsAdding(true);
+      }
+      
+      // Clear location state to avoid re-applying the VIN on refresh
+      window.history.replaceState({}, document.title);
+    }
+  }, [state]);
 
   const handleAddVehicle = () => {
     if (!user?.isPremium && vehicles.length >= 1) {
@@ -69,6 +89,14 @@ const Vehicle = () => {
 
   const handleUpdateVehicle = (id: string, field: string, value: string | number) => {
     updateVehicle(id, { [field]: value });
+  };
+
+  const handleScanVin = (isNewVehicle: boolean, vehicleId?: string) => {
+    if (isNewVehicle) {
+      navigate('/scanner', { state: { returnTo: '/vehicle', field: 'newVehicleVin' } });
+    } else if (vehicleId) {
+      navigate('/scanner', { state: { returnTo: '/vehicle', field: 'existingVehicleVin', vehicleId } });
+    }
   };
 
   return (
@@ -150,12 +178,24 @@ const Vehicle = () => {
                 
                 <div className="grid gap-2">
                   <Label htmlFor="vin">VIN (Optional)</Label>
-                  <Input
-                    id="vin"
-                    placeholder="Vehicle Identification Number"
-                    value={newVehicle.vin}
-                    onChange={(e) => setNewVehicle({ ...newVehicle, vin: e.target.value })}
-                  />
+                  <div className="flex gap-2">
+                    <Input
+                      id="vin"
+                      placeholder="Vehicle Identification Number"
+                      value={newVehicle.vin}
+                      onChange={(e) => setNewVehicle({ ...newVehicle, vin: e.target.value })}
+                      className="flex-1"
+                    />
+                    <Button 
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      onClick={() => handleScanVin(true)}
+                      title="Scan VIN"
+                    >
+                      <QrCode className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
                 
                 <div className="grid gap-2">
@@ -200,16 +240,26 @@ const Vehicle = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {vehicle.vin && (
-                      <div className="grid gap-2">
-                        <Label htmlFor={`vin-${vehicle.id}`}>VIN</Label>
+                    <div className="grid gap-2">
+                      <Label htmlFor={`vin-${vehicle.id}`}>VIN</Label>
+                      <div className="flex gap-2">
                         <Input
                           id={`vin-${vehicle.id}`}
-                          value={vehicle.vin}
+                          value={vehicle.vin || ''}
                           onChange={(e) => handleUpdateVehicle(vehicle.id, 'vin', e.target.value)}
+                          className="flex-1"
                         />
+                        <Button 
+                          type="button"
+                          variant="outline"
+                          size="icon"
+                          onClick={() => handleScanVin(false, vehicle.id)}
+                          title="Scan VIN"
+                        >
+                          <QrCode className="h-4 w-4" />
+                        </Button>
                       </div>
-                    )}
+                    </div>
                     
                     <div className="grid gap-2">
                       <Label htmlFor={`mileage-${vehicle.id}`}>Current Mileage</Label>
