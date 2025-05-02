@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Calendar } from '@/components/ui/calendar';
 import { useVehicle } from '@/contexts/VehicleContext';
@@ -17,6 +17,9 @@ import { useToast } from '@/hooks/use-toast';
 interface CalendarViewProps {
   onShowTaskDetails?: (task: any) => void;
 }
+
+// Clave para almacenar las tareas en localStorage
+const MAINTENANCE_TASKS_KEY = 'maintenance_tasks';
 
 const maintenanceTasks = [
   {
@@ -73,16 +76,52 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
     description: ''
   });
   
-  const [tasks, setTasks] = useState([
-    ...maintenanceTasks.map(task => ({
-      ...task,
-      status: 'active' as 'active' | 'completed'
-    }))
-  ]);
+  const [tasks, setTasks] = useState<any[]>([]);
 
   const { selectedVehicle } = useVehicle();
   const { language, t } = useLanguage();
   const { toast } = useToast();
+
+  // Cargar tareas desde localStorage cuando el componente se monta
+  useEffect(() => {
+    const storedTasks = localStorage.getItem(MAINTENANCE_TASKS_KEY);
+    if (storedTasks) {
+      try {
+        // Parse the JSON and convert date strings back to Date objects
+        const parsedTasks = JSON.parse(storedTasks).map((task: any) => ({
+          ...task,
+          date: new Date(task.date || task.dueDate)
+        }));
+        
+        setTasks(parsedTasks);
+      } catch (error) {
+        console.error("Error parsing tasks from localStorage:", error);
+        // If there's an error, use default tasks
+        const defaultTasks = maintenanceTasks.map(task => ({
+          ...task,
+          status: 'active' as 'active' | 'completed'
+        }));
+        setTasks(defaultTasks);
+        persistTasks(defaultTasks);
+      }
+    } else {
+      // If no tasks are saved, use default tasks
+      const defaultTasks = maintenanceTasks.map(task => ({
+        ...task,
+        status: 'active' as 'active' | 'completed'
+      }));
+      setTasks(defaultTasks);
+      persistTasks(defaultTasks);
+    }
+  }, []);
+
+  const persistTasks = (updatedTasks: any[]) => {
+    // Guardar tareas en localStorage
+    localStorage.setItem(MAINTENANCE_TASKS_KEY, JSON.stringify(updatedTasks));
+    
+    // Disparar evento para que otros componentes sepan que se actualizaron las tareas
+    window.dispatchEvent(new Event('maintenanceTasksUpdated'));
+  };
 
   const handleDateChange = (selectedDate: Date | undefined) => {
     setDate(selectedDate);
@@ -92,14 +131,14 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
   const getEventsForDate = (date: Date) => {
     if (!date) return [];
     return tasks.filter(
-      (task) => format(task.date, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd')
+      (task) => format(new Date(task.date), 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd')
     );
   };
 
   const handleAddTask = () => {
     if (isEditMode && editTask) {
       // Update existing task
-      setTasks(prev => prev.map(task => 
+      const updatedTasks = tasks.map(task => 
         task.id === editTask.id
           ? {
               ...task,
@@ -108,7 +147,10 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
               description: newTask.description
             }
           : task
-      ));
+      );
+      
+      setTasks(updatedTasks);
+      persistTasks(updatedTasks);
       
       toast({
         title: t('taskUpdated'),
@@ -122,11 +164,14 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
         type: newTask.type,
         description: newTask.description,
         date: selectedDate || new Date(),
+        dueDate: selectedDate || new Date(), // Adding dueDate for compatibility with MaintenanceReminders
         vehicle: selectedVehicle?.id || '',
         status: 'active' as 'active' | 'completed'
       };
       
-      setTasks(prev => [...prev, taskToAdd]);
+      const updatedTasks = [...tasks, taskToAdd];
+      setTasks(updatedTasks);
+      persistTasks(updatedTasks);
       
       toast({
         title: t('taskAdded'),
@@ -167,15 +212,21 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
   };
 
   const handleTaskStatusToggle = (taskId: string) => {
-    setTasks(prev => prev.map(task => 
+    const updatedTasks = tasks.map(task => 
       task.id === taskId
         ? { ...task, status: task.status === 'active' ? 'completed' : 'active' }
         : task
-    ));
+    );
+    
+    setTasks(updatedTasks);
+    persistTasks(updatedTasks);
   };
   
   const handleDeleteTask = (taskId: string) => {
-    setTasks(prev => prev.filter(task => task.id !== taskId));
+    const updatedTasks = tasks.filter(task => task.id !== taskId);
+    setTasks(updatedTasks);
+    persistTasks(updatedTasks);
+    
     toast({
       title: t('taskDeleted'),
       description: t('taskDeleteSuccess')
