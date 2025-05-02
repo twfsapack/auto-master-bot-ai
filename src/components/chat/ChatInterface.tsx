@@ -107,10 +107,10 @@ export const ChatInterface = () => {
                 )}
               </Avatar>
               <Card
-                className={`glass-card ${
+                className={`${
                   message.sender === 'user'
-                    ? 'bg-primary bg-opacity-10'
-                    : 'bg-secondary bg-opacity-10'
+                    ? 'bg-white text-black border border-gray-200'
+                    : 'bg-white text-black border border-gray-200'
                 }`}
               >
                 <CardContent className="p-3 space-y-3">
@@ -128,11 +128,11 @@ export const ChatInterface = () => {
                         <div className="space-y-2">
                           <p className="font-semibold text-sm">Refacciones recomendadas:</p>
                           {message.content.parts.map((part, index) => (
-                            <div key={index} className="bg-background/50 p-2 rounded-lg">
+                            <div key={index} className="bg-gray-50 p-2 rounded-lg">
                               <p className="font-medium text-sm">{part.name}</p>
-                              <p className="text-xs text-muted-foreground">{part.description}</p>
+                              <p className="text-xs text-gray-600">{part.description}</p>
                               {part.estimatedCost && (
-                                <p className="text-xs text-primary">Costo estimado: {part.estimatedCost}</p>
+                                <p className="text-xs text-black font-medium">Costo estimado: {part.estimatedCost}</p>
                               )}
                             </div>
                           ))}
@@ -140,7 +140,7 @@ export const ChatInterface = () => {
                       )}
                     </>
                   )}
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-gray-500">
                     {message.timestamp.toLocaleTimeString([], {
                       hour: '2-digit',
                       minute: '2-digit',
@@ -159,12 +159,12 @@ export const ChatInterface = () => {
               <Avatar className="w-8 h-8">
                 <AvatarImage src="/lovable-uploads/41987b97-5895-4626-9613-a66c597a304a.png" alt="Bot" />
               </Avatar>
-              <Card className="glass-card bg-secondary bg-opacity-10">
+              <Card className="bg-white text-black border border-gray-200">
                 <CardContent className="p-3">
                   <div className="flex space-x-1">
-                    <div className="w-2 h-2 bg-secondary rounded-full animate-pulse"></div>
-                    <div className="w-2 h-2 bg-secondary rounded-full animate-pulse delay-150"></div>
-                    <div className="w-2 h-2 bg-secondary rounded-full animate-pulse delay-300"></div>
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-pulse"></div>
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-pulse delay-150"></div>
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-pulse delay-300"></div>
                   </div>
                 </CardContent>
               </Card>
