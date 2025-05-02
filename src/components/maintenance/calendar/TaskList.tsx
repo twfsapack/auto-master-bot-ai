@@ -1,7 +1,7 @@
 
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { CalendarCheck, Check, Edit, ListTodo } from 'lucide-react';
+import { CalendarCheck, Check, Edit, ListTodo, Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
 
 interface Task {
@@ -18,6 +18,7 @@ interface TaskListProps {
   onShowDetails: (task: Task) => void;
   onEditTask: (task: Task) => void;
   onToggleStatus: (taskId: string) => void;
+  onDeleteTask: (taskId: string) => void;
   onAddTaskClick: () => void;
 }
 
@@ -26,6 +27,7 @@ export const TaskList = ({
   onShowDetails, 
   onEditTask, 
   onToggleStatus, 
+  onDeleteTask,
   onAddTaskClick 
 }: TaskListProps) => {
   const { t } = useLanguage();
@@ -97,6 +99,14 @@ export const TaskList = ({
                     >
                       <Check className="h-3 w-3" />
                     </Button>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="h-6 w-6 p-0"
+                      onClick={() => onDeleteTask(task.id)}
+                    >
+                      <Trash2 className="h-3 w-3" />
+                    </Button>
                   </div>
                 </div>
                 <div className="flex justify-between items-center mt-2">
@@ -141,17 +151,30 @@ export const TaskList = ({
                     <Check className="h-4 w-4 text-primary" />
                     <h4 className="font-medium line-through truncate">{task.title}</h4>
                   </div>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="h-6 w-6 p-0"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onToggleStatus(task.id);
-                    }}
-                  >
-                    <CalendarCheck className="h-3 w-3" />
-                  </Button>
+                  <div className="flex gap-1">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="h-6 w-6 p-0"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onToggleStatus(task.id);
+                      }}
+                    >
+                      <CalendarCheck className="h-3 w-3" />
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="h-6 w-6 p-0"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onDeleteTask(task.id);
+                      }}
+                    >
+                      <Trash2 className="h-3 w-3" />
+                    </Button>
+                  </div>
                 </div>
                 <div className="flex justify-between items-center mt-2">
                   <span className="text-xs text-muted-foreground">
@@ -166,4 +189,3 @@ export const TaskList = ({
     </div>
   );
 };
-

@@ -1,5 +1,6 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Calendar, ArrowRight, Bell } from 'lucide-react';
+import { Calendar, ArrowRight, Bell, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useVehicle } from '@/contexts/VehicleContext';
@@ -13,9 +14,7 @@ export const MaintenanceReminders = () => {
   const { toast } = useToast();
   const [selectedTask, setSelectedTask] = useState<any>(null);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
-
-  // Mock maintenance data
-  const maintenanceItems = [
+  const [maintenanceItems, setMaintenanceItems] = useState([
     {
       id: '1',
       title: 'Oil Change',
@@ -37,7 +36,7 @@ export const MaintenanceReminders = () => {
       type: 'important',
       description: 'Inspect brake pads, rotors, and fluid levels. Critical for vehicle safety.'
     }
-  ];
+  ]);
 
   const requestNotificationPermission = async () => {
     try {
@@ -78,6 +77,14 @@ export const MaintenanceReminders = () => {
     } else {
       requestNotificationPermission();
     }
+  };
+  
+  const deleteNotification = (taskId: string) => {
+    setMaintenanceItems(prev => prev.filter(item => item.id !== taskId));
+    toast({
+      title: "Notification deleted",
+      description: "The maintenance reminder has been removed",
+    });
   };
 
   if (!selectedVehicle) {
@@ -158,6 +165,13 @@ export const MaintenanceReminders = () => {
                   onClick={() => handleShowDetails(item)}
                 >
                   Details
+                </Button>
+                <Button 
+                  size="sm" 
+                  variant="ghost"
+                  onClick={() => deleteNotification(item.id)}
+                >
+                  <Trash2 className="h-4 w-4" />
                 </Button>
               </div>
             </div>

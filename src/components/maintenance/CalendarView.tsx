@@ -173,6 +173,14 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
         : task
     ));
   };
+  
+  const handleDeleteTask = (taskId: string) => {
+    setTasks(prev => prev.filter(task => task.id !== taskId));
+    toast({
+      title: t('taskDeleted'),
+      description: t('taskDeleteSuccess')
+    });
+  };
 
   const handleShowDetails = (task: any) => {
     if (onShowTaskDetails) {
@@ -237,6 +245,7 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
               onShowDetails={handleShowDetails}
               onEditTask={handleEditTask}
               onToggleStatus={handleTaskStatusToggle}
+              onDeleteTask={handleDeleteTask}
               onAddTaskClick={() => {
                 setIsEditMode(false);
                 setEditTask(null);
@@ -265,4 +274,3 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
     </div>
   );
 };
-
