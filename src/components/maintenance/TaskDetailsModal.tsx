@@ -8,7 +8,7 @@ import {
   DialogClose
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Calendar, Clock, AlertTriangle, CheckCircle } from 'lucide-react';
+import { Calendar, Clock, AlertTriangle, CheckCircle, Bell } from 'lucide-react';
 import { format } from 'date-fns';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -22,9 +22,15 @@ interface TaskDetailsModalProps {
     type: string;
     description?: string;
   };
+  onRequestNotification?: (task: any) => void;
 }
 
-export const TaskDetailsModal = ({ isOpen, onClose, task }: TaskDetailsModalProps) => {
+export const TaskDetailsModal = ({ 
+  isOpen, 
+  onClose, 
+  task,
+  onRequestNotification 
+}: TaskDetailsModalProps) => {
   const { language, t } = useLanguage();
   
   const getTaskTypeIcon = (type: string) => {
@@ -100,7 +106,17 @@ export const TaskDetailsModal = ({ isOpen, onClose, task }: TaskDetailsModalProp
           )}
         </div>
         
-        <div className="flex justify-end">
+        <div className="flex justify-between">
+          {onRequestNotification && (
+            <Button 
+              variant="outline" 
+              onClick={() => onRequestNotification(task)}
+              className="flex items-center gap-2"
+            >
+              <Bell className="h-4 w-4" />
+              {t('setReminder')}
+            </Button>
+          )}
           <DialogClose asChild>
             <Button variant="outline">{t('close')}</Button>
           </DialogClose>

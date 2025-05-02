@@ -1,7 +1,7 @@
 
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { CalendarCheck, Check, ListTodo } from 'lucide-react';
+import { CalendarCheck, Check, Edit, ListTodo } from 'lucide-react';
 import { format } from 'date-fns';
 
 interface Task {
@@ -16,10 +16,18 @@ interface Task {
 interface TaskListProps {
   tasks: Task[];
   onShowDetails: (task: Task) => void;
+  onEditTask: (task: Task) => void;
+  onToggleStatus: (taskId: string) => void;
   onAddTaskClick: () => void;
 }
 
-export const TaskList = ({ tasks, onShowDetails, onAddTaskClick }: TaskListProps) => {
+export const TaskList = ({ 
+  tasks, 
+  onShowDetails, 
+  onEditTask, 
+  onToggleStatus, 
+  onAddTaskClick 
+}: TaskListProps) => {
   const { t } = useLanguage();
 
   const activeTasks = tasks.filter(task => task.status !== 'completed');
@@ -55,7 +63,7 @@ export const TaskList = ({ tasks, onShowDetails, onAddTaskClick }: TaskListProps
             {activeTasks.map((task) => (
               <div
                 key={task.id}
-                className={`p-3 rounded-lg cursor-pointer transition-colors hover:bg-accent/50
+                className={`p-3 rounded-lg transition-colors hover:bg-accent/50
                   ${
                     task.type === 'urgent'
                       ? 'bg-destructive/10 dark:bg-destructive/20'
@@ -64,9 +72,33 @@ export const TaskList = ({ tasks, onShowDetails, onAddTaskClick }: TaskListProps
                       : 'bg-primary/5 dark:bg-primary/10'
                   }
                 `}
-                onClick={() => onShowDetails(task)}
               >
-                <h4 className="font-medium truncate">{task.title}</h4>
+                <div className="flex justify-between">
+                  <h4 
+                    className="font-medium truncate cursor-pointer" 
+                    onClick={() => onShowDetails(task)}
+                  >
+                    {task.title}
+                  </h4>
+                  <div className="flex gap-1">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="h-6 w-6 p-0"
+                      onClick={() => onEditTask(task)}
+                    >
+                      <Edit className="h-3 w-3" />
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="h-6 w-6 p-0"
+                      onClick={() => onToggleStatus(task.id)}
+                    >
+                      <Check className="h-3 w-3" />
+                    </Button>
+                  </div>
+                </div>
                 <div className="flex justify-between items-center mt-2">
                   <span className="text-xs text-muted-foreground">
                     {format(task.date, 'PPP')}
@@ -104,9 +136,22 @@ export const TaskList = ({ tasks, onShowDetails, onAddTaskClick }: TaskListProps
                 className="p-3 rounded-lg bg-muted/50 cursor-pointer hover:bg-accent/50 transition-colors"
                 onClick={() => onShowDetails(task)}
               >
-                <div className="flex items-center gap-2">
-                  <Check className="h-4 w-4 text-primary" />
-                  <h4 className="font-medium line-through truncate">{task.title}</h4>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Check className="h-4 w-4 text-primary" />
+                    <h4 className="font-medium line-through truncate">{task.title}</h4>
+                  </div>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="h-6 w-6 p-0"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onToggleStatus(task.id);
+                    }}
+                  >
+                    <CalendarCheck className="h-3 w-3" />
+                  </Button>
                 </div>
                 <div className="flex justify-between items-center mt-2">
                   <span className="text-xs text-muted-foreground">
@@ -121,3 +166,4 @@ export const TaskList = ({ tasks, onShowDetails, onAddTaskClick }: TaskListProps
     </div>
   );
 };
+

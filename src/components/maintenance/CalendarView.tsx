@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Calendar } from '@/components/ui/calendar';
@@ -11,6 +12,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { recommendedTasks } from '@/data/recommendedTasks';
+import { useToast } from '@/hooks/use-toast';
 
 interface CalendarViewProps {
   onShowTaskDetails?: (task: any) => void;
@@ -63,7 +65,8 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedTask, setSelectedTask] = useState(null);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editTask, setEditTask] = useState<any>(null);
   const [newTask, setNewTask] = useState({
     title: '',
     type: 'routine',
@@ -79,6 +82,7 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
 
   const { selectedVehicle } = useVehicle();
   const { language, t } = useLanguage();
+  const { toast } = useToast();
 
   const handleDateChange = (selectedDate: Date | undefined) => {
     setDate(selectedDate);
@@ -93,7 +97,46 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
   };
 
   const handleAddTask = () => {
+    if (isEditMode && editTask) {
+      // Update existing task
+      setTasks(prev => prev.map(task => 
+        task.id === editTask.id
+          ? {
+              ...task,
+              title: newTask.title,
+              type: newTask.type,
+              description: newTask.description
+            }
+          : task
+      ));
+      
+      toast({
+        title: t('taskUpdated'),
+        description: t('taskUpdateSuccess')
+      });
+    } else {
+      // Add new task
+      const taskToAdd = {
+        id: Date.now().toString(),
+        title: newTask.title,
+        type: newTask.type,
+        description: newTask.description,
+        date: selectedDate || new Date(),
+        vehicle: selectedVehicle?.id || '',
+        status: 'active' as 'active' | 'completed'
+      };
+      
+      setTasks(prev => [...prev, taskToAdd]);
+      
+      toast({
+        title: t('taskAdded'),
+        description: t('taskAddSuccess')
+      });
+    }
+    
     setIsDialogOpen(false);
+    setIsEditMode(false);
+    setEditTask(null);
     setNewTask({
       title: '',
       type: 'routine',
@@ -107,7 +150,28 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
       type: task.type,
       description: task.description
     });
+    setIsEditMode(false);
+    setEditTask(null);
     setIsDialogOpen(true);
+  };
+
+  const handleEditTask = (task: any) => {
+    setEditTask(task);
+    setNewTask({
+      title: task.title,
+      type: task.type,
+      description: task.description || ''
+    });
+    setIsEditMode(true);
+    setIsDialogOpen(true);
+  };
+
+  const handleTaskStatusToggle = (taskId: string) => {
+    setTasks(prev => prev.map(task => 
+      task.id === taskId
+        ? { ...task, status: task.status === 'active' ? 'completed' : 'active' }
+        : task
+    ));
   };
 
   const handleShowDetails = (task: any) => {
@@ -171,7 +235,18 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
             <TaskList
               tasks={selectedDate ? getEventsForDate(selectedDate) : []}
               onShowDetails={handleShowDetails}
-              onAddTaskClick={() => setIsDialogOpen(true)}
+              onEditTask={handleEditTask}
+              onToggleStatus={handleTaskStatusToggle}
+              onAddTaskClick={() => {
+                setIsEditMode(false);
+                setEditTask(null);
+                setNewTask({
+                  title: '',
+                  type: 'routine',
+                  description: ''
+                });
+                setIsDialogOpen(true);
+              }}
             />
           </CardContent>
         </Card>
@@ -185,7 +260,9 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
         onNewTaskChange={setNewTask}
         onAddTask={handleAddTask}
         dateLocale={dateLocale}
+        isEditMode={isEditMode}
       />
     </div>
   );
 };
+

@@ -1,19 +1,24 @@
 
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
-import { Plus, CalendarIcon } from 'lucide-react';
-import { format } from 'date-fns';
-import { useLanguage } from '@/contexts/LanguageContext';
-import type { Locale } from 'date-fns';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { format } from "date-fns";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface AddTaskDialogProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
-  selectedDate: Date | undefined;
+  selectedDate?: Date;
   newTask: {
     title: string;
     type: string;
@@ -21,7 +26,8 @@ interface AddTaskDialogProps {
   };
   onNewTaskChange: (task: any) => void;
   onAddTask: () => void;
-  dateLocale: Locale;
+  dateLocale: any;
+  isEditMode?: boolean;
 }
 
 export const AddTaskDialog = ({
@@ -31,78 +37,98 @@ export const AddTaskDialog = ({
   newTask,
   onNewTaskChange,
   onAddTask,
-  dateLocale
+  dateLocale,
+  isEditMode = false,
 }: AddTaskDialogProps) => {
   const { t } = useLanguage();
+  
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onNewTaskChange({
+      ...newTask,
+      title: e.target.value,
+    });
+  };
+
+  const handleTypeChange = (value: string) => {
+    onNewTaskChange({
+      ...newTask,
+      type: value,
+    });
+  };
+
+  const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    onNewTaskChange({
+      ...newTask,
+      description: e.target.value,
+    });
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogTrigger asChild>
-        <Button>
-          <Plus className="h-4 w-4 mr-2" />
-          {t('addTask')}
-        </Button>
-      </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{t('addTask')}</DialogTitle>
+          <DialogTitle>
+            {isEditMode ? t('editTask') : t('addTask')}
+          </DialogTitle>
           <DialogDescription>
-            {t('addTaskDescription')}
+            {selectedDate
+              ? format(selectedDate, 'PPP', { locale: dateLocale })
+              : t('selectDate')}
           </DialogDescription>
         </DialogHeader>
+
         <div className="grid gap-4 py-4">
           <div className="grid gap-2">
-            <Label htmlFor="task-title">{t('taskTitle')}</Label>
+            <Label htmlFor="title">{t('title')}</Label>
             <Input
-              id="task-title"
-              placeholder="e.g., Oil Change"
+              id="title"
               value={newTask.title}
-              onChange={(e) => onNewTaskChange({ ...newTask, title: e.target.value })}
+              onChange={handleTitleChange}
+              placeholder={t('taskTitlePlaceholder')}
             />
           </div>
+
           <div className="grid gap-2">
-            <Label htmlFor="task-date">{t('date')}</Label>
-            <div className="flex items-center gap-2">
-              <CalendarIcon className="h-4 w-4 text-muted-foreground" />
-              <span>
-                {selectedDate ? format(selectedDate, 'PPP', { locale: dateLocale }) : t('selectDate')}
-              </span>
-            </div>
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="task-type">{t('type')}</Label>
-            <Select 
-              value={newTask.type} 
-              onValueChange={(value) => onNewTaskChange({ ...newTask, type: value })}
+            <Label>{t('taskType')}</Label>
+            <RadioGroup
+              value={newTask.type}
+              onValueChange={handleTypeChange}
+              className="flex space-x-2"
             >
-              <SelectTrigger>
-                <SelectValue placeholder={t('selectTaskType')} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="routine">{t('routine')}</SelectItem>
-                <SelectItem value="important">{t('important')}</SelectItem>
-                <SelectItem value="urgent">{t('urgent')}</SelectItem>
-              </SelectContent>
-            </Select>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="routine" id="routine" />
+                <Label htmlFor="routine">{t('routine')}</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="important" id="important" />
+                <Label htmlFor="important">{t('important')}</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="urgent" id="urgent" />
+                <Label htmlFor="urgent">{t('urgent')}</Label>
+              </div>
+            </RadioGroup>
           </div>
+
           <div className="grid gap-2">
-            <Label htmlFor="task-description">{t('description')}</Label>
+            <Label htmlFor="description">{t('description')}</Label>
             <Textarea
-              id="task-description"
-              placeholder={t('descriptionPlaceholder')}
+              id="description"
               value={newTask.description}
-              onChange={(e) => onNewTaskChange({ ...newTask, description: e.target.value })}
+              onChange={handleDescriptionChange}
+              placeholder={t('taskDescriptionPlaceholder')}
               rows={3}
             />
           </div>
         </div>
+
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
-            {t('cancel')}
+          <Button onClick={onAddTask}>
+            {isEditMode ? t('saveChanges') : t('addTask')}
           </Button>
-          <Button onClick={onAddTask}>{t('addTask')}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   );
 };
+
