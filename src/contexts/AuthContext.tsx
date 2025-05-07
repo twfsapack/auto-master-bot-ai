@@ -31,7 +31,7 @@ export const useAuth = () => {
 };
 
 // Lista de correos con acceso premium
-const premiumEmails = ["tecnoworldfuture@gmail.com"];
+const premiumEmails = ["tecnoworldfuture@gmail.com", "trucktruest@yahoo.com"];
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
