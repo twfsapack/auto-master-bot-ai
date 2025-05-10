@@ -1,6 +1,7 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Scan, AlertCircle, Settings, Zap, BadgeInfo } from 'lucide-react';
+import { AlertCircle, Settings, Zap, BadgeInfo, BluetoothSearching } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -33,7 +34,7 @@ export const QuickActions = () => {
             onClick={() => navigate('/scanner')}
             disabled={!user?.isPremium}
           >
-            <Scan className="h-5 w-5 mb-1" />
+            <BluetoothSearching className="h-5 w-5 mb-1" />
             <span className="text-xs">OBD-II Scan</span>
             {!user?.isPremium && (
               <span className="text-[10px] text-muted-foreground">Premium</span>
