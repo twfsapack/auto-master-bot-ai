@@ -1,6 +1,6 @@
 
 import { useState, useEffect, useCallback } from 'react';
-import { useToast } from './use-toast';
+import { useToast } from '@/hooks/use-toast';
 
 export interface BluetoothDevice {
   id: string;
@@ -18,7 +18,7 @@ export const useBluetooth = () => {
 
   // Comprobar si el navegador soporta Web Bluetooth API
   useEffect(() => {
-    const supported = 'bluetooth' in navigator;
+    const supported = typeof navigator !== 'undefined' && 'bluetooth' in navigator;
     setIsSupported(supported);
     
     if (!supported) {
