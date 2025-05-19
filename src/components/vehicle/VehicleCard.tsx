@@ -40,8 +40,9 @@ const VehicleCard = ({
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
+          {/* VIN Field - Moved to the top */}
           <div className="grid gap-2">
-            <Label htmlFor={`vin-${vehicle.id}`}>VIN</Label>
+            <Label htmlFor={`vin-${vehicle.id}`}>VIN (Opcional)</Label>
             <div className="flex gap-2">
               <Input
                 id={`vin-${vehicle.id}`}

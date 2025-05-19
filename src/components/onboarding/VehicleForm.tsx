@@ -89,6 +89,29 @@ export const VehicleForm = ({ initialVin }: VehicleFormProps = {}) => {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
+          {/* VIN Field - Moved to the top as first option */}
+          <div className="space-y-2">
+            <Label htmlFor="vin">{t('vin')} ({t('optional')})</Label>
+            <div className="flex gap-2">
+              <Input
+                id="vin"
+                placeholder={t('vinPlaceholder')}
+                value={vin}
+                onChange={(e) => setVin(e.target.value)}
+                className="flex-1"
+              />
+              <Button 
+                type="button" 
+                variant="outline" 
+                size="icon"
+                onClick={handleScanVin}
+                title={t('scanVin')}
+              >
+                <ScanBarcode className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+          
           <div className="space-y-2">
             <Label htmlFor="make">{t('make')} *</Label>
             <Select onValueChange={setMake} required>
@@ -130,28 +153,6 @@ export const VehicleForm = ({ initialVin }: VehicleFormProps = {}) => {
                 ))}
               </SelectContent>
             </Select>
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="vin">{t('vin')} ({t('optional')})</Label>
-            <div className="flex gap-2">
-              <Input
-                id="vin"
-                placeholder={t('vinPlaceholder')}
-                value={vin}
-                onChange={(e) => setVin(e.target.value)}
-                className="flex-1"
-              />
-              <Button 
-                type="button" 
-                variant="outline" 
-                size="icon"
-                onClick={handleScanVin}
-                title={t('scanVin')}
-              >
-                <ScanBarcode className="h-4 w-4" />
-              </Button>
-            </div>
           </div>
           
           <div className="space-y-2">

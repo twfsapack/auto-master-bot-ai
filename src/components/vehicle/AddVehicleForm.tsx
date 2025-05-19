@@ -67,6 +67,29 @@ const AddVehicleForm = ({ onAddVehicle, initialVin = '' }: AddVehicleFormProps) 
       </CardHeader>
       <CardContent>
         <div className="grid gap-4">
+          {/* VIN Field - Moved to the top as first option */}
+          <div className="grid gap-2">
+            <Label htmlFor="vin">VIN (Opcional)</Label>
+            <div className="flex gap-2">
+              <Input
+                id="vin"
+                placeholder="Número de Identificación Vehicular"
+                value={newVehicle.vin}
+                onChange={(e) => setNewVehicle({ ...newVehicle, vin: e.target.value })}
+                className="flex-1"
+              />
+              <Button 
+                type="button"
+                variant="outline"
+                size="icon"
+                onClick={handleScanVin}
+                title="Escanear VIN"
+              >
+                <ScanBarcode className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+          
           <div className="grid gap-2">
             <Label htmlFor="make">Marca *</Label>
             <Select 
@@ -113,28 +136,6 @@ const AddVehicleForm = ({ onAddVehicle, initialVin = '' }: AddVehicleFormProps) 
                 ))}
               </SelectContent>
             </Select>
-          </div>
-          
-          <div className="grid gap-2">
-            <Label htmlFor="vin">VIN (Opcional)</Label>
-            <div className="flex gap-2">
-              <Input
-                id="vin"
-                placeholder="Número de Identificación Vehicular"
-                value={newVehicle.vin}
-                onChange={(e) => setNewVehicle({ ...newVehicle, vin: e.target.value })}
-                className="flex-1"
-              />
-              <Button 
-                type="button"
-                variant="outline"
-                size="icon"
-                onClick={handleScanVin}
-                title="Escanear VIN"
-              >
-                <ScanBarcode className="h-4 w-4" />
-              </Button>
-            </div>
           </div>
           
           <div className="grid gap-2">
