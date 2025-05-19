@@ -9,7 +9,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { QrCode } from 'lucide-react';
+import { ScanBarcode } from 'lucide-react';
 
 // Generate a range of years from current year to 20 years ago
 const currentYear = new Date().getFullYear();
@@ -50,8 +50,8 @@ export const VehicleForm = ({ initialVin }: VehicleFormProps = {}) => {
     if (!make || !model || !year) {
       toast({
         variant: "destructive",
-        title: "Required fields missing",
-        description: "Make, model and year are required.",
+        title: "Campos requeridos faltantes",
+        description: "Marca, modelo y año son obligatorios.",
       });
       return;
     }
@@ -69,8 +69,8 @@ export const VehicleForm = ({ initialVin }: VehicleFormProps = {}) => {
 
   const handleSkip = () => {
     toast({
-      title: "Skipped",
-      description: "You can add a vehicle later in the settings.",
+      title: "Omitido",
+      description: "Puedes añadir un vehículo más tarde en ajustes.",
     });
     navigate('/dashboard');
   };
@@ -109,7 +109,7 @@ export const VehicleForm = ({ initialVin }: VehicleFormProps = {}) => {
             <Label htmlFor="model">{t('model')} *</Label>
             <Input
               id="model"
-              placeholder="e.g. Corolla, Civic, F-150"
+              placeholder="ej. Corolla, Civic, F-150"
               value={model}
               onChange={(e) => setModel(e.target.value)}
               required
@@ -149,7 +149,7 @@ export const VehicleForm = ({ initialVin }: VehicleFormProps = {}) => {
                 onClick={handleScanVin}
                 title={t('scanVin')}
               >
-                <QrCode className="h-4 w-4" />
+                <ScanBarcode className="h-4 w-4" />
               </Button>
             </div>
           </div>
@@ -159,7 +159,7 @@ export const VehicleForm = ({ initialVin }: VehicleFormProps = {}) => {
             <Input
               id="mileage"
               type="number"
-              placeholder="e.g. 45000"
+              placeholder="ej. 45000"
               value={mileage || ''}
               onChange={(e) => setMileage(e.target.value ? parseInt(e.target.value) : undefined)}
             />

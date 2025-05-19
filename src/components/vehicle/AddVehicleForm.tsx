@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Car, QrCode } from 'lucide-react';
+import { Car, ScanBarcode } from 'lucide-react';
 
 const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 30 }, (_, i) => currentYear - i);
@@ -50,24 +50,31 @@ const AddVehicleForm = ({ onAddVehicle, initialVin = '' }: AddVehicleFormProps) 
     onAddVehicle(newVehicle);
   };
 
+  // Actualizar el VIN cuando cambie initialVin
+  useState(() => {
+    if (initialVin) {
+      setNewVehicle(prev => ({ ...prev, vin: initialVin }));
+    }
+  });
+
   return (
     <Card className="glass-card animate-fade-in">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Car className="h-5 w-5" />
-          Add New Vehicle
+          Añadir Nuevo Vehículo
         </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid gap-4">
           <div className="grid gap-2">
-            <Label htmlFor="make">Make *</Label>
+            <Label htmlFor="make">Marca *</Label>
             <Select 
               onValueChange={(value) => setNewVehicle({ ...newVehicle, make: value })} 
               value={newVehicle.make}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select make" />
+                <SelectValue placeholder="Selecciona marca" />
               </SelectTrigger>
               <SelectContent>
                 {carMakes.map((make) => (
@@ -80,23 +87,23 @@ const AddVehicleForm = ({ onAddVehicle, initialVin = '' }: AddVehicleFormProps) 
           </div>
           
           <div className="grid gap-2">
-            <Label htmlFor="model">Model *</Label>
+            <Label htmlFor="model">Modelo *</Label>
             <Input
               id="model"
-              placeholder="e.g. Corolla, Civic, F-150"
+              placeholder="ej. Corolla, Civic, F-150"
               value={newVehicle.model}
               onChange={(e) => setNewVehicle({ ...newVehicle, model: e.target.value })}
             />
           </div>
           
           <div className="grid gap-2">
-            <Label htmlFor="year">Year *</Label>
+            <Label htmlFor="year">Año *</Label>
             <Select 
               onValueChange={(value) => setNewVehicle({ ...newVehicle, year: parseInt(value) })}
               value={newVehicle.year.toString()}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select year" />
+                <SelectValue placeholder="Selecciona año" />
               </SelectTrigger>
               <SelectContent>
                 {years.map((year) => (
@@ -109,11 +116,11 @@ const AddVehicleForm = ({ onAddVehicle, initialVin = '' }: AddVehicleFormProps) 
           </div>
           
           <div className="grid gap-2">
-            <Label htmlFor="vin">VIN (Optional)</Label>
+            <Label htmlFor="vin">VIN (Opcional)</Label>
             <div className="flex gap-2">
               <Input
                 id="vin"
-                placeholder="Vehicle Identification Number"
+                placeholder="Número de Identificación Vehicular"
                 value={newVehicle.vin}
                 onChange={(e) => setNewVehicle({ ...newVehicle, vin: e.target.value })}
                 className="flex-1"
@@ -123,26 +130,26 @@ const AddVehicleForm = ({ onAddVehicle, initialVin = '' }: AddVehicleFormProps) 
                 variant="outline"
                 size="icon"
                 onClick={handleScanVin}
-                title="Scan VIN"
+                title="Escanear VIN"
               >
-                <QrCode className="h-4 w-4" />
+                <ScanBarcode className="h-4 w-4" />
               </Button>
             </div>
           </div>
           
           <div className="grid gap-2">
-            <Label htmlFor="mileage">Current Mileage (Optional)</Label>
+            <Label htmlFor="mileage">Kilometraje Actual (Opcional)</Label>
             <Input
               id="mileage"
               type="number"
-              placeholder="e.g. 45000"
+              placeholder="ej. 45000"
               value={newVehicle.mileage || ''}
               onChange={(e) => setNewVehicle({ ...newVehicle, mileage: e.target.value ? parseInt(e.target.value) : undefined })}
             />
           </div>
           
           <Button onClick={handleSubmit} className="mt-2">
-            Add Vehicle
+            Añadir Vehículo
           </Button>
         </div>
       </CardContent>

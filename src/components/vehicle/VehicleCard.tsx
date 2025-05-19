@@ -3,7 +3,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Car, QrCode, Trash } from 'lucide-react';
+import { Car, ScanBarcode, Trash } from 'lucide-react';
 import { Vehicle } from '@/contexts/VehicleContext';
 
 interface VehicleCardProps {
@@ -33,7 +33,7 @@ const VehicleCard = ({
           </span>
           {isSelected && (
             <span className="text-xs bg-primary text-primary-foreground px-2 py-1 rounded-full">
-              Current
+              Actual
             </span>
           )}
         </CardTitle>
@@ -54,15 +54,15 @@ const VehicleCard = ({
                 variant="outline"
                 size="icon"
                 onClick={() => onScanVin(false, vehicle.id)}
-                title="Scan VIN"
+                title="Escanear VIN"
               >
-                <QrCode className="h-4 w-4" />
+                <ScanBarcode className="h-4 w-4" />
               </Button>
             </div>
           </div>
           
           <div className="grid gap-2">
-            <Label htmlFor={`mileage-${vehicle.id}`}>Current Mileage</Label>
+            <Label htmlFor={`mileage-${vehicle.id}`}>Kilometraje Actual</Label>
             <Input
               id={`mileage-${vehicle.id}`}
               type="number"
@@ -74,11 +74,11 @@ const VehicleCard = ({
           <div className="flex justify-between mt-4">
             {!isSelected ? (
               <Button onClick={onSelect}>
-                Select Vehicle
+                Seleccionar Vehículo
               </Button>
             ) : (
               <Button variant="outline" disabled>
-                Current Vehicle
+                Vehículo Actual
               </Button>
             )}
             

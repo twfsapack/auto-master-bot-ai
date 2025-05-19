@@ -14,6 +14,7 @@ import EmptyVehicleState from '@/components/vehicle/EmptyVehicleState';
 interface LocationState {
   scannedVin?: string;
   forNewVehicle?: boolean;
+  vehicleId?: string;
 }
 
 const Vehicle = () => {
@@ -30,19 +31,22 @@ const Vehicle = () => {
     if (state?.scannedVin) {
       if (state.forNewVehicle) {
         setIsAdding(true);
+      } else if (state.vehicleId) {
+        // Si es para un vehículo existente, actualizar su VIN
+        updateVehicle(state.vehicleId, { vin: state.scannedVin });
       }
       
       // Clear location state to avoid re-applying the VIN on refresh
       window.history.replaceState({}, document.title);
     }
-  }, [state]);
+  }, [state, updateVehicle]);
 
   const handleAddVehicle = (newVehicle) => {
     if (!user?.isPremium && vehicles.length >= 1) {
       toast({
         variant: "destructive",
-        title: "Free account limit reached",
-        description: "Upgrade to premium to add more vehicles.",
+        title: "Límite de cuenta gratuita alcanzado",
+        description: "Actualiza a premium para añadir más vehículos.",
       });
       return;
     }
@@ -55,19 +59,28 @@ const Vehicle = () => {
     updateVehicle(id, { [field]: value });
   };
 
+  const handleScanVin = (isNewVehicle: boolean, vehicleId?: string) => {
+    if (isNewVehicle) {
+      setIsAdding(true);
+      navigate('/scanner', { state: { returnTo: '/vehicle', field: 'newVehicleVin' } });
+    } else if (vehicleId) {
+      navigate('/scanner', { state: { returnTo: '/vehicle', field: 'existingVehicleVin', vehicleId } });
+    }
+  };
+
   return (
     <Layout>
       <div className="space-y-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold">My Vehicles</h1>
+          <h1 className="text-3xl font-bold">Mis Vehículos</h1>
           <Button 
             onClick={() => setIsAdding(!isAdding)}
             className="flex items-center gap-1"
           >
-            {isAdding ? 'Cancel' : (
+            {isAdding ? 'Cancelar' : (
               <>
                 <Plus className="h-4 w-4" />
-                Add Vehicle
+                Añadir Vehículo
               </>
             )}
           </Button>
@@ -89,6 +102,7 @@ const Vehicle = () => {
             onSelectVehicle={selectVehicle}
             onUpdateVehicle={handleUpdateVehicle}
             onDeleteVehicle={deleteVehicle}
+            onScanVin={handleScanVin}
             isPremium={!!user?.isPremium}
           />
         ) : (
