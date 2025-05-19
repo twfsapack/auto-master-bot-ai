@@ -13,6 +13,7 @@ interface VehicleListProps {
   onSelectVehicle: (id: string) => void;
   onUpdateVehicle: (id: string, field: string, value: string | number) => void;
   onDeleteVehicle: (id: string) => void;
+  onScanVin: (isNewVehicle: boolean, vehicleId?: string) => void;
   isPremium: boolean;
 }
 
@@ -22,17 +23,10 @@ const VehicleList = ({
   onSelectVehicle,
   onUpdateVehicle,
   onDeleteVehicle,
+  onScanVin,
   isPremium
 }: VehicleListProps) => {
   const navigate = useNavigate();
-
-  const handleScanVin = (isNewVehicle: boolean, vehicleId?: string) => {
-    if (isNewVehicle) {
-      navigate('/scanner', { state: { returnTo: '/vehicle', field: 'newVehicleVin' } });
-    } else if (vehicleId) {
-      navigate('/scanner', { state: { returnTo: '/vehicle', field: 'existingVehicleVin', vehicleId } });
-    }
-  };
 
   if (vehicles.length === 0) {
     return <EmptyVehicleState onAddVehicle={() => {}} />;
@@ -48,7 +42,7 @@ const VehicleList = ({
           onSelect={() => onSelectVehicle(vehicle.id)}
           onUpdate={onUpdateVehicle}
           onDelete={onDeleteVehicle}
-          onScanVin={handleScanVin}
+          onScanVin={onScanVin}
         />
       ))}
     </div>
