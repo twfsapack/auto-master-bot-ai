@@ -8,9 +8,10 @@ import { useBluetooth } from '@/hooks/use-bluetooth';
 
 interface BluetoothConnectProps {
   onConnected?: (deviceInfo: any) => void;
+  onDisconnected?: () => void;
 }
 
-export const BluetoothConnect: React.FC<BluetoothConnectProps> = ({ onConnected }) => {
+export const BluetoothConnect: React.FC<BluetoothConnectProps> = ({ onConnected, onDisconnected }) => {
   const {
     isSupported,
     isConnecting,
@@ -25,6 +26,13 @@ export const BluetoothConnect: React.FC<BluetoothConnectProps> = ({ onConnected 
     const connection = await scanForDevices();
     if (connection && onConnected) {
       onConnected(connection);
+    }
+  };
+
+  const handleDisconnect = () => {
+    disconnectDevice();
+    if (onDisconnected) {
+      onDisconnected();
     }
   };
 
@@ -82,7 +90,7 @@ export const BluetoothConnect: React.FC<BluetoothConnectProps> = ({ onConnected 
         {isConnected ? (
           <Button 
             variant="outline" 
-            onClick={disconnectDevice}
+            onClick={handleDisconnect}
             className="w-full"
           >
             <BluetoothOff className="h-4 w-4 mr-2" />
