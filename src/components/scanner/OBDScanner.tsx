@@ -3,9 +3,11 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Scan } from 'lucide-react';
+import { Scan, Activity, ChartLine } from 'lucide-react';
 import { BluetoothConnect } from './BluetoothConnect';
 import { useToast } from '@/hooks/use-toast';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface ScanResult {
   code: string;
@@ -17,10 +19,20 @@ export const OBDScanner = () => {
   const [connection, setConnection] = useState<any>(null);
   const [isScanning, setIsScanning] = useState(false);
   const [results, setResults] = useState<ScanResult[]>([]);
+  const [showOptions, setShowOptions] = useState(false);
+  const [activeTab, setActiveTab] = useState('diagnostics');
   const { toast } = useToast();
 
   const handleConnected = (deviceConnection: any) => {
     setConnection(deviceConnection);
+    // Show options dialog when successfully connected
+    setShowOptions(true);
+  };
+
+  const handleDisconnected = () => {
+    setConnection(null);
+    setShowOptions(false);
+    setResults([]);
   };
 
   const handleScan = async () => {
@@ -105,7 +117,69 @@ export const OBDScanner = () => {
 
   return (
     <div className="space-y-6">
-      <BluetoothConnect onConnected={handleConnected} />
+      <BluetoothConnect 
+        onConnected={handleConnected} 
+        onDisconnected={handleDisconnected}
+      />
+      
+      {/* Options Dialog after successful connection */}
+      <Dialog open={showOptions && !!connection} onOpenChange={(open) => setShowOptions(open)}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Opciones de diagnóstico OBD-II</DialogTitle>
+            <DialogDescription>
+              Seleccione el tipo de diagnóstico que desea realizar.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="grid grid-cols-2 w-full">
+              <TabsTrigger value="diagnostics" className="flex items-center gap-2">
+                <Activity className="h-4 w-4" />
+                Diagnóstico del vehículo
+              </TabsTrigger>
+              <TabsTrigger value="sensors" className="flex items-center gap-2">
+                <ChartLine className="h-4 w-4" />
+                Análisis por Sensores
+              </TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="diagnostics" className="space-y-4 mt-4">
+              <p className="text-sm">
+                Realizar un diagnóstico completo del vehículo para detectar posibles fallos.
+              </p>
+              <Button 
+                onClick={() => {
+                  setShowOptions(false);
+                  handleScan();
+                }} 
+                className="w-full"
+              >
+                Iniciar diagnóstico completo
+              </Button>
+            </TabsContent>
+            
+            <TabsContent value="sensors" className="space-y-4 mt-4">
+              <p className="text-sm">
+                Analizar los valores en tiempo real de los sensores del vehículo.
+              </p>
+              <Button 
+                onClick={() => {
+                  setShowOptions(false);
+                  // Aquí iría la lógica para análisis de sensores
+                  toast({
+                    title: "Análisis de sensores",
+                    description: "Iniciando monitoreo de sensores en tiempo real...",
+                  });
+                }}
+                className="w-full"
+              >
+                Iniciar análisis de sensores
+              </Button>
+            </TabsContent>
+          </Tabs>
+        </DialogContent>
+      </Dialog>
       
       <Card className="glass-card">
         <CardHeader>
@@ -136,7 +210,7 @@ export const OBDScanner = () => {
                 </div>
               ) : (
                 <p className="text-center text-sm text-muted-foreground">
-                  Haz clic en "Iniciar diagnóstico" para buscar códigos de error en el vehículo.
+                  Haz clic en "Iniciar diagnóstico" o selecciona una opción para analizar el vehículo.
                 </p>
               )}
             </div>
@@ -148,7 +222,7 @@ export const OBDScanner = () => {
         </CardContent>
         <CardFooter className="flex justify-center">
           <Button 
-            onClick={handleScan} 
+            onClick={() => setShowOptions(true)} 
             disabled={!connection || isScanning}
             className="w-full"
           >
@@ -160,7 +234,7 @@ export const OBDScanner = () => {
             ) : (
               <>
                 <Scan className="h-4 w-4 mr-2" />
-                Iniciar diagnóstico
+                Opciones de diagnóstico
               </>
             )}
           </Button>
