@@ -106,16 +106,32 @@ export const useBluetooth = () => {
         description: `Conectado a ${device.name}`,
       });
       
-      // En una implementación real, aquí retornaríamos el GATT server o la conexión
+      // Simulación de una API para comunicarse con el dispositivo OBD
       return {
         deviceId: device.id,
         deviceName: device.name,
-        // Aquí se añadirían funciones para enviar comandos OBD-II
+        // Función para enviar comandos al dispositivo
         sendCommand: async (command: string) => {
           console.log(`Enviando comando: ${command}`);
           // Simulación de respuesta
           return `Respuesta para ${command}`;
         },
+        // Funciones específicas para sensores (simuladas)
+        getSensorData: async (sensorId: string) => {
+          console.log(`Solicitando datos del sensor: ${sensorId}`);
+          // Simular valores aleatorios según el tipo de sensor
+          switch (sensorId) {
+            case 'rpm':
+              return Math.floor(Math.random() * 3000) + 800;
+            case 'speed':
+              return Math.floor(Math.random() * 100);
+            case 'temp':
+              return Math.floor(Math.random() * 40) + 70;
+            default:
+              return Math.random() * 100;
+          }
+        },
+        // Función para desconectar el dispositivo
         disconnect: () => {
           setIsConnected(false);
           setSelectedDevice(null);

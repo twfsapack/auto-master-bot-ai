@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,6 +7,7 @@ import { BluetoothConnect } from './BluetoothConnect';
 import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { SensorAnalysis } from './SensorAnalysis';
 
 interface ScanResult {
   code: string;
@@ -21,6 +21,7 @@ export const OBDScanner = () => {
   const [results, setResults] = useState<ScanResult[]>([]);
   const [showOptions, setShowOptions] = useState(false);
   const [activeTab, setActiveTab] = useState('diagnostics');
+  const [showSensorAnalysis, setShowSensorAnalysis] = useState(false);
   const { toast } = useToast();
 
   const handleConnected = (deviceConnection: any) => {
@@ -33,6 +34,7 @@ export const OBDScanner = () => {
     setConnection(null);
     setShowOptions(false);
     setResults([]);
+    setShowSensorAnalysis(false);
   };
 
   const handleScan = async () => {
@@ -115,6 +117,16 @@ export const OBDScanner = () => {
     }
   };
 
+  // Si estamos mostrando el análisis de sensores, renderizamos ese componente
+  if (showSensorAnalysis && connection) {
+    return (
+      <SensorAnalysis 
+        connection={connection}
+        onBack={() => setShowSensorAnalysis(false)}
+      />
+    );
+  }
+
   return (
     <div className="space-y-6">
       <BluetoothConnect 
@@ -166,7 +178,7 @@ export const OBDScanner = () => {
               <Button 
                 onClick={() => {
                   setShowOptions(false);
-                  // Aquí iría la lógica para análisis de sensores
+                  setShowSensorAnalysis(true);
                   toast({
                     title: "Análisis de sensores",
                     description: "Iniciando monitoreo de sensores en tiempo real...",
