@@ -19,8 +19,8 @@ import {
   XAxis, 
   YAxis, 
   CartesianGrid, 
-  ResponsiveContainer,
-  Legend 
+  Legend, 
+  ResponsiveContainer
 } from 'recharts';
 
 // Definición de tipos para los sensores
@@ -121,6 +121,9 @@ export const SensorAnalysis = ({ connection, onBack }: { connection: any; onBack
   }>({});
   const [combinedData, setCombinedData] = useState<SensorReadingWithTimestamp[]>([]);
   const { toast } = useToast();
+  
+  const [currentValue1, setCurrentValue1] = useState<number | null>(null);
+  const [currentValue2, setCurrentValue2] = useState<number | null>(null);
 
   // Efecto para simular la lectura de sensores cuando está en modo grabación
   useEffect(() => {
@@ -133,6 +136,7 @@ export const SensorAnalysis = ({ connection, onBack }: { connection: any; onBack
           const sensor = availableSensors.find(s => s.id === selectedSensor1);
           if (sensor) {
             const newValue = simulateSensorReading(sensor);
+            setCurrentValue1(newValue);
             setSensorReadings(prev => ({
               ...prev,
               [selectedSensor1]: [...(prev[selectedSensor1] || []), { timestamp, value: newValue }]
@@ -145,6 +149,7 @@ export const SensorAnalysis = ({ connection, onBack }: { connection: any; onBack
           const sensor = availableSensors.find(s => s.id === selectedSensor2);
           if (sensor) {
             const newValue = simulateSensorReading(sensor);
+            setCurrentValue2(newValue);
             setSensorReadings(prev => ({
               ...prev,
               [selectedSensor2]: [...(prev[selectedSensor2] || []), { timestamp, value: newValue }]
@@ -287,6 +292,89 @@ export const SensorAnalysis = ({ connection, onBack }: { connection: any; onBack
     return sensor ? sensor.name : sensorId;
   };
   
+  // Función para obtener el valor máximo del sensor
+  const getSensorMaxValue = (sensorId: string): number => {
+    const sensor = availableSensors.find(s => s.id === sensorId);
+    return sensor ? sensor.maxValue : 100;
+  };
+
+  // Renderizado de la gráfica individual
+  const renderSensorChart = (sensorId: string, currentValue: number | null, index: number) => {
+    if (!sensorId) return null;
+
+    const sensorReadingsForChart = sensorReadings[sensorId] || [];
+    const sensorColor = getSensorColor(sensorId);
+    const sensorName = getSensorName(sensorId);
+    const sensorUnits = getSensorUnits(sensorId);
+    const maxValue = getSensorMaxValue(sensorId);
+
+    // Preparar datos para la gráfica
+    const chartData = sensorReadingsForChart.map((reading) => ({
+      time: new Date(reading.timestamp).toLocaleTimeString(),
+      [sensorId]: reading.value,
+    }));
+
+    return (
+      <div className="relative w-full border rounded-lg p-4 mb-4">
+        <div className="flex justify-between items-center mb-2">
+          <h4 className="font-medium">{sensorName}</h4>
+          {currentValue !== null && (
+            <div className="flex items-center gap-1">
+              <Badge className="text-lg" style={{ backgroundColor: sensorColor }}>
+                {currentValue} {sensorUnits}
+              </Badge>
+            </div>
+          )}
+        </div>
+        
+        <div className="h-[200px]">
+          <ChartContainer
+            config={{
+              [sensorId]: { color: sensorColor },
+            }}
+          >
+            <LineChart 
+              data={chartData} 
+              margin={{ top: 5, right: 20, left: 20, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+              <XAxis 
+                dataKey="time" 
+                tick={{ fontSize: 12 }}
+                tickMargin={8}
+              />
+              <YAxis
+                domain={[0, maxValue]}
+                tick={{ fontSize: 12 }}
+                label={{ 
+                  value: sensorUnits,
+                  angle: -90, 
+                  position: 'insideLeft',
+                  style: { textAnchor: 'middle' }
+                }}
+              />
+              <Line
+                type="monotone"
+                dataKey={sensorId}
+                stroke={sensorColor}
+                strokeWidth={2}
+                dot={false}
+                activeDot={{ r: 6 }}
+                name={sensorName}
+              />
+              <ChartTooltip
+                content={({ active, payload }) => (
+                  <ChartTooltipContent active={active} payload={payload} />
+                )}
+              />
+              <Legend />
+            </LineChart>
+          </ChartContainer>
+        </div>
+      </div>
+    );
+  };
+  
   return (
     <div className="space-y-6">
       <Card className="glass-card">
@@ -317,8 +405,10 @@ export const SensorAnalysis = ({ connection, onBack }: { connection: any; onBack
                     // Asegurarse de que no se selecciona el mismo sensor dos veces
                     if (value === selectedSensor2) {
                       setSelectedSensor2(null);
+                      setCurrentValue2(null);
                     }
                     setSelectedSensor1(value);
+                    setCurrentValue1(null);
                   }}
                 >
                   <SelectTrigger>
@@ -347,8 +437,10 @@ export const SensorAnalysis = ({ connection, onBack }: { connection: any; onBack
                     // Asegurarse de que no se selecciona el mismo sensor dos veces
                     if (value === selectedSensor1) {
                       setSelectedSensor1(null);
+                      setCurrentValue1(null);
                     }
                     setSelectedSensor2(value);
+                    setCurrentValue2(null);
                   }}
                 >
                   <SelectTrigger>
@@ -389,82 +481,16 @@ export const SensorAnalysis = ({ connection, onBack }: { connection: any; onBack
               </div>
             </div>
             
-            {(combinedData.length > 0) && (
-              <div className="mt-6 border rounded-lg p-4">
-                <h3 className="font-medium mb-2 text-center">
-                  Análisis de Datos en Tiempo Real
-                </h3>
-                <div className="h-[300px]">
-                  <ChartContainer
-                    config={{
-                      [selectedSensor1 || '']: { color: "#3b82f6" }, // Azul para sensor 1
-                      [selectedSensor2 || '']: { color: "#10b981" }, // Verde para sensor 2
-                    }}
-                  >
-                    <LineChart data={combinedData} margin={{ top: 10, right: 10, left: 0, bottom: 20 }}>
-                      <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
-                      <XAxis
-                        dataKey="time"
-                        tick={{ fontSize: 12 }}
-                        tickMargin={10}
-                      />
-                      <YAxis 
-                        yAxisId="left"
-                        orientation="left"
-                        tick={{ fontSize: 12 }}
-                        label={{ 
-                          value: selectedSensor1 ? getSensorUnits(selectedSensor1) : '', 
-                          angle: -90, 
-                          position: 'insideLeft' 
-                        }}
-                      />
-                      {selectedSensor1 && selectedSensor2 && (
-                        <YAxis 
-                          yAxisId="right"
-                          orientation="right"
-                          tick={{ fontSize: 12 }}
-                          label={{ 
-                            value: getSensorUnits(selectedSensor2), 
-                            angle: 90, 
-                            position: 'insideRight' 
-                          }}
-                        />
-                      )}
-                      {selectedSensor1 && (
-                        <Line
-                          type="monotone"
-                          dataKey={selectedSensor1}
-                          stroke={getSensorColor(selectedSensor1)}
-                          strokeWidth={2}
-                          dot={false}
-                          activeDot={{ r: 6 }}
-                          yAxisId="left"
-                          name={getSensorName(selectedSensor1)}
-                        />
-                      )}
-                      {selectedSensor2 && (
-                        <Line
-                          type="monotone"
-                          dataKey={selectedSensor2}
-                          stroke={getSensorColor(selectedSensor2)}
-                          strokeWidth={2}
-                          dot={false}
-                          activeDot={{ r: 6 }}
-                          yAxisId={selectedSensor1 ? "right" : "left"}
-                          name={getSensorName(selectedSensor2)}
-                        />
-                      )}
-                      <Legend wrapperStyle={{ paddingTop: 10 }} />
-                      <ChartTooltip
-                        content={({ active, payload }) => (
-                          <ChartTooltipContent active={active} payload={payload} />
-                        )}
-                      />
-                    </LineChart>
-                  </ChartContainer>
-                </div>
-              </div>
-            )}
+            {/* Visualización de sensores uno encima del otro */}
+            <div className="mt-4 space-y-4">
+              {selectedSensor1 && combinedData.length > 0 && (
+                renderSensorChart(selectedSensor1, currentValue1, 1)
+              )}
+              
+              {selectedSensor2 && combinedData.length > 0 && (
+                renderSensorChart(selectedSensor2, currentValue2, 2)
+              )}
+            </div>
             
             {combinedData.length === 0 && (selectedSensor1 || selectedSensor2) && !isRecording && (
               <div className="flex flex-col items-center justify-center border rounded-lg p-8">
