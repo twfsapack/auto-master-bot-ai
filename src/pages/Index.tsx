@@ -39,14 +39,14 @@ const Index = () => {
       <div className="flex-1 flex flex-col items-center justify-center w-full px-4 animate-fade-in">
         <div className="w-full max-w-md space-y-8">
           <div className="flex flex-col items-center space-y-6 animate-slide-down">
-            {/* Mechanic Robot Logo */}
-            <div className="w-40 h-40 mb-4 bg-gradient-to-br from-blue-secondary to-blue-light rounded-full flex items-center justify-center shadow-elevated animate-scale-in">
+            {/* Mechanic Robot Logo - Moved up by 1cm (approximately 38px) */}
+            <div className="w-40 h-40 -mt-10 bg-gradient-to-br from-blue-secondary to-blue-light rounded-full flex items-center justify-center shadow-elevated animate-scale-in">
               <Bot className="w-24 h-24 text-white drop-shadow-lg" />
             </div>
             
             <div className="flex flex-col items-center animate-fade-in">
-              <h1 className="text-3xl font-heading font-bold text-center text-text-primary">
-                AUTO MASTER BOT
+              <h1 className="text-3xl font-digital font-bold text-center text-text-primary tracking-wider">
+                AUTOMASTERBOT
               </h1>
               <p className="text-xs text-text-secondary mt-1 italic opacity-80">
                 powered by Trucktruest.com
