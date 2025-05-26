@@ -7,6 +7,7 @@ import { LanguageProvider } from './contexts/LanguageContext';
 import { Toaster } from '@/components/ui/toaster';
 
 import Index from './pages/Index';
+import Welcome from './pages/Welcome';
 import Auth from './pages/Auth';
 import Dashboard from './pages/Dashboard';
 import Chat from './pages/Chat';
@@ -29,6 +30,7 @@ function App() {
             <Router>
               <Routes>
                 <Route path="/" element={<Index />} />
+                <Route path="/welcome" element={<Welcome />} />
                 <Route path="/auth/*" element={<Auth />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/chat" element={<Chat />} />

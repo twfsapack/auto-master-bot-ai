@@ -12,7 +12,13 @@ const Index = () => {
 
   useEffect(() => {
     if (user) {
-      navigate('/dashboard');
+      // Check if welcome setup was completed
+      const welcomeCompleted = localStorage.getItem('welcomeCompleted');
+      if (!welcomeCompleted) {
+        navigate('/welcome');
+      } else {
+        navigate('/dashboard');
+      }
     }
   }, [user, navigate]);
 
