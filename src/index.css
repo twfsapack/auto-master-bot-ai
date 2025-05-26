@@ -1,40 +1,80 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 240 10% 97%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 240 10% 3.9%;
+    --foreground: 240 5% 96%;
+
+    --card: 240 6% 7%;
+    --card-foreground: 240 5% 96%;
+
+    --popover: 240 6% 7%;
+    --popover-foreground: 240 5% 96%;
+
+    --primary: 220 100% 50%;
+    --primary-foreground: 240 5% 96%;
+
+    --secondary: 240 4% 16%;
+    --secondary-foreground: 240 5% 96%;
+
+    --muted: 240 4% 16%;
+    --muted-foreground: 240 5% 64.9%;
+
+    --accent: 240 4% 16%;
+    --accent-foreground: 240 5% 96%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 240 5% 96%;
+
+    --border: 240 4% 16%;
+    --input: 240 4% 16%;
+    --ring: 220 100% 50%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 240 6% 7%;
+    --sidebar-foreground: 240 5% 96%;
+    --sidebar-primary: 220 100% 50%;
+    --sidebar-primary-foreground: 240 5% 96%;
+    --sidebar-accent: 240 4% 16%;
+    --sidebar-accent-foreground: 240 5% 96%;
+    --sidebar-border: 240 4% 16%;
+    --sidebar-ring: 220 100% 50%;
+  }
+
+  .light {
+    --background: 240 5% 96%;
+    --foreground: 240 10% 3.9%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 240 10% 3.9%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 240 10% 3.9%;
 
-    --primary: 240 100% 25%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 220 100% 40%;
+    --primary-foreground: 0 0% 98%;
 
-    --secondary: 270 100% 25%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 1rem;
-
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 220 100% 40%;
+    
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -42,46 +82,7 @@
     --sidebar-accent: 240 4.8% 95.9%;
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 240 100% 50%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 270 100% 50%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-ring: 220 100% 40%;
   }
 }
 
@@ -91,48 +92,121 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-bg-dark text-text-primary font-sans antialiased;
   }
   
-  /* Hacer más visible la barra de desplazamiento en dispositivos móviles */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-semibold;
+  }
+  
+  /* Mejoras para dispositivos móviles */
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-    display: block !important;
+    width: 6px;
+    height: 6px;
   }
   
   ::-webkit-scrollbar-track {
-    @apply bg-purple/10 rounded-full;
+    @apply bg-gray-dark/20 rounded-full;
   }
   
   ::-webkit-scrollbar-thumb {
-    @apply bg-purple/40 rounded-full hover:bg-purple/60 transition-colors border-2 border-transparent border-solid;
+    @apply bg-blue-secondary/60 rounded-full hover:bg-blue-secondary/80 transition-colors;
+  }
+
+  /* Asegurar que los elementos táctiles tengan un tamaño mínimo en móviles */
+  @media (max-width: 768px) {
+    button, a, input, select, textarea {
+      min-height: 44px;
+    }
   }
 }
 
 @layer components {
   .glass-card {
-    @apply bg-white/20 dark:bg-white/10 backdrop-blur-lg border border-white/30 dark:border-white/10 rounded-2xl shadow-xl;
+    @apply bg-bg-card/80 backdrop-blur-lg border border-gray-medium/30 rounded-xl shadow-elevated;
   }
   
   .gradient-bg {
-    @apply bg-gradient-to-br from-navy via-purple to-navy;
+    @apply bg-gradient-to-br from-blue-primary via-blue-secondary to-blue-light;
   }
   
   .nav-item {
-    @apply flex items-center p-2 rounded-lg hover:bg-purple/10 transition-colors duration-200;
+    @apply flex flex-col items-center justify-center p-3 rounded-xl hover:bg-blue-secondary/20 transition-all duration-300 transform hover:scale-105 min-w-[60px] min-h-[60px];
   }
   
   .nav-item.active {
-    @apply bg-purple/20 text-purple dark:text-purple dark:bg-purple/30;
+    @apply bg-blue-secondary/30 text-blue-light scale-105;
   }
 
-  /* Estilos personalizados para la barra de desplazamiento de Radix */
-  .scrollbar-thumb {
-    @apply bg-purple rounded-full border-2 border-transparent border-solid;
+  .nav-item span {
+    @apply text-xs font-medium mt-1 text-center leading-tight;
   }
 
-  .scrollbar-track {
-    @apply bg-purple/10 rounded-full;
+  .floating-nav {
+    @apply fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-md;
+  }
+
+  .card-modern {
+    @apply bg-bg-card border border-gray-medium/30 rounded-xl p-6 shadow-card hover:shadow-elevated transition-all duration-300;
+  }
+
+  .btn-primary {
+    @apply bg-blue-secondary hover:bg-blue-primary text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 shadow-card hover:shadow-elevated transform hover:scale-105;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-medium hover:bg-gray-dark text-text-primary font-medium py-3 px-6 rounded-lg transition-all duration-200 border border-gray-light/20;
+  }
+
+  .input-modern {
+    @apply bg-bg-card border border-gray-medium/30 rounded-lg px-4 py-3 text-text-primary placeholder:text-text-secondary focus:border-blue-secondary focus:ring-2 focus:ring-blue-secondary/20 transition-all duration-200;
+  }
+
+  /* Scrollbar personalizado para contenido */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: theme(colors.blue-secondary) transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-blue-secondary/60 rounded-full hover:bg-blue-secondary/80;
+  }
+}
+
+/* Mejoras específicas para móviles */
+@media (max-width: 768px) {
+  .container {
+    @apply px-4;
+  }
+  
+  .glass-card {
+    @apply mx-2;
+  }
+  
+  .nav-item {
+    @apply p-2 min-w-[50px] min-h-[50px];
+  }
+  
+  .nav-item span {
+    @apply text-xs;
+  }
+}
+
+/* Animaciones suaves para transiciones */
+@media (prefers-reduced-motion: no-preference) {
+  .nav-item,
+  .card-modern,
+  .btn-primary,
+  .btn-secondary {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }

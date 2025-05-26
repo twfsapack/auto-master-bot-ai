@@ -63,19 +63,44 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Custom colors for Auto Master Bot
-				navy: '#000080',
-				purple: '#800080',
-				silver: '#C0C0C0',
-				darkPurple: '#1A1F2C',
-				lightGray: '#C8C8C9',
-				silverGray: '#9F9EA1',
-				coolGray: '#aaadb0',
+				// Nuevos colores basados en el diseño de la presentación
+				'blue-primary': '#1E3A8A',
+				'blue-secondary': '#3B82F6',
+				'blue-light': '#60A5FA',
+				'gray-dark': '#1F2937',
+				'gray-medium': '#374151',
+				'gray-light': '#6B7280',
+				'white-pure': '#FFFFFF',
+				'accent-orange': '#F59E0B',
+				'accent-green': '#10B981',
+				'accent-red': '#EF4444',
+				'bg-dark': '#0F172A',
+				'bg-card': '#1E293B',
+				'text-primary': '#F8FAFC',
+				'text-secondary': '#CBD5E1',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
+			},
+			fontFamily: {
+				'sans': ['Inter', 'system-ui', 'sans-serif'],
+				'heading': ['Poppins', 'system-ui', 'sans-serif'],
+			},
+			fontSize: {
+				'xs': ['0.75rem', { lineHeight: '1rem' }],
+				'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+				'base': ['1rem', { lineHeight: '1.5rem' }],
+				'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+				'xl': ['1.25rem', { lineHeight: '1.75rem' }],
+				'2xl': ['1.5rem', { lineHeight: '2rem' }],
+				'3xl': ['1.875rem', { lineHeight: '2.25rem' }],
+				'4xl': ['2.25rem', { lineHeight: '2.5rem' }],
+			},
+			spacing: {
+				'18': '4.5rem',
+				'22': '5.5rem',
 			},
 			keyframes: {
 				'accordion-down': {
@@ -109,6 +134,10 @@ export default {
 				'slide-down': {
 					'0%': { transform: 'translateY(-10px)', opacity: '0' },
 					'100%': { transform: 'translateY(0)', opacity: '1' }
+				},
+				'scale-in': {
+					'0%': { transform: 'scale(0.95)', opacity: '0' },
+					'100%': { transform: 'scale(1)', opacity: '1' }
 				}
 			},
 			animation: {
@@ -117,7 +146,12 @@ export default {
 				'fade-in': 'fade-in 0.3s ease-out',
 				'fade-out': 'fade-out 0.3s ease-out',
 				'slide-up': 'slide-up 0.3s ease-out',
-				'slide-down': 'slide-down 0.3s ease-out'
+				'slide-down': 'slide-down 0.3s ease-out',
+				'scale-in': 'scale-in 0.2s ease-out'
+			},
+			boxShadow: {
+				'card': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+				'elevated': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
 			}
 		}
 	},
