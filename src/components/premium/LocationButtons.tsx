@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { MapPin, Store, Wrench } from 'lucide-react';
+import { Store, Wrench } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/contexts/LanguageContext';

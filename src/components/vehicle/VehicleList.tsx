@@ -1,8 +1,4 @@
 
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Car } from 'lucide-react';
 import { Vehicle } from '@/contexts/VehicleContext';
 import VehicleCard from './VehicleCard';
 import EmptyVehicleState from './EmptyVehicleState';
@@ -23,10 +19,8 @@ const VehicleList = ({
   onSelectVehicle,
   onUpdateVehicle,
   onDeleteVehicle,
-  onScanVin,
-  isPremium
+  onScanVin
 }: VehicleListProps) => {
-  const navigate = useNavigate();
 
   if (vehicles.length === 0) {
     return <EmptyVehicleState onAddVehicle={() => {}} />;

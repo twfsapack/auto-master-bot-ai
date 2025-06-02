@@ -44,7 +44,7 @@ export const ChatInterface = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
   const { selectedVehicle } = useVehicle();
-  const { sendMessage, isLoading, remainingQuestions } = useOpenAIChat();
+  const { isLoading, remainingQuestions } = useOpenAIChat();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });

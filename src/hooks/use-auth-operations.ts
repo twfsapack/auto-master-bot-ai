@@ -10,7 +10,8 @@ export const useAuthOperations = () => {
   const { toast } = useToast();
   const { isPremiumEmail, addPremiumEmail } = usePremiumEmails();
 
-  const login = async (email: string, password: string) => {
+  // Password field is part of the form data but not directly used in this specific mock auth operation.
+  const login = async (email: string, _password?: string) => {
     setIsLoading(true);
     try {
       // Mock login
@@ -32,7 +33,7 @@ export const useAuthOperations = () => {
         });
         setIsLoading(false);
       }, 1000);
-    } catch (error) {
+    } catch {
       setIsLoading(false);
       toast({
         variant: "destructive",
@@ -42,7 +43,8 @@ export const useAuthOperations = () => {
     }
   };
 
-  const register = async (email: string, password: string, name: string) => {
+  // Password field is part of the form data but not directly used in this specific mock auth operation.
+  const register = async (email: string, _password: string, name: string) => {
     setIsLoading(true);
     try {
       // Mock registration
@@ -61,7 +63,7 @@ export const useAuthOperations = () => {
         });
         setIsLoading(false);
       }, 1000);
-    } catch (error) {
+    } catch {
       setIsLoading(false);
       toast({
         variant: "destructive",
@@ -99,7 +101,7 @@ export const useAuthOperations = () => {
         });
         setIsLoading(false);
       }, 1000);
-    } catch (error) {
+    } catch {
       setIsLoading(false);
       toast({
         variant: "destructive",
@@ -128,7 +130,7 @@ export const useAuthOperations = () => {
         });
         setIsLoading(false);
       }, 1000);
-    } catch (error) {
+    } catch {
       setIsLoading(false);
       toast({
         variant: "destructive",

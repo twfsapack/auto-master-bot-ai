@@ -19,8 +19,7 @@ import {
   XAxis, 
   YAxis, 
   CartesianGrid, 
-  Legend, 
-  ResponsiveContainer
+  Legend
 } from 'recharts';
 
 // Definición de tipos para los sensores
@@ -111,7 +110,7 @@ const availableSensors: SensorData[] = [
   }
 ];
 
-export const SensorAnalysis = ({ connection, onBack }: { connection: any; onBack: () => void }) => {
+export const SensorAnalysis = ({ onBack }: { onBack: () => void }) => {
   const [selectedSensor1, setSelectedSensor1] = useState<string | null>(null);
   const [selectedSensor2, setSelectedSensor2] = useState<string | null>(null);
   const [isRecording, setIsRecording] = useState(false);
@@ -169,7 +168,7 @@ export const SensorAnalysis = ({ connection, onBack }: { connection: any; onBack
         clearInterval(recordingInterval);
       }
     };
-  }, [isRecording, selectedSensor1, selectedSensor2]);
+  }, [isRecording, selectedSensor1, selectedSensor2, simulateSensorReading, recordingInterval]);
   
   // Efecto para combinar los datos de los sensores para la gráfica
   useEffect(() => {
@@ -179,7 +178,7 @@ export const SensorAnalysis = ({ connection, onBack }: { connection: any; onBack
     
     // Si solo hay un sensor seleccionado, usar sus lecturas
     if (readings1.length > 0 && !selectedSensor2) {
-      readings1.forEach((reading, index) => {
+      readings1.forEach((reading) => {
         const time = new Date(reading.timestamp).toLocaleTimeString();
         newCombinedData.push({
           time,
@@ -189,7 +188,7 @@ export const SensorAnalysis = ({ connection, onBack }: { connection: any; onBack
     } 
     // Si solo hay dos sensor seleccionado, usar sus lecturas
     else if (readings2.length > 0 && !selectedSensor1) {
-      readings2.forEach((reading, index) => {
+      readings2.forEach((reading) => {
         const time = new Date(reading.timestamp).toLocaleTimeString();
         newCombinedData.push({
           time,
@@ -299,7 +298,7 @@ export const SensorAnalysis = ({ connection, onBack }: { connection: any; onBack
   };
 
   // Renderizado de la gráfica individual
-  const renderSensorChart = (sensorId: string, currentValue: number | null, index: number) => {
+  const renderSensorChart = (sensorId: string, currentValue: number | null) => {
     if (!sensorId) return null;
 
     const sensorReadingsForChart = sensorReadings[sensorId] || [];
@@ -484,11 +483,11 @@ export const SensorAnalysis = ({ connection, onBack }: { connection: any; onBack
             {/* Visualización de sensores uno encima del otro */}
             <div className="mt-4 space-y-4">
               {selectedSensor1 && combinedData.length > 0 && (
-                renderSensorChart(selectedSensor1, currentValue1, 1)
+                renderSensorChart(selectedSensor1, currentValue1)
               )}
               
               {selectedSensor2 && combinedData.length > 0 && (
-                renderSensorChart(selectedSensor2, currentValue2, 2)
+                renderSensorChart(selectedSensor2, currentValue2)
               )}
             </div>
             

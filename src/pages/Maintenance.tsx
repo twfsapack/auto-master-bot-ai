@@ -5,9 +5,6 @@ import { useState } from 'react';
 import { TaskDetailsModal } from '@/components/maintenance/TaskDetailsModal';
 import { useToast } from '@/hooks/use-toast';
 
-// Clave para almacenar las tareas en localStorage
-const MAINTENANCE_TASKS_KEY = 'maintenance_tasks';
-
 const Maintenance = () => {
   const [selectedTask, setSelectedTask] = useState<any>(null);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
@@ -51,7 +48,7 @@ const Maintenance = () => {
           description: "Recibirás recordatorios para tareas de mantenimiento",
         });
       }
-    } catch (error) {
+    } catch {
       toast({
         variant: "destructive",
         title: "Error",

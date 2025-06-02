@@ -6,7 +6,7 @@ import VinScanner from '@/components/scanner/VinScanner';
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Lock, ScanBarcode, Wrench, Layers } from 'lucide-react';
+import { Lock, ScanBarcode, Wrench } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 

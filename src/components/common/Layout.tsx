@@ -14,15 +14,13 @@ import {
   Moon,
   Sun,
   Car,
-  ShoppingCart,
-  Menu
+  ShoppingCart
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useVehicle } from '@/contexts/VehicleContext';
 import LanguageSelector from './LanguageSelector';
 import { cn } from '@/lib/utils';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { useIsMobile } from '@/hooks/use-mobile';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -35,7 +33,6 @@ const Layout = ({ children }: LayoutProps) => {
   const { logout, user } = useAuth();
   const { selectedVehicle } = useVehicle();
   const { t } = useLanguage();
-  const isMobile = useIsMobile();
   
   const navItems = [
     { 

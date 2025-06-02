@@ -121,7 +121,7 @@ export const MaintenanceReminders = () => {
           description: "You will receive reminders for maintenance tasks",
         });
       }
-    } catch (error) {
+    } catch {
       toast({
         variant: "destructive",
         title: "Error",

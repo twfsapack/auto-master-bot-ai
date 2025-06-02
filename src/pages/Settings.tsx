@@ -12,7 +12,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useToast } from '@/hooks/use-toast';
 import { PlanComparison } from '@/components/settings/PlanComparison';
-import { User, Moon, Sun, BellRing, Languages, CreditCard } from 'lucide-react';
+import { User, Moon, Sun, BellRing } from 'lucide-react';
 
 const Settings = () => {
   const { user, logout } = useAuth();

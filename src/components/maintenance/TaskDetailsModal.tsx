@@ -31,7 +31,7 @@ export const TaskDetailsModal = ({
   task,
   onRequestNotification 
 }: TaskDetailsModalProps) => {
-  const { language, t } = useLanguage();
+  const { t } = useLanguage();
   
   const getTaskTypeIcon = (type: string) => {
     switch (type) {

@@ -1,37 +1,9 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from './AuthContext';
+import { VehicleContext, type Vehicle } from './vehicleContext.definitions';
 
-export type Vehicle = {
-  id: string;
-  make: string;
-  model: string;
-  year: number;
-  vin?: string;
-  mileage?: number;
-  lastService?: string;
-  image?: string;
-};
-
-type VehicleContextType = {
-  vehicles: Vehicle[];
-  selectedVehicle: Vehicle | null;
-  isLoading: boolean;
-  addVehicle: (vehicle: Omit<Vehicle, 'id'>) => void;
-  updateVehicle: (id: string, updates: Partial<Vehicle>) => void;
-  deleteVehicle: (id: string) => void;
-  selectVehicle: (id: string) => void;
-};
-
-const VehicleContext = createContext<VehicleContextType | undefined>(undefined);
-
-export const useVehicle = () => {
-  const context = useContext(VehicleContext);
-  if (context === undefined) {
-    throw new Error('useVehicle must be used within a VehicleProvider');
-  }
-  return context;
-};
+// Vehicle type, VehicleContextType, VehicleContext, and useVehicle moved to .definitions.ts
 
 export const VehicleProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
@@ -107,7 +79,7 @@ export const VehicleProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setVehicles((prev) => prev.filter((vehicle) => vehicle.id !== id));
     
     if (selectedVehicle?.id === id) {
-      setSelectedVehicle((prev) => {
+      setSelectedVehicle(() => {
         const remaining = vehicles.filter(v => v.id !== id);
         return remaining.length > 0 ? remaining[0] : null;
       });
