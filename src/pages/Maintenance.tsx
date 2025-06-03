@@ -5,17 +5,29 @@ import { useState } from 'react';
 import { TaskDetailsModal } from '@/components/maintenance/TaskDetailsModal';
 import { useToast } from '@/hooks/use-toast';
 
+// Define a specific type for the task data used in this page
+interface DetailedMaintenanceTask {
+  id: string;
+  title: string;
+  dueDate: Date; // Used by TaskDetailsModal and handleRequestNotification
+  type: string;
+  description?: string;
+  date?: Date; // Original date from CalendarTask, if different from dueDate
+  status?: 'active' | 'completed';
+  vehicle?: string;
+}
+
 const Maintenance = () => {
-  const [selectedTask, setSelectedTask] = useState<any>(null);
+  const [selectedTask, setSelectedTask] = useState<DetailedMaintenanceTask | null>(null);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const { toast } = useToast();
 
-  const handleShowTaskDetails = (task: any) => {
+  const handleShowTaskDetails = (task: DetailedMaintenanceTask) => {
     setSelectedTask(task);
     setIsDetailsModalOpen(true);
   };
 
-  const handleRequestNotification = (task: any) => {
+  const handleRequestNotification = (task: DetailedMaintenanceTask) => {
     if (Notification.permission === "granted") {
       toast({
         title: "Notificación programada",

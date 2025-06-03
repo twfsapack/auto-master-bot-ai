@@ -18,6 +18,11 @@ interface MaintenanceTask {
   status?: 'active' | 'completed';
 }
 
+// Interface for tasks read from localStorage where dueDate is a string
+interface StoredMaintenanceTask extends Omit<MaintenanceTask, 'dueDate'> {
+  dueDate: string;
+}
+
 // Clave para almacenar las tareas en localStorage
 const MAINTENANCE_TASKS_KEY = 'maintenance_tasks';
 
@@ -37,7 +42,7 @@ export const MaintenanceReminders = () => {
       if (storedTasks) {
         try {
           // Parse the JSON and convert date strings back to Date objects
-          const parsedTasks = JSON.parse(storedTasks).map((task: any) => ({
+          const parsedTasks = JSON.parse(storedTasks).map((task: StoredMaintenanceTask) => ({
             ...task,
             dueDate: new Date(task.dueDate)
           }));
@@ -161,8 +166,8 @@ export const MaintenanceReminders = () => {
     const storedTasks = localStorage.getItem(MAINTENANCE_TASKS_KEY);
     if (storedTasks) {
       try {
-        const parsedTasks = JSON.parse(storedTasks);
-        const updatedTasks = parsedTasks.filter((task: any) => task.id !== taskId);
+        const parsedTasks = JSON.parse(storedTasks) as StoredMaintenanceTask[];
+        const updatedTasks = parsedTasks.filter((task: StoredMaintenanceTask) => task.id !== taskId);
         localStorage.setItem(MAINTENANCE_TASKS_KEY, JSON.stringify(updatedTasks));
         
         // Disparar evento para que otros componentes sepan que se actualizó

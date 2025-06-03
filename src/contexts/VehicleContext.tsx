@@ -5,6 +5,14 @@ import { VehicleContext, type Vehicle } from './vehicleContext.definitions';
 
 // Vehicle type, VehicleContextType, VehicleContext, and useVehicle moved to .definitions.ts
 
+/**
+ * Provides vehicle data management state and functions to its children components.
+ * It handles loading vehicles from localStorage, adding, updating, deleting, and selecting vehicles.
+ *
+ * @param {object} props - The component props.
+ * @param {React.ReactNode} props.children - The child components to be wrapped by the provider.
+ * @returns {JSX.Element} The VehicleProvider component.
+ */
 export const VehicleProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);

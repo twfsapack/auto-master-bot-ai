@@ -3,7 +3,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Scan, Activity, ChartLine } from 'lucide-react';
-import { BluetoothConnect } from './BluetoothConnect';
+import { BluetoothConnect, type OBDConnection } from './BluetoothConnect'; // Import OBDConnection
 import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -16,7 +16,7 @@ interface ScanResult {
 }
 
 export const OBDScanner = () => {
-  const [connection, setConnection] = useState<any>(null);
+  const [connection, setConnection] = useState<OBDConnection | null>(null); // Use OBDConnection
   const [isScanning, setIsScanning] = useState(false);
   const [results, setResults] = useState<ScanResult[]>([]);
   const [showOptions, setShowOptions] = useState(false);
@@ -24,7 +24,7 @@ export const OBDScanner = () => {
   const [showSensorAnalysis, setShowSensorAnalysis] = useState(false);
   const { toast } = useToast();
 
-  const handleConnected = (deviceConnection: any) => {
+  const handleConnected = (deviceConnection: OBDConnection) => { // Use OBDConnection
     setConnection(deviceConnection);
     // Show options dialog when successfully connected
     setShowOptions(true);

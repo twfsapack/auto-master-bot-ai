@@ -12,21 +12,24 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { format } from "date-fns";
+import { format, Locale } from "date-fns"; // Import Locale type
 import { useLanguage } from "@/contexts/LanguageContext";
+
+// Define a specific type for the new task data
+interface NewTaskData {
+  title: string;
+  type: string;
+  description: string;
+}
 
 interface AddTaskDialogProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   selectedDate?: Date;
-  newTask: {
-    title: string;
-    type: string;
-    description: string;
-  };
-  onNewTaskChange: (task: any) => void;
+  newTask: NewTaskData; // Use the specific type here
+  onNewTaskChange: (task: NewTaskData) => void; // And here
   onAddTask: () => void;
-  dateLocale: any;
+  dateLocale: Locale; // Use the specific type here
   isEditMode?: boolean;
 }
 

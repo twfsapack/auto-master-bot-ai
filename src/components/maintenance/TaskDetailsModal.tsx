@@ -12,17 +12,20 @@ import { Calendar, Clock, AlertTriangle, CheckCircle, Bell } from 'lucide-react'
 import { format } from 'date-fns';
 import { useLanguage } from '@/contexts/LanguageContext';
 
+// Define a specific type for the task details
+interface TaskDetails {
+  id: string;
+  title: string;
+  dueDate: Date;
+  type: string;
+  description?: string;
+}
+
 interface TaskDetailsModalProps {
   isOpen: boolean;
   onClose: () => void;
-  task: {
-    id: string;
-    title: string;
-    dueDate: Date;
-    type: string;
-    description?: string;
-  };
-  onRequestNotification?: (task: any) => void;
+  task: TaskDetails; // Use the specific type here
+  onRequestNotification?: (task: TaskDetails) => void; // And here
 }
 
 export const TaskDetailsModal = ({ 

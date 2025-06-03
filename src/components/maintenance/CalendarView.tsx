@@ -14,8 +14,27 @@ import { Button } from '@/components/ui/button';
 import { recommendedTasks } from '@/data/recommendedTasks';
 import { useToast } from '@/hooks/use-toast';
 
+// Define the shape of a task for the calendar
+interface CalendarTask {
+  id: string;
+  title: string;
+  date: Date;
+  vehicle?: string; // Optional, as it's not always used in this component directly for display
+  type: string;
+  description?: string;
+  status?: 'active' | 'completed';
+  // dueDate is added for compatibility when passing to onShowTaskDetails/TaskDetailsModal
+  dueDate?: Date; 
+}
+
+// Interface for tasks read from localStorage where date/dueDate might be a string
+interface StoredCalendarTask extends Omit<CalendarTask, 'date' | 'dueDate'> {
+  date?: string; 
+  dueDate?: string; 
+}
+
 interface CalendarViewProps {
-  onShowTaskDetails?: (task: any) => void;
+  onShowTaskDetails?: (task: CalendarTask) => void;
 }
 
 // Clave para almacenar las tareas en localStorage
@@ -69,14 +88,14 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [editTask, setEditTask] = useState<any>(null);
+  const [editTask, setEditTask] = useState<CalendarTask | null>(null);
   const [newTask, setNewTask] = useState({
     title: '',
     type: 'routine',
     description: ''
   });
   
-  const [tasks, setTasks] = useState<any[]>([]);
+  const [tasks, setTasks] = useState<CalendarTask[]>([]);
 
   const { selectedVehicle } = useVehicle();
   const { language, t } = useLanguage();
@@ -88,12 +107,19 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
     if (storedTasks) {
       try {
         // Parse the JSON and convert date strings back to Date objects
-        const parsedTasks = JSON.parse(storedTasks).map((task: any) => ({
+        const parsedTasks = JSON.parse(storedTasks).map((task: StoredCalendarTask) => ({
           ...task,
-          date: new Date(task.date || task.dueDate)
+          // Ensure all fields of CalendarTask are present, even if undefined initially from StoredCalendarTask
+          id: task.id || Date.now().toString(), // Provide a fallback id if missing
+          title: task.title || '', // Provide a fallback title
+          type: task.type || 'routine', // Provide a fallback type
+          date: new Date(task.date || task.dueDate || Date.now()), // Ensure date is always a Date
+          status: task.status || 'active', // Default status
+          description: task.description || '',
+          vehicle: task.vehicle || '',
         }));
         
-        setTasks(parsedTasks);
+        setTasks(parsedTasks as CalendarTask[]); // Cast to CalendarTask[] after mapping
       } catch (error) {
         console.error("Error parsing tasks from localStorage:", error);
         // If there's an error, use default tasks
@@ -115,7 +141,7 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
     }
   }, []);
 
-  const persistTasks = (updatedTasks: any[]) => {
+  const persistTasks = (updatedTasks: CalendarTask[]) => {
     // Guardar tareas en localStorage
     localStorage.setItem(MAINTENANCE_TASKS_KEY, JSON.stringify(updatedTasks));
     
@@ -200,7 +226,7 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
     setIsDialogOpen(true);
   };
 
-  const handleEditTask = (task: any) => {
+  const handleEditTask = (task: CalendarTask) => {
     setEditTask(task);
     setNewTask({
       title: task.title,
@@ -233,7 +259,7 @@ export const CalendarView = ({ onShowTaskDetails }: CalendarViewProps) => {
     });
   };
 
-  const handleShowDetails = (task: any) => {
+  const handleShowDetails = (task: CalendarTask) => {
     if (onShowTaskDetails) {
       onShowTaskDetails({
         ...task,

@@ -6,8 +6,17 @@ import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { BluetoothSearching, BluetoothConnected, Bluetooth, BluetoothOff } from 'lucide-react';
 import { useBluetooth } from '@/hooks/use-bluetooth';
 
+// Define the structure of the object returned by a successful connection
+export interface OBDConnection {
+  deviceId: string;
+  deviceName: string;
+  sendCommand: (command: string) => Promise<string>;
+  getSensorData: (sensorId: string) => Promise<number | string>; // Assuming string or number based on common sensor data
+  disconnect: () => void;
+}
+
 interface BluetoothConnectProps {
-  onConnected?: (deviceInfo: any) => void;
+  onConnected?: (deviceInfo: OBDConnection) => void; // Use the specific type here
   onDisconnected?: () => void;
 }
 

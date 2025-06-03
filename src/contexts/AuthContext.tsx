@@ -1,13 +1,12 @@
 
-import React, { useEffect } from 'react';
-// AuthContextType will be used by the AuthContext in authContext.definitions.ts
-// No need to import AuthContextType here if AuthProvider itself doesn't directly reference it for props/state.
+import React, { useEffect } from 'react'; // Removed createContext, useContext
+import { User, UserSessionData } from '@/types/auth'; // AuthContextType no longer needed here
 import { useAuthOperations } from '@/hooks/use-auth-operations';
 import { usePremiumEmails } from '@/hooks/use-premium-emails';
-import { AuthContext } from './authContext.definitions'; // Import the context
+import { AuthContext } from './authContext.definitions'; // Import the actual AuthContext
 
-// useAuth hook is now exported from authContext.definitions.ts
-// const AuthContext = createContext... is now in authContext.definitions.ts
+// Removed local AuthContext definition
+// Removed local useAuth hook definition
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const {
@@ -30,15 +29,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Mock check for stored user
     const storedUser = localStorage.getItem('auto_master_user');
     if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
+      const sessionData = JSON.parse(storedUser) as UserSessionData;
       
-      // Verificar si el email está en la lista de premium
-      if (isPremiumEmail(parsedUser.email)) {
-        parsedUser.isPremium = true;
-        localStorage.setItem('auto_master_user', JSON.stringify(parsedUser));
-      }
+      // Construct the full User object for the React state.
+      // The 'name' comes from the session, and 'isPremium' is freshly determined.
+      // Other User fields not in UserSessionData would be initialized to defaults if necessary.
+      const fullUser: User = {
+        id: sessionData.id,
+        email: sessionData.email,
+        name: sessionData.name, // Assuming 'name' is part of UserSessionData as per previous definition
+        isPremium: isPremiumEmail(sessionData.email), // isPremium status re-validated
+      };
       
-      setUser(parsedUser);
+      setUser(fullUser);
     }
     setIsLoading(false);
   }, [setUser, setIsLoading, isPremiumEmail]);

@@ -7,6 +7,16 @@ const openai = new OpenAI({
   dangerouslyAllowBrowser: true // Solo para desarrollo, en producción usar backend
 });
 
+/**
+ * Generates an AI response using the OpenAI chat completions API or a mock response if API key is not set.
+ * It tailors the AI model and token limit based on the user's premium status.
+ *
+ * @param {string} userMessage - The message from the user.
+ * @param {string} context - The system context to provide to the AI, including vehicle information and OBD data.
+ * @param {boolean} isPremium - Flag indicating if the user has premium access, which may affect model choice and token limits.
+ * @returns {Promise<string>} A promise that resolves to the AI-generated response string or a mock response.
+ * @throws {Error} Implicitly, if the OpenAI API call fails and is not caught, though this implementation catches it.
+ */
 export const generateAIResponse = async (
   userMessage: string,
   context: string,

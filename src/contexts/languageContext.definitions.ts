@@ -1,6 +1,9 @@
 import { createContext, useContext } from 'react';
 
-// Define translations for different languages
+/**
+ * Contains translations for all supported languages.
+ * Each language code maps to an object where keys are translation keys and values are the translated strings.
+ */
 export const translations = {
   es: {
     // Dashboard
@@ -474,21 +477,41 @@ export const translations = {
   }
 };
 
-// Type for our context
+/**
+ * Defines the shape of the language context.
+ */
 export type LanguageContextType = {
+  /** The current active language code (e.g., 'en', 'es'). */
   language: string;
+  /** Function to set the active language.
+   * @param lang - The language code to set.
+   */
   setLanguage: (lang: string) => void;
+  /**
+   * Translation function.
+   * @param key - The key of the string to translate.
+   * @returns The translated string or the key itself if not found.
+   */
   t: (key: string) => string;
 };
 
-// Create the context with a default value
+/**
+ * Context for managing application language and providing translations.
+ * @type {React.Context<LanguageContextType>}
+ */
 export const LanguageContext = createContext<LanguageContextType>({
   language: 'en', // Default to 'en' to match LanguageProvider's initial state
-  setLanguage: () => {},
-  t: (key: string) => key,
+  setLanguage: () => {}, // No-op default setter
+  t: (key: string) => key, // Default t function returns the key
 });
 
-// Hook to use the language context
+/**
+ * Hook to access the language context.
+ * Provides the current language, a function to set the language, and a translation function.
+ * Must be used within a {@link LanguageProvider}.
+ * @returns {LanguageContextType} The language context value.
+ * @throws {Error} If used outside of a LanguageProvider.
+ */
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
   if (context === undefined) {

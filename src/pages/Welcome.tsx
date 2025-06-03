@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -15,9 +15,9 @@ const Welcome = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(null);
 
-  const languages = [
-    { 
-      code: 'en', 
+  const languages = useMemo(() => [
+    {
+      code: 'en',
       name: 'English', 
       flag: '🇺🇸',
       welcome: 'Welcome to Auto Master Bot! Your intelligent vehicle diagnostic assistant.',
@@ -37,18 +37,18 @@ const Welcome = () => {
       welcome: 'Bienvenue à Auto Master Bot! Votre assistant intelligent de diagnostic véhiculaire.',
       voiceId: '9BWtsMINqrJLrRacOk9x' // Aria
     },
-  ];
+  ], []);
 
-  const stopCurrentAudio = () => {
+  const stopCurrentAudio = useCallback(() => {
     if (currentAudio) {
       currentAudio.pause();
       currentAudio.currentTime = 0;
       setCurrentAudio(null);
       setIsPlaying(false);
     }
-  };
+  }, [currentAudio]);
 
-  const playWelcomeMessage = async (language: typeof languages[0]) => {
+  const playWelcomeMessage = useCallback(async (language: typeof languages[0]) => {
     try {
       stopCurrentAudio();
       setIsPlaying(true);
@@ -64,7 +64,7 @@ const Welcome = () => {
       console.error('Error playing welcome message:', error);
       setIsPlaying(false);
     }
-  };
+  }, [stopCurrentAudio]);
 
   const handleLanguageChange = (langCode: string) => {
     setSelectedLanguage(langCode);
@@ -91,7 +91,7 @@ const Welcome = () => {
     return () => {
       stopCurrentAudio();
     };
-  }, []);
+  }, [languages, playWelcomeMessage, stopCurrentAudio]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-bg-dark to-gray-dark flex flex-col items-center justify-center p-4">

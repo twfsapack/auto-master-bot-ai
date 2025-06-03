@@ -7,6 +7,30 @@ export interface BluetoothDevice {
   name: string;
 }
 
+/**
+ * @typedef {object} OBDDeviceAPI
+ * @property {string} deviceId - The ID of the connected device.
+ * @property {string} deviceName - The name of the connected device.
+ * @property {(command: string) => Promise<string>} sendCommand - Function to send a command to the OBD device.
+ * @property {(sensorId: string) => Promise<number | string>} getSensorData - Function to get data for a specific sensor.
+ * @property {() => void} disconnect - Function to disconnect from the OBD device.
+ */
+
+/**
+ * Custom hook for managing Web Bluetooth API interactions, specifically for OBD-II devices.
+ * It handles Bluetooth support detection, device scanning, connection, and disconnection.
+ *
+ * @returns {object} An object containing Bluetooth state and functions.
+ * @property {boolean} isSupported - Whether the Web Bluetooth API is supported by the browser.
+ * @property {boolean} isConnecting - True if a connection attempt is currently in progress.
+ * @property {boolean} isConnected - True if a device is currently connected.
+ * @property {BluetoothDevice[]} devices - An array of discovered Bluetooth devices. (Currently only stores the most recently requested one)
+ * @property {BluetoothDevice | null} selectedDevice - The currently selected or connected Bluetooth device.
+ * @property {string | null} error - Any error message that occurred during Bluetooth operations.
+ * @property {() => Promise<OBDDeviceAPI | null | undefined>} scanForDevices - Function to scan for nearby Bluetooth OBD-II devices and attempt connection. Returns a device API object if successful, null/undefined otherwise.
+ * @property {(device: BluetoothDevice) => Promise<OBDDeviceAPI | null>} connectToDevice - Function to connect to a specific Bluetooth device. Returns a device API object if successful, null otherwise.
+ * @property {() => void} disconnectDevice - Function to disconnect from the currently connected device.
+ */
 export const useBluetooth = () => {
   const [isSupported, setIsSupported] = useState<boolean>(false);
   const [isConnecting, setIsConnecting] = useState<boolean>(false);
@@ -69,9 +93,13 @@ export const useBluetooth = () => {
       
       // Intentar conectar al dispositivo
       return await connectToDevice(newDevice);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error al buscar dispositivos Bluetooth:', error);
-      setError(error.message || 'Error al buscar dispositivos Bluetooth');
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('Error al buscar dispositivos Bluetooth');
+      }
       
       toast({
         variant: "destructive",
@@ -83,7 +111,7 @@ export const useBluetooth = () => {
     } finally {
       setIsConnecting(false);
     }
-  }, [isSupported, toast]);
+  }, [isSupported, toast, connectToDevice]);
 
   // Función para conectar con un dispositivo seleccionado
   const connectToDevice = useCallback(async (device: BluetoothDevice) => {
@@ -141,9 +169,13 @@ export const useBluetooth = () => {
           });
         }
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error al conectar con el dispositivo:', error);
-      setError(error.message || 'Error al conectar con el dispositivo');
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('Error al conectar con el dispositivo');
+      }
       setIsConnected(false);
       
       toast({

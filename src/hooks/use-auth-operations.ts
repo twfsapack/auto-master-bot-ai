@@ -49,11 +49,12 @@ export const useAuthOperations = () => {
     try {
       // Mock registration
       setTimeout(() => {
+        const isPremium = isPremiumEmail(email); // Check if registering email is premium
         const mockUser = {
           id: '123',
           email,
           name,
-          isPremium: false
+          isPremium
         };
         setUser(mockUser);
         localStorage.setItem('auto_master_user', JSON.stringify(mockUser));
@@ -87,11 +88,13 @@ export const useAuthOperations = () => {
     try {
       // Mock Google sign in
       setTimeout(() => {
+        const email = 'user@example.com'; // Mock email
+        const isPremium = isPremiumEmail(email); // Check if mock email is premium
         const mockUser = {
           id: '123',
-          email: 'user@example.com',
+          email,
           name: 'Google User',
-          isPremium: false
+          isPremium
         };
         setUser(mockUser);
         localStorage.setItem('auto_master_user', JSON.stringify(mockUser));
@@ -116,11 +119,13 @@ export const useAuthOperations = () => {
     try {
       // Mock Apple sign in
       setTimeout(() => {
+        const email = 'user@example.com'; // Mock email
+        const isPremium = isPremiumEmail(email); // Check if mock email is premium
         const mockUser = {
           id: '123',
-          email: 'user@example.com',
+          email,
           name: 'Apple User',
-          isPremium: false
+          isPremium
         };
         setUser(mockUser);
         localStorage.setItem('auto_master_user', JSON.stringify(mockUser));

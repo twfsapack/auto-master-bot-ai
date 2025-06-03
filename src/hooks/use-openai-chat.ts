@@ -3,11 +3,45 @@ import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 
+/**
+ * Represents a message in the chat.
+ */
 export interface ChatMessage {
+  /** The role of the message sender ('user' or 'assistant'). */
   role: 'user' | 'assistant';
+  /** The textual content of the message. */
   content: string;
 }
 
+/**
+ * Represents basic information about a vehicle.
+ */
+interface VehicleInfo {
+  /** The make of the vehicle (e.g., Toyota). */
+  make: string;
+  /** The model of the vehicle (e.g., Camry). */
+  model: string;
+  /** The manufacturing year of the vehicle. */
+  year: number | string;
+}
+
+/**
+ * Represents OBD (On-Board Diagnostics) data.
+ * Using a generic record as its structure can vary.
+ */
+type OBDData = Record<string, unknown>;
+
+/**
+ * Custom hook for interacting with the OpenAI chat API.
+ * Manages loading states, question counts for free users, and sends messages to the backend API.
+ *
+ * @returns {object} An object containing chat state and functions.
+ * @property {boolean} isLoading - True if a chat message request is currently in progress.
+ * @property {number} questionCount - The number of questions asked by a non-premium user in the current session.
+ * @property {number} remainingQuestions - The number of questions remaining for a non-premium user. Returns -1 for premium users (unlimited).
+ * @property {(message: string, vehicleInfo?: VehicleInfo, obdData?: OBDData) => Promise<string>} sendMessage - Function to send a message to the AI chat.
+ * @property {() => void} resetQuestionCount - Function to reset the question count for non-premium users.
+ */
 export const useOpenAIChat = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [questionCount, setQuestionCount] = useState(0);
@@ -16,7 +50,7 @@ export const useOpenAIChat = () => {
 
   const MAX_FREE_QUESTIONS = 10;
 
-  const sendMessage = async (message: string, vehicleInfo?: any, obdData?: any): Promise<string> => {
+  const sendMessage = async (message: string, vehicleInfo?: VehicleInfo, obdData?: OBDData): Promise<string> => {
     // Verificar límites para usuarios gratuitos
     if (!user?.isPremium && questionCount >= MAX_FREE_QUESTIONS) {
       toast({

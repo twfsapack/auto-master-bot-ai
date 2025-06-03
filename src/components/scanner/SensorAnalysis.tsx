@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -215,7 +215,7 @@ export const SensorAnalysis = ({ onBack }: { onBack: () => void }) => {
   }, [sensorReadings, selectedSensor1, selectedSensor2]);
   
   // Función para simular la lectura de un sensor
-  const simulateSensorReading = (sensor: SensorData): number => {
+  const simulateSensorReading = useCallback((sensor: SensorData): number => {
     const range = sensor.maxValue - sensor.minValue;
     let value: number;
     
@@ -231,7 +231,7 @@ export const SensorAnalysis = ({ onBack }: { onBack: () => void }) => {
     value = Math.max(sensor.minValue, Math.min(sensor.maxValue, value));
     
     return Number(value.toFixed(2));
-  };
+  }, [sensorReadings]);
   
   // Función para iniciar/detener la grabación
   const toggleRecording = () => {
