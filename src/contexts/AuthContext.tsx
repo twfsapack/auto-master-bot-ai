@@ -1,8 +1,20 @@
 
 import React, { createContext, useContext, useEffect } from 'react';
-import { AuthContextType } from '@/types/auth';
+import { User } from '@supabase/supabase-js';
 import { useAuthOperations } from '@/hooks/use-auth-operations';
-import { usePremiumEmails } from '@/hooks/use-premium-emails';
+import { supabase } from '@/integrations/supabase/client';
+
+type AuthContextType = {
+  user: User | null;
+  isLoading: boolean;
+  login: (email: string, password: string) => Promise<void>;
+  register: (email: string, password: string, name: string) => Promise<void>;
+  logout: () => Promise<void>;
+  googleSignIn: () => Promise<void>;
+  appleSignIn: () => Promise<void>;
+  upgradeAccount: () => Promise<void>;
+  grantPremiumToEmail: (email: string) => Promise<boolean>;
+};
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -28,25 +40,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     upgradeAccount,
     grantPremiumToEmail
   } = useAuthOperations();
-  const { isPremiumEmail } = usePremiumEmails();
 
-  // Initialize auth state
+  // Initialize auth state and listen for changes
   useEffect(() => {
-    // Mock check for stored user
-    const storedUser = localStorage.getItem('auto_master_user');
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      
-      // Verificar si el email está en la lista de premium
-      if (isPremiumEmail(parsedUser.email)) {
-        parsedUser.isPremium = true;
-        localStorage.setItem('auto_master_user', JSON.stringify(parsedUser));
+    // Set up auth state listener
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setUser(session?.user ?? null);
+        setIsLoading(false);
       }
-      
-      setUser(parsedUser);
-    }
-    setIsLoading(false);
-  }, [setUser, setIsLoading, isPremiumEmail]);
+    );
+
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+      setIsLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [setUser, setIsLoading]);
 
   const value = {
     user,

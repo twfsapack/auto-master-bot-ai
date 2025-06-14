@@ -1,10 +1,7 @@
 
-export type User = {
-  id: string;
-  email: string;
-  name: string;
-  isPremium: boolean;
-};
+import { User } from '@supabase/supabase-js';
+
+export type { User };
 
 export type AuthContextType = {
   user: User | null;

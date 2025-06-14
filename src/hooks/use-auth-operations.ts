@@ -1,170 +1,222 @@
 
 import { useState } from 'react';
-import { User } from '@/types/auth';
+import { User } from '@supabase/supabase-js';
 import { useToast } from '@/hooks/use-toast';
-import { usePremiumEmails } from '@/hooks/use-premium-emails';
+import { supabase } from '@/integrations/supabase/client';
 
 export const useAuthOperations = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
-  const { isPremiumEmail, addPremiumEmail } = usePremiumEmails();
 
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      // Mock login
-      setTimeout(() => {
-        const isPremium = isPremiumEmail(email);
-        
-        const mockUser = {
-          id: '123',
-          email,
-          name: email.split('@')[0],
-          isPremium
-        };
-        setUser(mockUser);
-        localStorage.setItem('auto_master_user', JSON.stringify(mockUser));
-        
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
         toast({
-          title: "Login successful",
-          description: isPremium ? "Welcome back Premium user!" : "Welcome back!",
+          variant: "destructive",
+          title: "Error de inicio de sesión",
+          description: error.message,
         });
-        setIsLoading(false);
-      }, 1000);
+        return;
+      }
+
+      if (data.user) {
+        setUser(data.user);
+        toast({
+          title: "Inicio de sesión exitoso",
+          description: "¡Bienvenido de vuelta!",
+        });
+      }
     } catch (error) {
-      setIsLoading(false);
       toast({
         variant: "destructive",
-        title: "Login failed",
-        description: "Please check your credentials and try again.",
+        title: "Error de inicio de sesión",
+        description: "Por favor verifica tus credenciales e intenta de nuevo.",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const register = async (email: string, password: string, name: string) => {
     setIsLoading(true);
     try {
-      // Mock registration
-      setTimeout(() => {
-        const mockUser = {
-          id: '123',
-          email,
-          name,
-          isPremium: false
-        };
-        setUser(mockUser);
-        localStorage.setItem('auto_master_user', JSON.stringify(mockUser));
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            name: name,
+          },
+          emailRedirectTo: `${window.location.origin}/`
+        }
+      });
+
+      if (error) {
         toast({
-          title: "Registration successful",
-          description: "Your account has been created!",
+          variant: "destructive",
+          title: "Error de registro",
+          description: error.message,
         });
-        setIsLoading(false);
-      }, 1000);
+        return;
+      }
+
+      if (data.user) {
+        toast({
+          title: "Registro exitoso",
+          description: "¡Tu cuenta ha sido creada! Revisa tu email para confirmarla.",
+        });
+      }
     } catch (error) {
-      setIsLoading(false);
       toast({
         variant: "destructive",
-        title: "Registration failed",
-        description: "Please try again with a different email.",
+        title: "Error de registro",
+        description: "Por favor intenta de nuevo con un email diferente.",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem('auto_master_user');
-    toast({
-      title: "Logged out",
-      description: "You have been successfully logged out.",
-    });
+  const logout = async () => {
+    try {
+      await supabase.auth.signOut();
+      setUser(null);
+      toast({
+        title: "Sesión cerrada",
+        description: "Has cerrado sesión exitosamente.",
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error al cerrar sesión",
+        description: "Hubo un problema al cerrar la sesión.",
+      });
+    }
   };
 
   const googleSignIn = async () => {
     setIsLoading(true);
     try {
-      // Mock Google sign in
-      setTimeout(() => {
-        const mockUser = {
-          id: '123',
-          email: 'user@example.com',
-          name: 'Google User',
-          isPremium: false
-        };
-        setUser(mockUser);
-        localStorage.setItem('auto_master_user', JSON.stringify(mockUser));
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/dashboard`
+        }
+      });
+
+      if (error) {
         toast({
-          title: "Google login successful",
-          description: "You have been signed in with Google!",
+          variant: "destructive",
+          title: "Error con Google",
+          description: error.message,
         });
-        setIsLoading(false);
-      }, 1000);
+      }
     } catch (error) {
-      setIsLoading(false);
       toast({
         variant: "destructive",
-        title: "Google login failed",
-        description: "Please try again later.",
+        title: "Error con Google",
+        description: "Por favor intenta de nuevo más tarde.",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const appleSignIn = async () => {
     setIsLoading(true);
     try {
-      // Mock Apple sign in
-      setTimeout(() => {
-        const mockUser = {
-          id: '123',
-          email: 'user@example.com',
-          name: 'Apple User',
-          isPremium: false
-        };
-        setUser(mockUser);
-        localStorage.setItem('auto_master_user', JSON.stringify(mockUser));
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'apple',
+        options: {
+          redirectTo: `${window.location.origin}/dashboard`
+        }
+      });
+
+      if (error) {
         toast({
-          title: "Apple login successful",
-          description: "You have been signed in with Apple!",
+          variant: "destructive",
+          title: "Error con Apple",
+          description: error.message,
         });
-        setIsLoading(false);
-      }, 1000);
+      }
     } catch (error) {
-      setIsLoading(false);
       toast({
         variant: "destructive",
-        title: "Apple login failed",
-        description: "Please try again later.",
+        title: "Error con Apple",
+        description: "Por favor intenta de nuevo más tarde.",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const upgradeAccount = () => {
+  const upgradeAccount = async () => {
     if (user) {
-      const updatedUser = { ...user, isPremium: true };
-      setUser(updatedUser);
-      localStorage.setItem('auto_master_user', JSON.stringify(updatedUser));
-      toast({
-        title: "Account upgraded!",
-        description: "You now have access to premium features.",
-      });
+      try {
+        const { error } = await supabase
+          .from('profiles')
+          .update({ is_premium: true })
+          .eq('id', user.id);
+
+        if (error) {
+          toast({
+            variant: "destructive",
+            title: "Error al actualizar cuenta",
+            description: error.message,
+          });
+          return;
+        }
+
+        toast({
+          title: "¡Cuenta actualizada!",
+          description: "Ahora tienes acceso a las funciones premium.",
+        });
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Error al actualizar cuenta",
+          description: "Por favor intenta de nuevo más tarde.",
+        });
+      }
     }
   };
 
-  const grantPremiumToEmail = (email: string) => {
-    const added = addPremiumEmail(email);
-    
-    // Si el usuario actual tiene este email, actualizar su estado
-    if (added && user && user.email === email) {
-      const updatedUser = { ...user, isPremium: true };
-      setUser(updatedUser);
-      localStorage.setItem('auto_master_user', JSON.stringify(updatedUser));
-      
+  const grantPremiumToEmail = async (email: string) => {
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .update({ is_premium: true })
+        .eq('email', email);
+
+      if (error) {
+        toast({
+          variant: "destructive",
+          title: "Error al otorgar premium",
+          description: error.message,
+        });
+        return false;
+      }
+
       toast({
-        title: "Premium Access Granted",
-        description: `Premium access has been granted to ${email}`,
+        title: "Acceso Premium Otorgado",
+        description: `Acceso premium otorgado a ${email}`,
       });
+      return true;
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error al otorgar premium",
+        description: "Por favor intenta de nuevo más tarde.",
+      });
+      return false;
     }
-    return added;
   };
 
   return {
