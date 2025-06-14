@@ -18,6 +18,7 @@ import Settings from './pages/Settings';
 import Onboarding from './pages/Onboarding';
 import NotFound from './pages/NotFound';
 import Scanner from './pages/Scanner';
+import Files from './pages/Files';
 
 import './App.css';
 
@@ -40,6 +41,7 @@ function App() {
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/onboarding" element={<Onboarding />} />
                 <Route path="/scanner" element={<Scanner />} />
+                <Route path="/files" element={<Files />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Router>
