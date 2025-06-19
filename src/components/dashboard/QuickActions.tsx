@@ -12,8 +12,8 @@ export const QuickActions = () => {
   return (
     <Card className="glass-card animate-fade-in">
       <CardHeader className="pb-2">
-        <CardTitle className="flex items-center gap-2 animate-fade-in">
-          <Zap className="h-5 w-5" />
+        <CardTitle className="flex items-center gap-2 animate-fade-in text-logo-primary">
+          <Zap className="h-5 w-5 text-logo-accent" />
           Quick Actions
         </CardTitle>
       </CardHeader>
@@ -21,42 +21,42 @@ export const QuickActions = () => {
         <div className="grid grid-cols-2 gap-2">
           <Button
             variant="outline"
-            className="flex flex-col items-center justify-center h-20 transition-all duration-300 transform hover:scale-105 animate-fade-in"
+            className="flex flex-col items-center justify-center h-20 transition-all duration-300 transform hover:scale-105 animate-fade-in border-logo-accent/20 hover:bg-logo-secondary/10 hover:border-logo-accent"
             onClick={() => navigate('/chat')}
           >
-            <AlertCircle className="h-5 w-5 mb-1" />
-            <span className="text-xs">Ask AI</span>
+            <AlertCircle className="h-5 w-5 mb-1 text-logo-accent" />
+            <span className="text-xs text-logo-primary">Ask AI</span>
           </Button>
           
           <Button
             variant="outline"
-            className="flex flex-col items-center justify-center h-20 transition-all duration-300 transform hover:scale-105 animate-fade-in"
+            className="flex flex-col items-center justify-center h-20 transition-all duration-300 transform hover:scale-105 animate-fade-in border-logo-accent/20 hover:bg-logo-secondary/10 hover:border-logo-accent disabled:opacity-50"
             onClick={() => navigate('/scanner')}
             disabled={!user?.isPremium}
           >
-            <BluetoothSearching className="h-5 w-5 mb-1" />
-            <span className="text-xs">OBD-II Scan</span>
+            <BluetoothSearching className="h-5 w-5 mb-1 text-logo-accent" />
+            <span className="text-xs text-logo-primary">OBD-II Scan</span>
             {!user?.isPremium && (
-              <span className="text-[10px] text-muted-foreground">Premium</span>
+              <span className="text-[10px] text-logo-gray">Premium</span>
             )}
           </Button>
           
           <Button
             variant="outline"
-            className="flex flex-col items-center justify-center h-20 transition-all duration-300 transform hover:scale-105 animate-fade-in"
+            className="flex flex-col items-center justify-center h-20 transition-all duration-300 transform hover:scale-105 animate-fade-in border-logo-accent/20 hover:bg-logo-secondary/10 hover:border-logo-accent"
             onClick={() => navigate('/database')}
           >
-            <BadgeInfo className="h-5 w-5 mb-1" />
-            <span className="text-xs">KB Articles</span>
+            <BadgeInfo className="h-5 w-5 mb-1 text-logo-accent" />
+            <span className="text-xs text-logo-primary">KB Articles</span>
           </Button>
           
           <Button
             variant="outline"
-            className="flex flex-col items-center justify-center h-20 transition-all duration-300 transform hover:scale-105 animate-fade-in"
+            className="flex flex-col items-center justify-center h-20 transition-all duration-300 transform hover:scale-105 animate-fade-in border-logo-accent/20 hover:bg-logo-secondary/10 hover:border-logo-accent"
             onClick={() => navigate('/settings')}
           >
-            <Settings className="h-5 w-5 mb-1" />
-            <span className="text-xs">Settings</span>
+            <Settings className="h-5 w-5 mb-1 text-logo-accent" />
+            <span className="text-xs text-logo-primary">Settings</span>
           </Button>
         </div>
       </CardContent>
