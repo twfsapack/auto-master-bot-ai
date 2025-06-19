@@ -9,6 +9,54 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      documents: {
+        Row: {
+          created_at: string
+          document_type: Database["public"]["Enums"]["document_type"]
+          file_path: string
+          file_size: number
+          filename: string
+          id: string
+          metadata: Json | null
+          mime_type: string
+          original_filename: string
+          processing_notes: string | null
+          status: Database["public"]["Enums"]["document_status"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          document_type: Database["public"]["Enums"]["document_type"]
+          file_path: string
+          file_size: number
+          filename: string
+          id?: string
+          metadata?: Json | null
+          mime_type: string
+          original_filename: string
+          processing_notes?: string | null
+          status?: Database["public"]["Enums"]["document_status"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          document_type?: Database["public"]["Enums"]["document_type"]
+          file_path?: string
+          file_size?: number
+          filename?: string
+          id?: string
+          metadata?: Json | null
+          mime_type?: string
+          original_filename?: string
+          processing_notes?: string | null
+          status?: Database["public"]["Enums"]["document_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string | null
@@ -44,7 +92,15 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      document_status: "uploaded" | "processing" | "completed" | "error"
+      document_type:
+        | "factura_compra"
+        | "factura_venta"
+        | "comprobante_retencion"
+        | "estado_bancario"
+        | "contrato"
+        | "certificado"
+        | "otro"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -159,6 +215,17 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      document_status: ["uploaded", "processing", "completed", "error"],
+      document_type: [
+        "factura_compra",
+        "factura_venta",
+        "comprobante_retencion",
+        "estado_bancario",
+        "contrato",
+        "certificado",
+        "otro",
+      ],
+    },
   },
 } as const

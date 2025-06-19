@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -12,7 +13,8 @@ export const AuthForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  const { login, register, googleSignIn, appleSignIn, isLoading } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const { login, register } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -21,14 +23,27 @@ export const AuthForm = () => {
     if (!email || !password) {
       toast({
         variant: "destructive",
-        title: "Invalid input",
-        description: "Please enter both email and password.",
+        title: "Datos incompletos",
+        description: "Por favor ingresa tu email y contraseña.",
       });
       return;
     }
     
-    await login(email, password);
-    navigate('/onboarding');
+    setIsLoading(true);
+    try {
+      await login(email, password);
+      // Check if welcome setup was completed
+      const welcomeCompleted = localStorage.getItem('welcomeCompleted');
+      if (!welcomeCompleted) {
+        navigate('/welcome');
+      } else {
+        navigate('/dashboard');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -36,40 +51,38 @@ export const AuthForm = () => {
     if (!email || !password || !name) {
       toast({
         variant: "destructive",
-        title: "Invalid input",
-        description: "Please fill in all fields.",
+        title: "Datos incompletos",
+        description: "Por favor completa todos los campos.",
       });
       return;
     }
     
-    await register(email, password, name);
-    navigate('/onboarding');
-  };
-
-  const handleGoogleSignIn = async () => {
-    await googleSignIn();
-    navigate('/onboarding');
-  };
-
-  const handleAppleSignIn = async () => {
-    await appleSignIn();
-    navigate('/onboarding');
+    setIsLoading(true);
+    try {
+      await register(email, password, name);
+      // After successful registration, navigate to welcome
+      navigate('/welcome');
+    } catch (error) {
+      console.error('Register error:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <Card className="w-full max-w-md mx-auto glass-card animate-fade-in">
       <Tabs defaultValue="login" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="login">Login</TabsTrigger>
-          <TabsTrigger value="register">Register</TabsTrigger>
+          <TabsTrigger value="login">Iniciar Sesión</TabsTrigger>
+          <TabsTrigger value="register">Registrarse</TabsTrigger>
         </TabsList>
         
         <TabsContent value="login">
           <form onSubmit={handleLogin}>
             <CardHeader>
-              <CardTitle className="text-2xl text-center">Welcome Back</CardTitle>
+              <CardTitle className="text-2xl text-center">Bienvenido</CardTitle>
               <CardDescription className="text-center">
-                Sign in to your Auto Master Bot account
+                Inicia sesión en tu cuenta de Auto Master Bot
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -78,14 +91,14 @@ export const AuthForm = () => {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="youremail@example.com"
+                  placeholder="tuemail@ejemplo.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">Contraseña</Label>
                 <Input
                   id="password"
                   type="password"
@@ -99,41 +112,11 @@ export const AuthForm = () => {
             <CardFooter className="flex flex-col space-y-4">
               <Button 
                 type="submit" 
-                className="w-full bg-purple hover:bg-purple/90 text-white" 
+                className="w-full bg-gradient-to-r from-blue-secondary to-blue-light hover:from-blue-light hover:to-blue-secondary text-white" 
                 disabled={isLoading}
               >
-                {isLoading ? "Signing in..." : "Sign In"}
+                {isLoading ? "Iniciando sesión..." : "Iniciar Sesión"}
               </Button>
-              <div className="relative w-full">
-                <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">
-                    Or continue with
-                  </span>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-2 w-full">
-                <Button 
-                  type="button" 
-                  variant="outline" 
-                  className="hover:bg-purple/10 border-purple/50 text-purple" 
-                  onClick={handleGoogleSignIn} 
-                  disabled={isLoading}
-                >
-                  Google
-                </Button>
-                <Button 
-                  type="button" 
-                  variant="outline" 
-                  className="hover:bg-purple/10 border-purple/50 text-purple" 
-                  onClick={handleAppleSignIn} 
-                  disabled={isLoading}
-                >
-                  Apple
-                </Button>
-              </div>
             </CardFooter>
           </form>
         </TabsContent>
@@ -141,17 +124,17 @@ export const AuthForm = () => {
         <TabsContent value="register">
           <form onSubmit={handleRegister}>
             <CardHeader>
-              <CardTitle className="text-2xl text-center">Create Account</CardTitle>
+              <CardTitle className="text-2xl text-center">Crear Cuenta</CardTitle>
               <CardDescription className="text-center">
-                Join Auto Master Bot to manage your vehicles
+                Únete a Auto Master Bot para gestionar tus vehículos
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="name">Name</Label>
+                <Label htmlFor="name">Nombre</Label>
                 <Input
                   id="name"
-                  placeholder="Your name"
+                  placeholder="Tu nombre"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
@@ -162,14 +145,14 @@ export const AuthForm = () => {
                 <Input
                   id="reg-email"
                   type="email"
-                  placeholder="youremail@example.com"
+                  placeholder="tuemail@ejemplo.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="reg-password">Password</Label>
+                <Label htmlFor="reg-password">Contraseña</Label>
                 <Input
                   id="reg-password"
                   type="password"
@@ -183,41 +166,11 @@ export const AuthForm = () => {
             <CardFooter className="flex flex-col space-y-4">
               <Button 
                 type="submit" 
-                className="w-full bg-purple hover:bg-purple/90 text-white" 
+                className="w-full bg-gradient-to-r from-accent-orange to-accent-green hover:from-accent-green hover:to-accent-orange text-white" 
                 disabled={isLoading}
               >
-                {isLoading ? "Creating Account..." : "Create Account"}
+                {isLoading ? "Creando cuenta..." : "Crear Cuenta"}
               </Button>
-              <div className="relative w-full">
-                <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">
-                    Or register with
-                  </span>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-2 w-full">
-                <Button 
-                  type="button" 
-                  variant="outline" 
-                  className="hover:bg-purple/10 border-purple/50 text-purple" 
-                  onClick={handleGoogleSignIn} 
-                  disabled={isLoading}
-                >
-                  Google
-                </Button>
-                <Button 
-                  type="button" 
-                  variant="outline" 
-                  className="hover:bg-purple/10 border-purple/50 text-purple" 
-                  onClick={handleAppleSignIn} 
-                  disabled={isLoading}
-                >
-                  Apple
-                </Button>
-              </div>
             </CardFooter>
           </form>
         </TabsContent>
