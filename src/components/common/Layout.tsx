@@ -42,7 +42,7 @@ const Layout = ({ children }: LayoutProps) => {
       name: 'Home', 
       path: '/dashboard', 
       icon: selectedVehicle?.image ? (
-        <div className="relative w-6 h-6 rounded-full overflow-hidden border border-logo-accent/30">
+        <div className="relative w-6 h-6 rounded-full overflow-hidden border border-blue-light/30">
           <img 
             src={selectedVehicle.image} 
             alt={`${selectedVehicle.make} ${selectedVehicle.model}`}
@@ -78,16 +78,11 @@ const Layout = ({ children }: LayoutProps) => {
       <header className="sticky top-0 w-full glass-card z-40 mx-2 mt-2 mb-4 animate-slide-down safe-area-top">
         <div className="flex items-center justify-between p-3 sm:p-4">
           <div className="flex items-center space-x-2 sm:space-x-3">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 logo-gradient rounded-full flex items-center justify-center animate-fade-in">
-              <img 
-                src="/logo.png" 
-                alt="Auto Master Bot" 
-                className="h-6 w-6 sm:h-8 sm:w-8 object-contain"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                }}
-              />
-            </div>
+            <img 
+              src="/logo.png" 
+              alt="Auto Master Bot" 
+              className="h-8 w-8 sm:h-10 sm:w-10 object-contain animate-fade-in"
+            />
             <div className="hidden sm:block">
               <h1 className="text-base sm:text-lg font-heading font-semibold text-text-primary">
                 Auto Master Bot
@@ -111,7 +106,7 @@ const Layout = ({ children }: LayoutProps) => {
               variant="ghost" 
               size="icon" 
               onClick={toggleTheme}
-              className="rounded-full hover:bg-logo-secondary/20 text-text-secondary hover:text-text-primary w-8 h-8 sm:w-10 sm:h-10"
+              className="rounded-full hover:bg-blue-secondary/20 text-text-secondary hover:text-text-primary w-8 h-8 sm:w-10 sm:h-10"
             >
               {isDarkMode ? (
                 <Sun className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -157,15 +152,15 @@ const Layout = ({ children }: LayoutProps) => {
                     <div className={cn(
                       "p-1.5 sm:p-2 rounded-lg transition-colors",
                       location.pathname === item.path 
-                        ? "bg-logo-secondary text-white" 
-                        : "text-text-secondary group-hover:text-logo-accent group-hover:bg-logo-secondary/10"
+                        ? "bg-blue-secondary text-white" 
+                        : "text-text-secondary group-hover:text-blue-light group-hover:bg-blue-secondary/10"
                     )}>
                       {item.icon}
                     </div>
                     <span className={cn(
                       "transition-colors text-xs",
                       location.pathname === item.path 
-                        ? "text-logo-accent font-medium" 
+                        ? "text-blue-light font-medium" 
                         : "text-text-secondary group-hover:text-text-primary"
                     )}>
                       {t(item.name)}
@@ -176,7 +171,7 @@ const Layout = ({ children }: LayoutProps) => {
             </div>
             <ScrollBar 
               orientation="horizontal" 
-              className="h-1 sm:h-2 bg-logo-secondary/20 rounded-full mt-1 sm:mt-2"
+              className="h-1 sm:h-2 bg-blue-secondary/20 rounded-full mt-1 sm:mt-2"
               forceMount 
             />
           </ScrollArea>

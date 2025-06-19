@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -63,18 +62,10 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Nuevos colores basados en el logo
-				'logo-primary': '#2A1B5B',
-				'logo-secondary': '#3D2F6B',
-				'logo-accent': '#4A3F7A',
-				'logo-light': '#6B5F8A',
-				'logo-gray': '#B8C5D6',
-				'logo-white': '#FFFFFF',
-				// Actualizados colores principales basados en el logo
-				'blue-primary': '#2A1B5B',
-				'blue-secondary': '#3D2F6B',
-				'blue-light': '#4A3F7A',
-				'blue-accent': '#6B5F8A',
+				// Nuevos colores basados en el diseño de la presentación
+				'blue-primary': '#1E3A8A',
+				'blue-secondary': '#3B82F6',
+				'blue-light': '#60A5FA',
 				'gray-dark': '#1F2937',
 				'gray-medium': '#374151',
 				'gray-light': '#6B7280',
