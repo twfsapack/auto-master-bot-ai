@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -62,13 +63,20 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Nuevos colores basados en el diseño de la presentación
-				'blue-primary': '#1E3A8A',
-				'blue-secondary': '#3B82F6',
-				'blue-light': '#60A5FA',
+				// Colores basados en el logo
+				'logo-primary': '#2A1B5B',
+				'logo-secondary': '#3D2F6B', 
+				'logo-accent': '#4A3F7A',
+				'logo-gray': '#B8C5D6',
+				'logo-white': '#FFFFFF',
+				'logo-light': '#E8EBF0',
+				// Colores actualizados basados en el diseño del logo
+				'blue-primary': '#2A1B5B',
+				'blue-secondary': '#3D2F6B',
+				'blue-light': '#4A3F7A',
 				'gray-dark': '#1F2937',
 				'gray-medium': '#374151',
-				'gray-light': '#6B7280',
+				'gray-light': '#B8C5D6',
 				'white-pure': '#FFFFFF',
 				'accent-orange': '#F59E0B',
 				'accent-green': '#10B981',
@@ -152,6 +160,7 @@ export default {
 			boxShadow: {
 				'card': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
 				'elevated': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+				'logo-glow': '0 0 20px rgba(42, 27, 91, 0.3), 0 0 40px rgba(42, 27, 91, 0.2)',
 			}
 		}
 	},
