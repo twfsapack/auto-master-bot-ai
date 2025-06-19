@@ -99,9 +99,9 @@ const Welcome = () => {
         {/* Logo and Title */}
         <div className="flex flex-col items-center space-y-6 animate-slide-down">
           <img 
-            src="/logo.png"
+            src="/lovable-uploads/6da80a74-f370-4e8a-a5ca-dd8b844969f9.png"
             alt="Auto Master Bot Logo"
-            className="w-32 h-32 object-contain animate-scale-in"
+            className="w-32 h-32 object-cover rounded-full animate-scale-in"
           />
           <div className="text-center">
             <h1 className="text-3xl font-heading font-bold text-text-primary mb-2">

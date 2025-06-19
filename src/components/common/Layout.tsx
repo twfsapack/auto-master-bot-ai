@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -80,9 +79,9 @@ const Layout = ({ children }: LayoutProps) => {
           <div className="flex items-center space-x-2 sm:space-x-3">
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center animate-fade-in-up overflow-hidden">
               <img 
-                src="/lovable-uploads/96d55c60-b5db-4e5f-aa7f-d0c00219953f.png" 
+                src="/lovable-uploads/6da80a74-f370-4e8a-a5ca-dd8b844969f9.png" 
                 alt="Auto Master Bot" 
-                className="w-8 h-8 sm:w-10 sm:h-10 object-contain"
+                className="w-10 h-10 sm:w-12 sm:h-12 object-cover rounded-full"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
                   e.currentTarget.parentElement!.innerHTML = '<span class="text-white font-bold text-sm">AMB</span>';

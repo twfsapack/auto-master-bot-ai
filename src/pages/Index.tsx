@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -42,12 +41,12 @@ const Index = () => {
             {/* Logo Container */}
             <div className="w-40 h-40 rounded-full logo-container flex items-center justify-center animate-fade-in-up" style={{animationDelay: '0.2s'}}>
               <img 
-                src="/lovable-uploads/96d55c60-b5db-4e5f-aa7f-d0c00219953f.png" 
+                src="/lovable-uploads/6da80a74-f370-4e8a-a5ca-dd8b844969f9.png" 
                 alt="Auto Master Bot Logo" 
-                className="w-32 h-32 object-contain filter drop-shadow-lg"
+                className="w-40 h-40 object-cover rounded-full filter drop-shadow-lg"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
-                  e.currentTarget.parentElement!.innerHTML = '<div class="w-24 h-24 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xl">AMB</div>';
+                  e.currentTarget.parentElement!.innerHTML = '<div class="w-32 h-32 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xl">AMB</div>';
                 }}
               />
             </div>
