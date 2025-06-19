@@ -21,9 +21,15 @@ export const useCapacitor = (): CapacitorInfo => {
         if (window.Capacitor) {
           const { Capacitor } = await import('@capacitor/core');
           
+          const platformName = Capacitor.getPlatform();
+          const validPlatforms = ['web', 'android', 'ios'] as const;
+          const platform = validPlatforms.includes(platformName as any) 
+            ? (platformName as 'web' | 'android' | 'ios') 
+            : 'web';
+          
           setCapacitorInfo({
             isNative: Capacitor.isNativePlatform(),
-            platform: Capacitor.getPlatform(),
+            platform,
             isReady: true
           });
         } else {
