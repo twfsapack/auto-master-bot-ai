@@ -1,0 +1,61 @@
+
+/* Optimizaciones específicas para móvil */
+@media (max-width: 768px) {
+  /* Prevenir zoom en inputs */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="search"],
+  textarea,
+  select {
+    font-size: 16px !important;
+    transform: none !important;
+  }
+
+  /* Mejorar área de toque */
+  button, 
+  .nav-item,
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Optimizar navegación flotante */
+  .floating-nav {
+    padding: 8px;
+    margin: 8px;
+  }
+
+  /* Prevenir scroll horizontal */
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Mejorar contraste en pantallas móviles */
+  .glass-card {
+    backdrop-filter: blur(10px) saturate(150%);
+  }
+}
+
+/* Configuración para pantallas de alta densidad */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .glass-card {
+    border-width: 0.5px;
+  }
+}
+
+/* Optimizaciones para modo oscuro en móvil */
+@media (prefers-color-scheme: dark) {
+  meta[name="theme-color"] {
+    content: "#1a1a1a";
+  }
+}
+
+/* Ocultar elementos no esenciales en pantallas pequeñas */
+@media (max-width: 480px) {
+  .hidden-mobile {
+    display: none !important;
+  }
+}

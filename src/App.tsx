@@ -4,6 +4,7 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { VehicleProvider } from './contexts/VehicleContext';
 import { LanguageProvider } from './contexts/LanguageContext';
+import { MobileOptimizations } from './components/common/MobileOptimizations';
 import { Toaster } from '@/components/ui/toaster';
 
 import Index from './pages/Index';
@@ -28,6 +29,7 @@ function App() {
       <AuthProvider>
         <VehicleProvider>
           <LanguageProvider>
+            <MobileOptimizations />
             <Router>
               <Routes>
                 <Route path="/" element={<Index />} />

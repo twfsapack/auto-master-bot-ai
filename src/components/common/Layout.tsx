@@ -73,31 +73,31 @@ const Layout = ({ children }: LayoutProps) => {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-bg-dark">
-      {/* Header moderno */}
-      <header className="sticky top-0 w-full glass-card z-40 mx-4 mt-4 mb-6 animate-slide-down">
-        <div className="flex items-center justify-between p-4">
-          <div className="flex items-center space-x-3">
+    <div className="flex flex-col min-h-screen bg-bg-dark overflow-x-hidden">
+      {/* Header moderno - Optimizado para móvil */}
+      <header className="sticky top-0 w-full glass-card z-40 mx-2 mt-2 mb-4 animate-slide-down safe-area-top">
+        <div className="flex items-center justify-between p-3 sm:p-4">
+          <div className="flex items-center space-x-2 sm:space-x-3">
             <img 
               src="/logo.png" 
               alt="Auto Master Bot" 
-              className="h-10 w-10 object-contain animate-fade-in"
+              className="h-8 w-8 sm:h-10 sm:w-10 object-contain animate-fade-in"
             />
             <div className="hidden sm:block">
-              <h1 className="text-lg font-heading font-semibold text-text-primary">
+              <h1 className="text-base sm:text-lg font-heading font-semibold text-text-primary">
                 Auto Master Bot
               </h1>
               {selectedVehicle && (
-                <p className="text-sm text-text-secondary">
+                <p className="text-xs sm:text-sm text-text-secondary">
                   {selectedVehicle.make} {selectedVehicle.model} ({selectedVehicle.year})
                 </p>
               )}
             </div>
           </div>
           
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1 sm:space-x-2">
             {user?.isPremium && (
-              <div className="hidden sm:flex items-center bg-accent-orange/20 text-accent-orange px-3 py-1 rounded-full text-xs font-medium">
+              <div className="hidden sm:flex items-center bg-accent-orange/20 text-accent-orange px-2 sm:px-3 py-1 rounded-full text-xs font-medium">
                 Premium
               </div>
             )}
@@ -106,12 +106,12 @@ const Layout = ({ children }: LayoutProps) => {
               variant="ghost" 
               size="icon" 
               onClick={toggleTheme}
-              className="rounded-full hover:bg-blue-secondary/20 text-text-secondary hover:text-text-primary"
+              className="rounded-full hover:bg-blue-secondary/20 text-text-secondary hover:text-text-primary w-8 h-8 sm:w-10 sm:h-10"
             >
               {isDarkMode ? (
-                <Sun className="h-5 w-5" />
+                <Sun className="h-4 w-4 sm:h-5 sm:w-5" />
               ) : (
-                <Moon className="h-5 w-5" />
+                <Moon className="h-4 w-4 sm:h-5 sm:w-5" />
               )}
             </Button>
             <Button 
@@ -121,36 +121,36 @@ const Layout = ({ children }: LayoutProps) => {
                 logout();
                 navigate('/');
               }}
-              className="rounded-full hover:bg-red-500/20 text-text-secondary hover:text-red-400"
+              className="rounded-full hover:bg-red-500/20 text-text-secondary hover:text-red-400 w-8 h-8 sm:w-10 sm:h-10"
             >
-              <LogOut className="h-5 w-5" />
+              <LogOut className="h-4 w-4 sm:h-5 sm:w-5" />
             </Button>
           </div>
         </div>
       </header>
 
-      {/* Contenido principal */}
-      <main className="flex-1 container mx-auto px-4 pb-24 animate-fade-in">
+      {/* Contenido principal - Optimizado para móvil */}
+      <main className="flex-1 container mx-auto px-2 sm:px-4 pb-20 sm:pb-24 animate-fade-in safe-area-bottom">
         {children}
       </main>
 
-      {/* Navegación flotante mejorada */}
-      <nav className="floating-nav">
-        <div className="glass-card p-2">
+      {/* Navegación flotante mejorada para móvil */}
+      <nav className="floating-nav safe-area-bottom">
+        <div className="glass-card p-1 sm:p-2">
           <ScrollArea className="w-full" type="always">
-            <div className="flex justify-between items-center px-2 space-x-2">
+            <div className="flex justify-between items-center px-1 sm:px-2 space-x-1 sm:space-x-2">
               {navItems.map((item) => (
                 <button
                   key={item.path}
                   onClick={() => item.external ? window.open(item.path, '_blank') : navigate(item.path)}
                   className={cn(
-                    "nav-item group",
+                    "nav-item group min-w-[60px] sm:min-w-[70px]",
                     location.pathname === item.path && "active"
                   )}
                 >
                   <div className="flex flex-col items-center space-y-1">
                     <div className={cn(
-                      "p-2 rounded-lg transition-colors",
+                      "p-1.5 sm:p-2 rounded-lg transition-colors",
                       location.pathname === item.path 
                         ? "bg-blue-secondary text-white" 
                         : "text-text-secondary group-hover:text-blue-light group-hover:bg-blue-secondary/10"
@@ -158,7 +158,7 @@ const Layout = ({ children }: LayoutProps) => {
                       {item.icon}
                     </div>
                     <span className={cn(
-                      "transition-colors",
+                      "transition-colors text-xs",
                       location.pathname === item.path 
                         ? "text-blue-light font-medium" 
                         : "text-text-secondary group-hover:text-text-primary"
@@ -171,7 +171,7 @@ const Layout = ({ children }: LayoutProps) => {
             </div>
             <ScrollBar 
               orientation="horizontal" 
-              className="h-2 bg-blue-secondary/20 rounded-full mt-2"
+              className="h-1 sm:h-2 bg-blue-secondary/20 rounded-full mt-1 sm:mt-2"
               forceMount 
             />
           </ScrollArea>
