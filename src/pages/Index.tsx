@@ -40,22 +40,19 @@ const Index = () => {
         <div className="w-full max-w-md space-y-8">
           <div className="flex flex-col items-center space-y-8 animate-fade-in-up">
             {/* Logo Container */}
-            <div className="w-32 h-32 rounded-full logo-container flex items-center justify-center animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+            <div className="w-40 h-40 rounded-full logo-container flex items-center justify-center animate-fade-in-up" style={{animationDelay: '0.2s'}}>
               <img 
-                src="/logo.png" 
+                src="/lovable-uploads/96d55c60-b5db-4e5f-aa7f-d0c00219953f.png" 
                 alt="Auto Master Bot Logo" 
-                className="w-20 h-20 object-contain filter drop-shadow-lg"
+                className="w-32 h-32 object-contain filter drop-shadow-lg"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
-                  e.currentTarget.parentElement!.innerHTML = '<div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xl">AMB</div>';
+                  e.currentTarget.parentElement!.innerHTML = '<div class="w-24 h-24 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xl">AMB</div>';
                 }}
               />
             </div>
             
             <div className="flex flex-col items-center animate-fade-in-up" style={{animationDelay: '0.4s'}}>
-              <h1 className="text-2xl font-bold text-center text-white tracking-wider animate-glow-pulse">
-                AUTO MASTER BOT
-              </h1>
               <p className="text-sm text-purple-300 mt-2 italic opacity-80">
                 powered by Trucktruest.com
               </p>

@@ -78,11 +78,11 @@ const Layout = ({ children }: LayoutProps) => {
       <header className="sticky top-0 w-full glass-card z-40 mx-2 mt-2 mb-4 animate-slide-in-left safe-area-top">
         <div className="flex items-center justify-between p-3 sm:p-4">
           <div className="flex items-center space-x-2 sm:space-x-3">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center animate-fade-in-up">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center animate-fade-in-up overflow-hidden">
               <img 
-                src="/logo.png" 
+                src="/lovable-uploads/96d55c60-b5db-4e5f-aa7f-d0c00219953f.png" 
                 alt="Auto Master Bot" 
-                className="h-6 w-6 sm:h-8 sm:w-8 object-contain"
+                className="w-8 h-8 sm:w-10 sm:h-10 object-contain"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
                   e.currentTarget.parentElement!.innerHTML = '<span class="text-white font-bold text-sm">AMB</span>';
