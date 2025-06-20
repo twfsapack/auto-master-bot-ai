@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from './AuthContext';
@@ -38,7 +39,16 @@ export const VehicleProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
-  const { user } = useAuth();
+  
+  // Safely get user from AuthContext
+  let user = null;
+  try {
+    const authContext = useAuth();
+    user = authContext.user;
+  } catch (error) {
+    // AuthContext not available yet, user will remain null
+    console.log('AuthContext not available yet, continuing without user');
+  }
 
   useEffect(() => {
     if (user) {
