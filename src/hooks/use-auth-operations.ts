@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { User } from '@supabase/supabase-js';
 import { useToast } from '@/hooks/use-toast';
@@ -21,9 +20,7 @@ export const useAuthOperations = () => {
         toast({
           variant: "destructive",
           title: "Error de inicio de sesión",
-          description: error.message === 'Invalid login credentials' 
-            ? "Email o contraseña incorrectos" 
-            : error.message,
+          description: error.message,
         });
         return;
       }
@@ -56,7 +53,7 @@ export const useAuthOperations = () => {
           data: {
             name: name,
           },
-          emailRedirectTo: `${window.location.origin}/dashboard`
+          emailRedirectTo: `https://automasterbot.trucktruest.com/`
         }
       });
 
@@ -64,9 +61,7 @@ export const useAuthOperations = () => {
         toast({
           variant: "destructive",
           title: "Error de registro",
-          description: error.message === 'User already registered' 
-            ? "Este email ya está registrado. Intenta iniciar sesión." 
-            : error.message,
+          description: error.message,
         });
         return;
       }
@@ -74,9 +69,7 @@ export const useAuthOperations = () => {
       if (data.user) {
         toast({
           title: "Registro exitoso",
-          description: data.user.email_confirmed_at 
-            ? "¡Tu cuenta ha sido creada exitosamente!" 
-            : "¡Tu cuenta ha sido creada! Revisa tu email para confirmarla.",
+          description: "¡Tu cuenta ha sido creada! Revisa tu email para confirmarla.",
         });
       }
     } catch (error) {
@@ -94,7 +87,6 @@ export const useAuthOperations = () => {
     try {
       await supabase.auth.signOut();
       setUser(null);
-      localStorage.removeItem('welcomeCompleted');
       toast({
         title: "Sesión cerrada",
         description: "Has cerrado sesión exitosamente.",
@@ -114,16 +106,24 @@ export const useAuthOperations = () => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/welcome`
+          redirectTo: `https://automasterbot.trucktruest.com/dashboard`
         }
       });
 
       if (error) {
-        toast({
-          variant: "destructive",
-          title: "Error con Google",
-          description: "Por favor intenta de nuevo más tarde o usa email y contraseña.",
-        });
+        if (error.message.includes('provider is not enabled')) {
+          toast({
+            variant: "destructive",
+            title: "Google Auth no disponible",
+            description: "El proveedor de Google no está configurado. Por favor usa email y contraseña.",
+          });
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Error con Google",
+            description: error.message,
+          });
+        }
       }
     } catch (error) {
       toast({
@@ -142,16 +142,24 @@ export const useAuthOperations = () => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'apple',
         options: {
-          redirectTo: `${window.location.origin}/welcome`
+          redirectTo: `https://automasterbot.trucktruest.com/dashboard`
         }
       });
 
       if (error) {
-        toast({
-          variant: "destructive",
-          title: "Error con Apple",
-          description: "Por favor intenta de nuevo más tarde o usa email y contraseña.",
-        });
+        if (error.message.includes('provider is not enabled')) {
+          toast({
+            variant: "destructive",
+            title: "Apple Auth no disponible",
+            description: "El proveedor de Apple no está configurado. Por favor usa email y contraseña.",
+          });
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Error con Apple",
+            description: error.message,
+          });
+        }
       }
     } catch (error) {
       toast({

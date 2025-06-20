@@ -1,17 +1,16 @@
-
 import React from 'react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
-import { Mail } from 'lucide-react';
+import { Mail, Chrome, Apple } from 'lucide-react';
 
 const Index = () => {
-  const { user, isLoading } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLoading && user) {
+    if (user) {
       const welcomeCompleted = localStorage.getItem('welcomeCompleted');
       if (!welcomeCompleted) {
         navigate('/welcome');
@@ -19,22 +18,14 @@ const Index = () => {
         navigate('/dashboard');
       }
     }
-  }, [user, isLoading, navigate]);
+  }, [user, navigate]);
 
   const handleEmailSignIn = () => {
     navigate('/auth');
   };
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen gradient-bg flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen gradient-bg flex flex-col items-center relative overflow-hidden p-0 safe-area-top safe-area-bottom">
+    <div className="min-h-screen gradient-bg flex flex-col items-center relative overflow-hidden">
       {/* Animated background particles */}
       <div className="particles">
         <div className="particle w-2 h-2" style={{top: '10%', left: '10%', animationDelay: '0s'}}></div>
@@ -45,34 +36,34 @@ const Index = () => {
       </div>
 
       <div className="flex-1 flex flex-col items-center justify-center w-full px-4 relative z-10">
-        <div className="w-full max-w-sm space-y-8">
+        <div className="w-full max-w-md space-y-8">
           <div className="flex flex-col items-center space-y-8 animate-fade-in-up">
             {/* Logo Container */}
-            <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full logo-container flex items-center justify-center animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+            <div className="w-40 h-40 rounded-full logo-container flex items-center justify-center animate-fade-in-up" style={{animationDelay: '0.2s'}}>
               <img 
                 src="/lovable-uploads/6da80a74-f370-4e8a-a5ca-dd8b844969f9.png" 
                 alt="Auto Master Bot Logo" 
-                className="w-32 h-32 sm:w-40 sm:h-40 object-cover rounded-full filter drop-shadow-lg"
+                className="w-40 h-40 object-cover rounded-full filter drop-shadow-lg"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
-                  e.currentTarget.parentElement!.innerHTML = '<div class="w-32 h-32 sm:w-40 sm:h-40 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xl">AMB</div>';
+                  e.currentTarget.parentElement!.innerHTML = '<div class="w-32 h-32 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xl">AMB</div>';
                 }}
               />
             </div>
             
             <div className="flex flex-col items-center animate-fade-in-up" style={{animationDelay: '0.4s'}}>
-              <p className="text-sm text-purple-300 mt-2 italic opacity-80 text-center">
+              <p className="text-sm text-purple-300 mt-2 italic opacity-80">
                 powered by Trucktruest.com
               </p>
             </div>
             
-            <p className="text-sm text-center text-white/80 animate-fade-in-up max-w-xs px-2" style={{animationDelay: '0.6s'}}>
+            <p className="text-sm text-center text-white/80 animate-fade-in-up max-w-sm" style={{animationDelay: '0.6s'}}>
               PARA INTERACTUAR CON LA APLICACIÓN<br />
               NECESITAS INICIAR SESIÓN
             </p>
           </div>
 
-          <div className="space-y-6 animate-fade-in-up" style={{animationDelay: '0.8s'}}>
+          <div className="space-y-4 animate-fade-in-up" style={{animationDelay: '0.8s'}}>
             {/* Email Sign In Button */}
             <Button
               onClick={handleEmailSignIn}
@@ -86,15 +77,38 @@ const Index = () => {
               </div>
             </Button>
 
+            {/* Future authentication methods - styled but disabled */}
+            <div className="space-y-3 opacity-50">
+              <Button
+                disabled
+                className="w-full h-12 bg-white/5 border border-white/20 rounded-xl text-white/60 font-medium backdrop-blur transition-all duration-300 cursor-not-allowed"
+              >
+                <div className="flex items-center justify-center space-x-3">
+                  <Chrome className="w-5 h-5" />
+                  <span>INICIAR SESIÓN CON GOOGLE</span>
+                </div>
+              </Button>
+              
+              <Button
+                disabled
+                className="w-full h-12 bg-white/5 border border-white/20 rounded-xl text-white/60 font-medium backdrop-blur transition-all duration-300 cursor-not-allowed"
+              >
+                <div className="flex items-center justify-center space-x-3">
+                  <Apple className="w-5 h-5" />
+                  <span>INICIAR SESIÓN CON APPLE</span>
+                </div>
+              </Button>
+            </div>
+
             <div className="text-center pt-2">
-              <p className="text-xs text-white/50 px-4">
-                Google y Apple Auth disponibles en la siguiente pantalla
+              <p className="text-xs text-white/50">
+                Otros métodos de inicio de sesión estarán disponibles próximamente
               </p>
             </div>
           </div>
 
           <div className="text-center pt-4 animate-fade-in-up" style={{animationDelay: '1s'}}>
-            <p className="text-xs text-white/40 px-4">
+            <p className="text-xs text-white/40">
               Tu asistente inteligente de diagnóstico vehicular
             </p>
           </div>

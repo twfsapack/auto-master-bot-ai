@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -14,10 +13,12 @@ import {
   Moon,
   Sun,
   Car,
-  ShoppingCart
+  ShoppingCart,
+  Menu
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useVehicle } from '@/contexts/VehicleContext';
+import LanguageSelector from './LanguageSelector';
 import { cn } from '@/lib/utils';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -73,7 +74,7 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="flex flex-col min-h-screen gradient-bg overflow-x-hidden">
       {/* Futuristic Header */}
-      <header className="sticky top-0 w-full glass-card z-40 m-0 sm:mx-2 sm:mt-2 mb-4 animate-slide-in-left safe-area-top">
+      <header className="sticky top-0 w-full glass-card z-40 mx-2 mt-2 mb-4 animate-slide-in-left safe-area-top">
         <div className="flex items-center justify-between p-3 sm:p-4">
           <div className="flex items-center space-x-2 sm:space-x-3">
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center animate-fade-in-up overflow-hidden">
@@ -105,6 +106,7 @@ const Layout = ({ children }: LayoutProps) => {
                 Premium
               </div>
             )}
+            <LanguageSelector />
             <Button 
               variant="ghost" 
               size="icon" 
@@ -133,13 +135,13 @@ const Layout = ({ children }: LayoutProps) => {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 container mx-auto px-0 sm:px-4 pb-20 sm:pb-24 animate-fade-in-up safe-area-bottom">
+      <main className="flex-1 container mx-auto px-2 sm:px-4 pb-20 sm:pb-24 animate-fade-in-up safe-area-bottom">
         {children}
       </main>
 
       {/* Futuristic Floating Navigation */}
       <nav className="floating-nav safe-area-bottom">
-        <div className="glass-card p-1 sm:p-2 mx-0 sm:mx-auto sm:max-w-2xl">
+        <div className="glass-card p-1 sm:p-2">
           <ScrollArea className="w-full" type="always">
             <div className="flex justify-between items-center px-1 sm:px-2 space-x-1 sm:space-x-2">
               {navItems.map((item) => (
