@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -126,14 +127,14 @@ export const ProblemsList = () => {
         />
       </div>
 
-      <div className="flex gap-2 overflow-x-auto pb-2">
+      <div className="flex gap-2 overflow-x-auto pb-2 px-1">
         {categoriesData.map((category) => (
           <Button
             key={category.id}
             variant={selectedCategory === category.id ? 'default' : 'outline'}
             size="sm"
             onClick={() => setSelectedCategory(category.id)}
-            className="whitespace-nowrap"
+            className="whitespace-nowrap min-w-fit px-3 py-2 text-xs sm:text-sm flex-shrink-0"
           >
             {t(category.nameKey)}
           </Button>
