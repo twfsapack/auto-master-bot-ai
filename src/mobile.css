@@ -37,6 +37,65 @@
   .glass-card {
     backdrop-filter: blur(10px) saturate(150%);
   }
+
+  /* Eliminar márgenes externos en páginas principales */
+  .min-h-screen {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  /* Optimizar Index.tsx para móvil */
+  .gradient-bg {
+    width: 100vw !important;
+    min-height: 100vh !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Optimizar contenedores de formularios */
+  .max-w-md {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .max-w-sm {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  /* Optimizar cards para móvil */
+  .glass-card {
+    margin: 0 !important;
+    border-radius: 0 !important;
+    width: 100% !important;
+    min-height: 100vh !important;
+  }
+
+  /* Safe area para dispositivos con notch */
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Optimizar botones para móvil */
+  .futuristic-btn {
+    width: 100% !important;
+    margin: 0 8px !important;
+  }
+
+  /* Optimizar espaciado en Index */
+  .space-y-8 > * + * {
+    margin-top: 1.5rem !important;
+  }
+
+  .space-y-4 > * + * {
+    margin-top: 1rem !important;
+  }
 }
 
 /* Configuración para pantallas de alta densidad */
@@ -57,5 +116,44 @@
 @media (max-width: 480px) {
   .hidden-mobile {
     display: none !important;
+  }
+
+  /* Ajustar tamaño de logo en móvil */
+  .logo-container img {
+    width: 120px !important;
+    height: 120px !important;
+  }
+
+  /* Optimizar texto para móvil */
+  .text-sm {
+    font-size: 0.875rem !important;
+    line-height: 1.25rem !important;
+  }
+
+  /* Optimizar padding para pantallas muy pequeñas */
+  .px-4 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
+/* Pantallas extra pequeñas */
+@media (max-width: 360px) {
+  .w-32 {
+    width: 6rem !important;
+    height: 6rem !important;
+  }
+
+  .h-32 {
+    height: 6rem !important;
+  }
+
+  .logo-container img {
+    width: 96px !important;
+    height: 96px !important;
+  }
+
+  .space-y-8 > * + * {
+    margin-top: 1rem !important;
   }
 }

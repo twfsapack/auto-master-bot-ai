@@ -17,11 +17,25 @@ export const useAuthOperations = () => {
       });
 
       if (error) {
-        toast({
-          variant: "destructive",
-          title: "Error de inicio de sesión",
-          description: error.message,
-        });
+        if (error.message.includes('Invalid login credentials')) {
+          toast({
+            variant: "destructive",
+            title: "Credenciales incorrectas",
+            description: "Email o contraseña incorrectos. Verifica tus datos e intenta de nuevo.",
+          });
+        } else if (error.message.includes('Email not confirmed')) {
+          toast({
+            variant: "destructive",
+            title: "Email no confirmado",
+            description: "Por favor confirma tu email antes de iniciar sesión.",
+          });
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Error de inicio de sesión",
+            description: error.message,
+          });
+        }
         return;
       }
 
@@ -53,16 +67,24 @@ export const useAuthOperations = () => {
           data: {
             name: name,
           },
-          emailRedirectTo: `https://automasterbot.trucktruest.com/`
+          emailRedirectTo: `${window.location.origin}/dashboard`
         }
       });
 
       if (error) {
-        toast({
-          variant: "destructive",
-          title: "Error de registro",
-          description: error.message,
-        });
+        if (error.message.includes('User already registered')) {
+          toast({
+            variant: "destructive",
+            title: "Usuario ya registrado",
+            description: "Este email ya está registrado. Intenta iniciar sesión.",
+          });
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Error de registro",
+            description: error.message,
+          });
+        }
         return;
       }
 
@@ -106,7 +128,7 @@ export const useAuthOperations = () => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `https://automasterbot.trucktruest.com/dashboard`
+          redirectTo: `${window.location.origin}/dashboard`
         }
       });
 
@@ -115,15 +137,16 @@ export const useAuthOperations = () => {
           toast({
             variant: "destructive",
             title: "Google Auth no disponible",
-            description: "El proveedor de Google no está configurado. Por favor usa email y contraseña.",
+            description: "El proveedor de Google no está configurado. Contacta al administrador.",
           });
         } else {
           toast({
             variant: "destructive",
             title: "Error con Google",
-            description: error.message,
+            description: "No se pudo completar el inicio de sesión con Google.",
           });
         }
+        console.error('Google OAuth error:', error);
       }
     } catch (error) {
       toast({
@@ -131,6 +154,7 @@ export const useAuthOperations = () => {
         title: "Error con Google",
         description: "Por favor intenta de nuevo más tarde o usa email y contraseña.",
       });
+      console.error('Google OAuth error:', error);
     } finally {
       setIsLoading(false);
     }
@@ -142,7 +166,7 @@ export const useAuthOperations = () => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'apple',
         options: {
-          redirectTo: `https://automasterbot.trucktruest.com/dashboard`
+          redirectTo: `${window.location.origin}/dashboard`
         }
       });
 
@@ -151,15 +175,16 @@ export const useAuthOperations = () => {
           toast({
             variant: "destructive",
             title: "Apple Auth no disponible",
-            description: "El proveedor de Apple no está configurado. Por favor usa email y contraseña.",
+            description: "El proveedor de Apple no está configurado. Contacta al administrador.",
           });
         } else {
           toast({
             variant: "destructive",
             title: "Error con Apple",
-            description: error.message,
+            description: "No se pudo completar el inicio de sesión con Apple.",
           });
         }
+        console.error('Apple OAuth error:', error);
       }
     } catch (error) {
       toast({
@@ -167,6 +192,7 @@ export const useAuthOperations = () => {
         title: "Error con Apple",
         description: "Por favor intenta de nuevo más tarde o usa email y contraseña.",
       });
+      console.error('Apple OAuth error:', error);
     } finally {
       setIsLoading(false);
     }
