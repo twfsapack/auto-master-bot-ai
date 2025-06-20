@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -19,6 +18,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useVehicle } from '@/contexts/VehicleContext';
+import LanguageSelector from './LanguageSelector';
 import { cn } from '@/lib/utils';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -67,7 +67,7 @@ const Layout = ({ children }: LayoutProps) => {
     { name: 'Settings', path: '/settings', icon: <Settings className="w-5 h-5" /> },
   ];
 
-  if (location.pathname === '/' || location.pathname.includes('/auth') || location.pathname === '/welcome') {
+  if (location.pathname === '/' || location.pathname.includes('/auth')) {
     return <main className="min-h-screen gradient-bg">{children}</main>;
   }
 
@@ -106,6 +106,7 @@ const Layout = ({ children }: LayoutProps) => {
                 Premium
               </div>
             )}
+            <LanguageSelector />
             <Button 
               variant="ghost" 
               size="icon" 

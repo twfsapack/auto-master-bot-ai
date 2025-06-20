@@ -10,41 +10,26 @@ interface ProtectedRouteProps {
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ 
   children, 
-  redirectTo = '/welcome' 
+  redirectTo = '/auth' 
 }) => {
   const { user, isLoading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLoading) {
-      // If no user, redirect to welcome for authentication
-      if (!user) {
-        navigate(redirectTo);
-        return;
-      }
-
-      // Check if email is confirmed
-      if (!user.email_confirmed_at) {
-        console.log('Email not confirmed, redirecting to welcome');
-        navigate('/welcome');
-        return;
-      }
-
-      // Additional validation can be added here for profile completeness
-      console.log('User authenticated and verified:', user.email);
+    if (!isLoading && !user) {
+      navigate(redirectTo);
     }
   }, [user, isLoading, navigate, redirectTo]);
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center gradient-bg">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
       </div>
     );
   }
 
-  // If no user or email not confirmed, show nothing while redirecting
-  if (!user || !user.email_confirmed_at) {
+  if (!user) {
     return null;
   }
 

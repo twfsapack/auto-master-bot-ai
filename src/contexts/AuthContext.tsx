@@ -4,7 +4,6 @@ import { User } from '@supabase/supabase-js';
 import { useAuthOperations } from '@/hooks/use-auth-operations';
 import { supabase } from '@/integrations/supabase/client';
 import { ExtendedUser } from '@/types/user';
-import { useToast } from '@/hooks/use-toast';
 
 type AuthContextType = {
   user: ExtendedUser | null;
@@ -34,8 +33,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser: setBaseUser,
     isLoading,
     setIsLoading,
-    login: baseLogin,
-    register: baseRegister,
+    login,
+    register,
     logout,
     googleSignIn,
     appleSignIn,
@@ -44,29 +43,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   } = useAuthOperations();
 
   const [user, setUser] = useState<ExtendedUser | null>(null);
-  const { toast } = useToast();
-
-  // Enhanced login with email confirmation validation
-  const login = async (email: string, password: string) => {
-    try {
-      await baseLogin(email, password);
-    } catch (error) {
-      console.error('Login error:', error);
-    }
-  };
-
-  // Enhanced register with better user feedback
-  const register = async (email: string, password: string, name: string) => {
-    try {
-      await baseRegister(email, password, name);
-      toast({
-        title: "Registro exitoso",
-        description: "¡Cuenta creada! Revisa tu email para confirmarla y luego inicia sesión.",
-      });
-    } catch (error) {
-      console.error('Register error:', error);
-    }
-  };
 
   // Function to fetch user profile and extend the user object
   const fetchUserProfile = async (userId: string): Promise<ExtendedUser | null> => {
@@ -99,13 +75,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Update extended user when base user changes
   useEffect(() => {
     if (baseUser) {
-      // Check if email is confirmed
-      if (!baseUser.email_confirmed_at) {
-        console.log('User email not confirmed yet');
-        setUser(baseUser as ExtendedUser);
-        return;
-      }
-
       fetchUserProfile(baseUser.id).then(setUser);
     } else {
       setUser(null);
@@ -117,18 +86,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
-        console.log('Auth state changed:', event, session?.user?.email);
-        
-        if (event === 'SIGNED_IN' && session?.user) {
-          if (!session.user.email_confirmed_at) {
-            toast({
-              title: "Email no confirmado",
-              description: "Por favor, revisa tu email y confirma tu cuenta antes de continuar.",
-              variant: "destructive"
-            });
-          }
-        }
-        
         setBaseUser(session?.user ?? null);
         setIsLoading(false);
       }
@@ -141,7 +98,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
 
     return () => subscription.unsubscribe();
-  }, [setBaseUser, setIsLoading, toast]);
+  }, [setBaseUser, setIsLoading]);
 
   const value = {
     user,
