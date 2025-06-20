@@ -213,9 +213,15 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 1rem;
+  padding: 0.5rem;
   background: transparent;
   z-index: 50;
+}
+
+@media (min-width: 640px) {
+  .floating-nav {
+    padding: 1rem;
+  }
 }
 
 .floating-nav .glass-card {
@@ -312,7 +318,13 @@
 
 /* Enhanced Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
+}
+
+@media (min-width: 640px) {
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
 }
 
 ::-webkit-scrollbar-track {
@@ -362,4 +374,42 @@ select:focus {
   outline: 2px solid rgba(139, 92, 246, 0.6);
   outline-offset: 2px;
   box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+/* Responsive improvements */
+@media (max-width: 639px) {
+  .glass-card {
+    border-radius: 16px;
+    margin: 0 4px;
+  }
+  
+  .futuristic-btn {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 640px) {
+  .glass-card {
+    border-radius: 20px;
+  }
+}
+
+/* Container responsive */
+.container-responsive {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .container-responsive {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-responsive {
+    padding: 0 2rem;
+  }
 }

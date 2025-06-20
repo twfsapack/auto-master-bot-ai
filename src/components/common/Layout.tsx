@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -73,50 +74,49 @@ const Layout = ({ children }: LayoutProps) => {
 
   return (
     <div className="flex flex-col min-h-screen gradient-bg overflow-x-hidden">
-      {/* Futuristic Header */}
-      <header className="sticky top-0 w-full glass-card z-40 mx-2 mt-2 mb-4 animate-slide-in-left safe-area-top">
+      {/* Header mejorado para móvil */}
+      <header className="sticky top-0 w-full glass-card z-40 mx-2 sm:mx-4 mt-2 mb-2 sm:mb-4 animate-slide-in-left safe-area-top">
         <div className="flex items-center justify-between p-3 sm:p-4">
           <div className="flex items-center space-x-2 sm:space-x-3">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center animate-fade-in-up overflow-hidden">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center animate-fade-in-up overflow-hidden flex-shrink-0">
               <img 
                 src="/lovable-uploads/6da80a74-f370-4e8a-a5ca-dd8b844969f9.png" 
                 alt="Auto Master Bot" 
-                className="w-10 h-10 sm:w-12 sm:h-12 object-cover rounded-full"
+                className="w-full h-full object-cover rounded-full"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
-                  e.currentTarget.parentElement!.innerHTML = '<span class="text-white font-bold text-sm">AMB</span>';
+                  e.currentTarget.parentElement!.innerHTML = '<span class="text-white font-bold text-xs sm:text-sm">AMB</span>';
                 }}
               />
             </div>
-            <div className="hidden sm:block">
-              <h1 className="text-base sm:text-lg font-bold text-white animate-glow-pulse">
+            <div className="min-w-0 flex-1">
+              <h1 className="text-sm sm:text-base md:text-lg font-bold text-white animate-glow-pulse truncate">
                 Auto Master Bot
               </h1>
               {selectedVehicle && (
-                <p className="text-xs sm:text-sm text-purple-300">
+                <p className="text-xs sm:text-sm text-purple-300 truncate">
                   {selectedVehicle.make} {selectedVehicle.model} ({selectedVehicle.year})
                 </p>
               )}
             </div>
           </div>
           
-          <div className="flex items-center space-x-1 sm:space-x-2">
+          <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
             {user?.isPremium && (
-              <div className="hidden sm:flex items-center bg-gradient-to-r from-yellow-500/20 to-orange-500/20 text-yellow-300 px-2 sm:px-3 py-1 rounded-full text-xs font-medium border border-yellow-500/30 backdrop-blur">
+              <div className="hidden xs:flex items-center bg-gradient-to-r from-yellow-500/20 to-orange-500/20 text-yellow-300 px-2 py-1 rounded-full text-xs font-medium border border-yellow-500/30 backdrop-blur">
                 Premium
               </div>
             )}
-            <LanguageSelector />
             <Button 
               variant="ghost" 
               size="icon" 
               onClick={toggleTheme}
-              className="rounded-full hover:bg-white/10 text-white/70 hover:text-white w-8 h-8 sm:w-10 sm:h-10 transition-all duration-300"
+              className="rounded-full hover:bg-white/10 text-white/70 hover:text-white w-8 h-8 sm:w-9 sm:h-9 transition-all duration-300 flex-shrink-0"
             >
               {isDarkMode ? (
-                <Sun className="h-4 w-4 sm:h-5 sm:w-5" />
+                <Sun className="h-4 w-4" />
               ) : (
-                <Moon className="h-4 w-4 sm:h-5 sm:w-5" />
+                <Moon className="h-4 w-4" />
               )}
             </Button>
             <Button 
@@ -126,30 +126,32 @@ const Layout = ({ children }: LayoutProps) => {
                 logout();
                 navigate('/');
               }}
-              className="rounded-full hover:bg-red-500/20 text-white/70 hover:text-red-300 w-8 h-8 sm:w-10 sm:h-10 transition-all duration-300"
+              className="rounded-full hover:bg-red-500/20 text-white/70 hover:text-red-300 w-8 h-8 sm:w-9 sm:h-9 transition-all duration-300 flex-shrink-0"
             >
-              <LogOut className="h-4 w-4 sm:h-5 sm:w-5" />
+              <LogOut className="h-4 w-4" />
             </Button>
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="flex-1 container mx-auto px-2 sm:px-4 pb-20 sm:pb-24 animate-fade-in-up safe-area-bottom">
-        {children}
+      {/* Main Content con padding mejorado */}
+      <main className="flex-1 px-2 sm:px-4 lg:px-6 xl:px-8 pb-20 sm:pb-24 animate-fade-in-up safe-area-bottom max-w-7xl mx-auto w-full">
+        <div className="w-full">
+          {children}
+        </div>
       </main>
 
-      {/* Futuristic Floating Navigation */}
+      {/* Navegación flotante mejorada */}
       <nav className="floating-nav safe-area-bottom">
-        <div className="glass-card p-1 sm:p-2">
+        <div className="glass-card p-1 sm:p-2 mx-2 sm:mx-4">
           <ScrollArea className="w-full" type="always">
-            <div className="flex justify-between items-center px-1 sm:px-2 space-x-1 sm:space-x-2">
+            <div className="flex justify-between items-center px-1 sm:px-2 space-x-1 sm:space-x-2 min-w-max">
               {navItems.map((item) => (
                 <button
                   key={item.path}
                   onClick={() => item.external ? window.open(item.path, '_blank') : navigate(item.path)}
                   className={cn(
-                    "nav-item group min-w-[60px] sm:min-w-[70px] p-2 rounded-lg",
+                    "nav-item group min-w-[50px] sm:min-w-[60px] md:min-w-[70px] p-2 rounded-lg transition-all duration-300",
                     location.pathname === item.path && "active"
                   )}
                 >
@@ -163,7 +165,7 @@ const Layout = ({ children }: LayoutProps) => {
                       {item.icon}
                     </div>
                     <span className={cn(
-                      "transition-all duration-300 text-xs font-medium",
+                      "transition-all duration-300 text-xs font-medium text-center leading-tight",
                       location.pathname === item.path 
                         ? "text-white" 
                         : "text-white/60 group-hover:text-white"

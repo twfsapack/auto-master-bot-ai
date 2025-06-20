@@ -13,10 +13,22 @@ export default {
 	theme: {
 		container: {
 			center: true,
-			padding: '2rem',
+			padding: '1rem',
 			screens: {
+				'sm': '640px',
+				'md': '768px',
+				'lg': '1024px',
+				'xl': '1280px',
 				'2xl': '1400px'
 			}
+		},
+		screens: {
+			'xs': '475px',
+			'sm': '640px',
+			'md': '768px',
+			'lg': '1024px',
+			'xl': '1280px',
+			'2xl': '1536px',
 		},
 		extend: {
 			colors: {
@@ -70,7 +82,6 @@ export default {
 				'logo-gray': '#B8C5D6',
 				'logo-white': '#FFFFFF',
 				'logo-light': '#E8EBF0',
-				// Colores actualizados basados en el diseño del logo
 				'blue-primary': '#2A1B5B',
 				'blue-secondary': '#3D2F6B',
 				'blue-light': '#4A3F7A',
@@ -109,6 +120,10 @@ export default {
 			spacing: {
 				'18': '4.5rem',
 				'22': '5.5rem',
+				'safe-top': 'env(safe-area-inset-top)',
+				'safe-bottom': 'env(safe-area-inset-bottom)',
+				'safe-left': 'env(safe-area-inset-left)',
+				'safe-right': 'env(safe-area-inset-right)',
 			},
 			keyframes: {
 				'accordion-down': {

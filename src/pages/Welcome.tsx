@@ -1,204 +1,141 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
+import { AuthForm } from '@/components/auth/AuthForm';
+import LanguageSelector from '@/components/common/LanguageSelector';
+import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Label } from '@/components/ui/label';
-import { useLanguage } from '@/contexts/LanguageContext';
-import { Volume2, VolumeX } from 'lucide-react';
 
 const Welcome = () => {
+  const { user, isLoading } = useAuth();
   const navigate = useNavigate();
-  const { setLanguage } = useLanguage();
-  const [selectedLanguage, setSelectedLanguage] = useState('en');
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(null);
-
-  const languages = [
-    { 
-      code: 'en', 
-      name: 'English', 
-      flag: '🇺🇸',
-      welcome: 'Welcome to Auto Master Bot! Your intelligent vehicle diagnostic assistant.',
-      voiceId: 'EXAVITQu4vr4xnSDxMaL' // Sarah
-    },
-    { 
-      code: 'es', 
-      name: 'Español', 
-      flag: '🇪🇸',
-      welcome: '¡Bienvenido a Auto Master Bot! Tu asistente inteligente de diagnóstico vehicular.',
-      voiceId: 'XB0fDUnXU5powFXDhCwa' // Charlotte
-    },
-    { 
-      code: 'fr', 
-      name: 'Français', 
-      flag: '🇫🇷',
-      welcome: 'Bienvenue à Auto Master Bot! Votre assistant intelligent de diagnostic véhiculaire.',
-      voiceId: '9BWtsMINqrJLrRacOk9x' // Aria
-    },
-  ];
-
-  const stopCurrentAudio = () => {
-    if (currentAudio) {
-      currentAudio.pause();
-      currentAudio.currentTime = 0;
-      setCurrentAudio(null);
-      setIsPlaying(false);
-    }
-  };
-
-  const playWelcomeMessage = async (language: typeof languages[0]) => {
-    try {
-      stopCurrentAudio();
-      setIsPlaying(true);
-
-      // Simulate text-to-speech (you would need ElevenLabs API key for real implementation)
-      const utterance = new SpeechSynthesisUtterance(language.welcome);
-      utterance.lang = language.code === 'en' ? 'en-US' : language.code === 'es' ? 'es-ES' : 'fr-FR';
-      utterance.onend = () => setIsPlaying(false);
-      
-      speechSynthesis.speak(utterance);
-      
-    } catch (error) {
-      console.error('Error playing welcome message:', error);
-      setIsPlaying(false);
-    }
-  };
-
-  const handleLanguageChange = (langCode: string) => {
-    setSelectedLanguage(langCode);
-    const language = languages.find(lang => lang.code === langCode);
-    if (language) {
-      playWelcomeMessage(language);
-    }
-  };
-
-  const handleContinue = () => {
-    stopCurrentAudio();
-    setLanguage(selectedLanguage);
-    localStorage.setItem('welcomeCompleted', 'true');
-    navigate('/onboarding');
-  };
+  const [showAuthForm, setShowAuthForm] = useState(false);
 
   useEffect(() => {
-    // Auto-play English welcome message on load
-    const englishLang = languages.find(lang => lang.code === 'en');
-    if (englishLang) {
-      setTimeout(() => playWelcomeMessage(englishLang), 1000);
+    if (!isLoading && user) {
+      const welcomeCompleted = localStorage.getItem('welcomeCompleted');
+      if (!welcomeCompleted) {
+        localStorage.setItem('welcomeCompleted', 'true');
+        navigate('/onboarding');
+      } else {
+        navigate('/dashboard');
+      }
     }
+  }, [user, isLoading, navigate]);
 
-    return () => {
-      stopCurrentAudio();
-    };
-  }, []);
+  const handleStart = () => {
+    setShowAuthForm(true);
+  };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-bg-dark to-gray-dark flex flex-col items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-8 animate-fade-in">
-        {/* Logo and Title */}
-        <div className="flex flex-col items-center space-y-6 animate-slide-down">
-          <img 
-            src="/lovable-uploads/6da80a74-f370-4e8a-a5ca-dd8b844969f9.png"
-            alt="Auto Master Bot Logo"
-            className="w-32 h-32 object-cover rounded-full animate-scale-in"
-          />
-          <div className="text-center">
-            <h1 className="text-3xl font-heading font-bold text-text-primary mb-2">
-              Auto Master Bot
-            </h1>
-            <p className="text-sm text-text-secondary italic">
-              powered by Trucktruest.com
-            </p>
-          </div>
+  const handleBack = () => {
+    if (showAuthForm) {
+      setShowAuthForm(false);
+    } else {
+      navigate('/');
+    }
+  };
+
+  if (showAuthForm) {
+    return (
+      <div className="min-h-screen gradient-bg flex flex-col items-center justify-center relative overflow-hidden">
+        {/* Animated background particles */}
+        <div className="particles">
+          <div className="particle w-2 h-2" style={{top: '10%', left: '10%', animationDelay: '0s'}}></div>
+          <div className="particle w-1 h-1" style={{top: '20%', left: '80%', animationDelay: '2s'}}></div>
+          <div className="particle w-3 h-3" style={{top: '60%', left: '20%', animationDelay: '4s'}}></div>
+          <div className="particle w-1.5 h-1.5" style={{top: '80%', left: '70%', animationDelay: '1s'}}></div>
+          <div className="particle w-2 h-2" style={{top: '30%', left: '60%', animationDelay: '3s'}}></div>
         </div>
 
-        {/* Welcome Card */}
-        <Card className="glass-card animate-slide-up">
-          <CardContent className="p-6 space-y-6">
-            <div className="text-center">
-              <h2 className="text-xl font-heading font-semibold text-text-primary mb-2">
-                Welcome Setup
-              </h2>
-              <p className="text-sm text-text-secondary">
-                Choose your preferred language to get started
+        <div className="w-full max-w-md px-4 sm:px-6 relative z-10 safe-area-top safe-area-bottom">
+          <div className="glass-card p-6 sm:p-8">
+            <div className="flex items-center justify-between mb-6">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleBack}
+                className="rounded-full hover:bg-white/10 text-white/70 hover:text-white transition-all duration-300"
+              >
+                <ArrowLeft className="h-5 w-5" />
+              </Button>
+              
+              <LanguageSelector />
+            </div>
+            
+            <AuthForm />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen gradient-bg flex flex-col items-center justify-center relative overflow-hidden">
+      {/* Animated background particles */}
+      <div className="particles">
+        <div className="particle w-2 h-2" style={{top: '10%', left: '10%', animationDelay: '0s'}}></div>
+        <div className="particle w-1 h-1" style={{top: '20%', left: '80%', animationDelay: '2s'}}></div>
+        <div className="particle w-3 h-3" style={{top: '60%', left: '20%', animationDelay: '4s'}}></div>
+        <div className="particle w-1.5 h-1.5" style={{top: '80%', left: '70%', animationDelay: '1s'}}></div>
+        <div className="particle w-2 h-2" style={{top: '30%', left: '60%', animationDelay: '3s'}}></div>
+      </div>
+
+      <div className="flex-1 flex flex-col items-center justify-center w-full px-4 sm:px-6 lg:px-8 relative z-10 safe-area-top safe-area-bottom">
+        <div className="w-full max-w-sm sm:max-w-md space-y-6 sm:space-y-8">
+          {/* Header con botón de regreso y selector de idioma */}
+          <div className="flex items-center justify-between w-full animate-fade-in-up">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleBack}
+              className="rounded-full hover:bg-white/10 text-white/70 hover:text-white transition-all duration-300"
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
+            
+            <LanguageSelector />
+          </div>
+
+          <div className="flex flex-col items-center space-y-6 sm:space-y-8 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+            {/* Logo */}
+            <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full logo-container flex items-center justify-center overflow-hidden">
+              <img 
+                src="/lovable-uploads/6da80a74-f370-4e8a-a5ca-dd8b844969f9.png" 
+                alt="Auto Master Bot Logo" 
+                className="w-full h-full object-cover rounded-full filter drop-shadow-lg"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                  e.currentTarget.parentElement!.innerHTML = '<div class="w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg">AMB</div>';
+                }}
+              />
+            </div>
+            
+            <div className="text-center space-y-3 sm:space-y-4 px-4">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white animate-glow-pulse">
+                ¡Bienvenido!
+              </h1>
+              <p className="text-sm sm:text-base text-white/80 leading-relaxed">
+                Tu asistente inteligente para el diagnóstico vehicular está listo para ayudarte
+              </p>
+              <p className="text-xs sm:text-sm text-purple-300 italic opacity-80">
+                powered by Trucktruest.com
               </p>
             </div>
-
-            {/* Language Selection */}
-            <div className="space-y-4">
-              <Label className="text-sm font-medium text-text-primary">
-                Select Language / Seleccionar Idioma / Choisir la Langue
-              </Label>
-              
-              <RadioGroup 
-                value={selectedLanguage} 
-                onValueChange={handleLanguageChange}
-                className="space-y-3"
+            
+            <div className="w-full px-4 sm:px-0 space-y-4">
+              <Button
+                onClick={handleStart}
+                className="w-full h-12 sm:h-14 futuristic-btn rounded-xl text-white font-medium shadow-lg hover:shadow-purple-500/25 transition-all duration-300"
               >
-                {languages.map((language) => (
-                  <div key={language.code} className="flex items-center space-x-3 p-3 rounded-lg border border-gray-medium/30 hover:border-blue-light/50 transition-colors">
-                    <RadioGroupItem 
-                      value={language.code} 
-                      id={language.code}
-                      className="border-blue-light text-blue-light"
-                    />
-                    <Label 
-                      htmlFor={language.code} 
-                      className="flex-1 flex items-center justify-between cursor-pointer"
-                    >
-                      <div className="flex items-center space-x-3">
-                        <span className="text-2xl">{language.flag}</span>
-                        <span className="text-text-primary font-medium">{language.name}</span>
-                      </div>
-                      
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="icon"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          playWelcomeMessage(language);
-                        }}
-                        className="h-8 w-8 text-blue-light hover:text-blue-secondary hover:bg-blue-secondary/10"
-                        disabled={isPlaying}
-                      >
-                        {isPlaying ? (
-                          <VolumeX className="h-4 w-4" />
-                        ) : (
-                          <Volume2 className="h-4 w-4" />
-                        )}
-                      </Button>
-                    </Label>
-                  </div>
-                ))}
-              </RadioGroup>
+                <span className="text-sm sm:text-base">COMENZAR</span>
+              </Button>
+              
+              <p className="text-xs text-center text-white/50 px-2">
+                Crea tu cuenta o inicia sesión para continuar
+              </p>
             </div>
-
-            {/* Audio Status */}
-            {isPlaying && (
-              <div className="flex items-center justify-center space-x-2 text-blue-light animate-pulse">
-                <Volume2 className="h-4 w-4" />
-                <span className="text-sm">Playing welcome message...</span>
-              </div>
-            )}
-
-            {/* Continue Button */}
-            <Button
-              onClick={handleContinue}
-              className="w-full btn-primary"
-              disabled={isPlaying}
-            >
-              Continue / Continuar / Continuer
-            </Button>
-          </CardContent>
-        </Card>
-
-        {/* Footer */}
-        <div className="text-center">
-          <p className="text-xs text-text-secondary">
-            Your intelligent vehicle diagnostic assistant
-          </p>
+          </div>
         </div>
       </div>
     </div>
