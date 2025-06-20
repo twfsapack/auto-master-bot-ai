@@ -5,6 +5,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { VehicleProvider } from './contexts/VehicleContext';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { MobileOptimizations } from './components/common/MobileOptimizations';
+import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { Toaster } from '@/components/ui/toaster';
 
 import Index from './pages/Index';
@@ -33,17 +34,87 @@ function App() {
             <Router>
               <Routes>
                 <Route path="/" element={<Index />} />
-                <Route path="/welcome" element={<Welcome />} />
                 <Route path="/auth/*" element={<Auth />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/chat" element={<Chat />} />
-                <Route path="/vehicle" element={<Vehicle />} />
-                <Route path="/maintenance" element={<Maintenance />} />
-                <Route path="/database" element={<Database />} />
-                <Route path="/settings" element={<Settings />} />
-                <Route path="/onboarding" element={<Onboarding />} />
-                <Route path="/scanner" element={<Scanner />} />
-                <Route path="/files" element={<Files />} />
+                <Route 
+                  path="/welcome" 
+                  element={
+                    <ProtectedRoute>
+                      <Welcome />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/dashboard" 
+                  element={
+                    <ProtectedRoute>
+                      <Dashboard />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/chat" 
+                  element={
+                    <ProtectedRoute>
+                      <Chat />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/vehicle" 
+                  element={
+                    <ProtectedRoute>
+                      <Vehicle />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/maintenance" 
+                  element={
+                    <ProtectedRoute>
+                      <Maintenance />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/database" 
+                  element={
+                    <ProtectedRoute>
+                      <Database />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/settings" 
+                  element={
+                    <ProtectedRoute>
+                      <Settings />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/onboarding" 
+                  element={
+                    <ProtectedRoute>
+                      <Onboarding />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/scanner" 
+                  element={
+                    <ProtectedRoute>
+                      <Scanner />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/files" 
+                  element={
+                    <ProtectedRoute>
+                      <Files />
+                    </ProtectedRoute>
+                  } 
+                />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Router>

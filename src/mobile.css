@@ -24,8 +24,19 @@
 
   /* Optimizar navegación flotante */
   .floating-nav {
-    padding: 8px;
-    margin: 8px;
+    padding: 0;
+    margin: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .floating-nav .glass-card {
+    margin: 0;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
   }
 
   /* Prevenir scroll horizontal */
@@ -33,9 +44,64 @@
     overflow-x: hidden;
   }
 
+  /* Eliminar márgenes en móvil */
+  .container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* Header sin márgenes en móvil */
+  header.glass-card {
+    margin: 0;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+  }
+
+  /* Pantallas completas en móvil */
+  .min-h-screen {
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height */
+  }
+
+  /* Optimizar formularios para móvil */
+  .glass-card {
+    margin: 0;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    background: rgba(30, 41, 59, 0.85);
+    backdrop-filter: blur(20px) saturate(180%);
+  }
+
   /* Mejorar contraste en pantallas móviles */
   .glass-card {
     backdrop-filter: blur(10px) saturate(150%);
+  }
+
+  /* Optimizar espaciado para móvil */
+  .space-y-8 > * + * {
+    margin-top: 1.5rem;
+  }
+
+  .space-y-6 > * + * {
+    margin-top: 1rem;
+  }
+
+  /* Botones más grandes para móvil */
+  .futuristic-btn {
+    height: 56px;
+    font-size: 16px;
+  }
+
+  /* Texto más legible en móvil */
+  .text-sm {
+    font-size: 14px;
+  }
+
+  .text-xs {
+    font-size: 12px;
   }
 }
 
@@ -57,5 +123,47 @@
 @media (max-width: 480px) {
   .hidden-mobile {
     display: none !important;
+  }
+  
+  /* Optimizar logo para pantallas muy pequeñas */
+  .logo-container img {
+    width: 120px !important;
+    height: 120px !important;
+  }
+  
+  /* Reducir espaciado en pantallas muy pequeñas */
+  .space-y-8 > * + * {
+    margin-top: 1rem;
+  }
+}
+
+/* Optimizaciones para landscape en móvil */
+@media (max-height: 500px) and (orientation: landscape) {
+  .logo-container img {
+    width: 80px !important;
+    height: 80px !important;
+  }
+  
+  .space-y-8 > * + * {
+    margin-top: 0.5rem;
+  }
+  
+  .space-y-6 > * + * {
+    margin-top: 0.5rem;
+  }
+  
+  .min-h-screen {
+    min-height: 100vh;
+  }
+}
+
+/* Safe area para dispositivos con notch */
+@supports (padding: env(safe-area-inset-top)) {
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
   }
 }
