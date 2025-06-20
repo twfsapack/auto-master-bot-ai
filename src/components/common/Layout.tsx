@@ -60,7 +60,7 @@ const Layout = ({ children }: LayoutProps) => {
     { name: 'Vehicle', path: '/vehicle', icon: <Car className="w-5 h-5" /> },
     { 
       name: 'Store', 
-      path: 'https://autoparts.trucktruest.com', 
+      path: 'https://webapp.trucktruest.com', 
       icon: <ShoppingCart className="w-5 h-5" />,
       external: true 
     },
