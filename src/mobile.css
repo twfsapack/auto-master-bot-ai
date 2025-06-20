@@ -33,48 +33,9 @@
     overflow-x: hidden;
   }
 
-  /* Eliminar márgenes externos en móvil */
-  .container {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-
-  /* Asegurar que las pantallas usen todo el viewport */
-  .min-h-screen {
-    min-height: 100vh;
-    min-height: 100dvh; /* Mejor soporte para móviles */
-  }
-
   /* Mejorar contraste en pantallas móviles */
   .glass-card {
     backdrop-filter: blur(10px) saturate(150%);
-  }
-
-  /* Optimizar formularios para móvil */
-  .auth-form {
-    width: 100% !important;
-    max-width: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  /* Safe area support */
-  .safe-area-top {
-    padding-top: env(safe-area-inset-top);
-  }
-
-  .safe-area-bottom {
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-
-  .safe-area-left {
-    padding-left: env(safe-area-inset-left);
-  }
-
-  .safe-area-right {
-    padding-right: env(safe-area-inset-right);
   }
 }
 
@@ -96,37 +57,5 @@
 @media (max-width: 480px) {
   .hidden-mobile {
     display: none !important;
-  }
-
-  /* Asegurar que los botones OAuth se vean bien en pantallas muy pequeñas */
-  .oauth-button {
-    min-height: 48px;
-    font-size: 14px;
-  }
-
-  /* Optimizar espaciado en pantallas pequeñas */
-  .space-y-4 > * + * {
-    margin-top: 1rem;
-  }
-
-  .space-y-3 > * + * {
-    margin-top: 0.75rem;
-  }
-}
-
-/* Viewport específico para móviles */
-@supports (height: 100dvh) {
-  .min-h-screen {
-    min-height: 100dvh;
-  }
-}
-
-/* Prevenir comportamientos no deseados en inputs de iOS */
-@supports (-webkit-touch-callout: none) {
-  input[type="text"],
-  input[type="email"],
-  input[type="password"],
-  textarea {
-    font-size: 16px;
   }
 }

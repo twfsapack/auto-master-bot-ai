@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { User } from '@supabase/supabase-js';
 import { useToast } from '@/hooks/use-toast';
@@ -54,7 +53,7 @@ export const useAuthOperations = () => {
           data: {
             name: name,
           },
-          emailRedirectTo: `${window.location.origin}/dashboard`
+          emailRedirectTo: `https://automasterbot.trucktruest.com/`
         }
       });
 
@@ -107,16 +106,24 @@ export const useAuthOperations = () => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/dashboard`
+          redirectTo: `https://automasterbot.trucktruest.com/dashboard`
         }
       });
 
       if (error) {
-        toast({
-          variant: "destructive",
-          title: "Error con Google",
-          description: error.message,
-        });
+        if (error.message.includes('provider is not enabled')) {
+          toast({
+            variant: "destructive",
+            title: "Google Auth no disponible",
+            description: "El proveedor de Google no está configurado. Por favor usa email y contraseña.",
+          });
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Error con Google",
+            description: error.message,
+          });
+        }
       }
     } catch (error) {
       toast({
@@ -135,16 +142,24 @@ export const useAuthOperations = () => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'apple',
         options: {
-          redirectTo: `${window.location.origin}/dashboard`
+          redirectTo: `https://automasterbot.trucktruest.com/dashboard`
         }
       });
 
       if (error) {
-        toast({
-          variant: "destructive",
-          title: "Error con Apple",
-          description: error.message,
-        });
+        if (error.message.includes('provider is not enabled')) {
+          toast({
+            variant: "destructive",
+            title: "Apple Auth no disponible",
+            description: "El proveedor de Apple no está configurado. Por favor usa email y contraseña.",
+          });
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Error con Apple",
+            description: error.message,
+          });
+        }
       }
     } catch (error) {
       toast({
