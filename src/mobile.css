@@ -39,9 +39,29 @@
     margin: 0 8px;
   }
 
-  /* Optimizar márgenes del calendario */
+  /* Optimizar calendario centrado en móvil */
   .calendar-mobile {
     padding: 0.5rem;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .calendar-mobile .rdp {
+    margin: 0 auto;
+  }
+
+  .calendar-mobile .rdp-months {
+    justify-content: center;
+  }
+
+  .calendar-mobile .rdp-month {
+    margin: 0 auto;
+  }
+
+  .calendar-mobile .rdp-table {
+    margin: 0 auto;
+    max-width: 280px;
   }
 
   /* Mejorar espaciado de tareas */
@@ -105,6 +125,11 @@
     transform-origin: center;
   }
 
+  .calendar-mobile {
+    max-width: 280px;
+    scale: 0.95;
+  }
+
   /* Mejorar botones en pantallas pequeñas */
   .btn-mobile-xs {
     padding: 0.5rem 0.75rem;
@@ -122,6 +147,10 @@
     min-width: 70px;
     padding: 1rem;
   }
+
+  .calendar-mobile {
+    max-width: 350px;
+  }
 }
 
 /* Optimizaciones para landscape en móvil */
@@ -132,5 +161,36 @@
 
   .task-list-landscape {
     max-height: 40vh;
+  }
+
+  .calendar-mobile {
+    scale: 0.85;
+    max-width: 300px;
+  }
+}
+
+/* Centrado específico para el componente Calendar de react-day-picker */
+.rdp {
+  margin: 0 auto !important;
+}
+
+.rdp-months {
+  justify-content: center !important;
+}
+
+.rdp-month {
+  margin: 0 auto !important;
+}
+
+/* Centrado adicional para el contenedor del calendario */
+@media (max-width: 768px) {
+  .calendar-mobile > div {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .calendar-mobile .rdp-root {
+    margin: 0 auto;
   }
 }
