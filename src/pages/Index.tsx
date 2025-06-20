@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -10,7 +11,7 @@ const Index = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) {
+    if (user && user.email_confirmed_at) {
       const welcomeCompleted = localStorage.getItem('welcomeCompleted');
       if (!welcomeCompleted) {
         navigate('/welcome');
@@ -21,7 +22,8 @@ const Index = () => {
   }, [user, navigate]);
 
   const handleEmailSignIn = () => {
-    navigate('/auth');
+    // Navigate to Welcome page instead of Auth for the new flow
+    navigate('/welcome');
   };
 
   return (
@@ -64,7 +66,7 @@ const Index = () => {
           </div>
 
           <div className="space-y-4 animate-fade-in-up" style={{animationDelay: '0.8s'}}>
-            {/* Email Sign In Button */}
+            {/* Email Sign In Button - Now goes to Welcome */}
             <Button
               onClick={handleEmailSignIn}
               className="w-full h-14 futuristic-btn rounded-xl text-white font-medium shadow-lg hover:shadow-purple-500/25 transition-all duration-300"
