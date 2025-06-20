@@ -36,6 +36,46 @@
   /* Mejorar contraste en pantallas móviles */
   .glass-card {
     backdrop-filter: blur(10px) saturate(150%);
+    margin: 0 8px;
+  }
+
+  /* Optimizar márgenes del calendario */
+  .calendar-mobile {
+    padding: 0.5rem;
+  }
+
+  /* Mejorar espaciado de tareas */
+  .task-list-mobile {
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+
+  /* Optimizar botones de navegación móvil */
+  .nav-item {
+    min-width: 60px;
+    padding: 0.75rem;
+  }
+
+  /* Mejorar tabs en móvil */
+  .tabs-mobile {
+    padding: 0 8px;
+  }
+
+  /* Optimizar cards en móvil */
+  .card-mobile {
+    margin: 0 8px;
+    border-radius: 16px;
+  }
+
+  /* Mejorar texto en móvil */
+  .text-mobile-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  /* Optimizar espaciado vertical */
+  .space-y-mobile {
+    gap: 0.75rem;
   }
 }
 
@@ -47,9 +87,9 @@
 }
 
 /* Optimizaciones para modo oscuro en móvil */
-@media (prefers-color-scheme: dark) {
-  meta[name="theme-color"] {
-    content: "#1a1a1a";
+@media (prefers-color-scheme: dark) and (max-width: 768px) {
+  .glass-card {
+    background: rgba(30, 41, 59, 0.8);
   }
 }
 
@@ -57,5 +97,40 @@
 @media (max-width: 480px) {
   .hidden-mobile {
     display: none !important;
+  }
+
+  /* Optimizar calendario en pantallas muy pequeñas */
+  .calendar-xs {
+    scale: 0.9;
+    transform-origin: center;
+  }
+
+  /* Mejorar botones en pantallas pequeñas */
+  .btn-mobile-xs {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Breakpoint personalizado para tablets pequeñas */
+@media (min-width: 481px) and (max-width: 768px) {
+  .glass-card {
+    margin: 0 12px;
+  }
+
+  .nav-item {
+    min-width: 70px;
+    padding: 1rem;
+  }
+}
+
+/* Optimizaciones para landscape en móvil */
+@media (max-width: 768px) and (orientation: landscape) {
+  .calendar-landscape {
+    scale: 0.8;
+  }
+
+  .task-list-landscape {
+    max-height: 40vh;
   }
 }
