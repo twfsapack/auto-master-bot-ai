@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 // Define translations for different languages
@@ -513,7 +514,7 @@ export const translations = {
     Settings: "Configurações"
   },
   it: {
-    // Italian translations
+    // Complete Italian translations
     dashboard: "Dashboard",
     quickActions: "Azioni Rapide",
     maintenanceReminders: "Promemoria Manutenzione",
@@ -543,6 +544,66 @@ export const translations = {
     premium: "Premium",
     logout: "Logout",
     
+    // Auth
+    signIn: "Accedi",
+    signUp: "Registrati",
+    email: "Email",
+    password: "Password",
+    forgotPassword: "Password dimenticata?",
+    
+    // Plans
+    freePlan: "Piano Gratuito",
+    premiumPlan: "Piano Premium",
+    currentPlan: "Piano Attuale",
+    basicDiagnostics: "Diagnostica base del veicolo",
+    advancedVehicleManagement: "Gestione avanzata del veicolo",
+    singleVehicle: "Veicolo singolo",
+    unlimitedVehicles: "Veicoli illimitati",
+    basicChatDiagnostics: "Diagnostica chat base",
+    advancedAIDiagnostics: "Diagnostica avanzata IA",
+    simpleMaintenanceCalendar: "Calendario manutenzione semplice",
+    detailedMaintenanceCalendar: "Calendario manutenzione dettagliato",
+    knowledgeBaseAccess: "Accesso base conoscenza",
+    fullKnowledgeBaseAccess: "Accesso completo base conoscenza",
+    obdScanner: "Scanner OBD-II",
+    advancedDiagnostics: "Diagnostica avanzata",
+    multipleVehicles: "Veicoli multipli",
+    exportImportData: "Esporta/importa dati",
+    adFreeExperience: "Esperienza senza pubblicità",
+    upgradeToPremium: "Aggiorna a Premium",
+    
+    // Calendar
+    maintenanceCalendar: "Calendario Manutenzione",
+    addTask: "Aggiungi Attività",
+    selectDate: "Seleziona data",
+    taskTitle: "Titolo Attività",
+    date: "Data",
+    type: "Tipo",
+    routine: "Routine",
+    important: "Importante",
+    urgent: "Urgente",
+    cancel: "Annulla",
+    complete: "Completa",
+    selectTaskType: "Seleziona tipo attività",
+    noTasks: "Nessuna attività di manutenzione programmata per questa data",
+    
+    // Database
+    problemsSolutions: "Problemi e Soluzioni",
+    searchProblems: "Cerca problemi...",
+    allProblems: "Tutti i Problemi",
+    diagnostics: "Diagnostica",
+    engine: "Motore",
+    brakes: "Freni",
+    electrical: "Elettrico",
+    transmission: "Trasmissione",
+    hvac: "HVAC",
+    suspension: "Sospensioni",
+    fuelSystem: "Sistema Carburante",
+    exhaust: "Scarico",
+    viewSolution: "Vedi Soluzione",
+    upgradeToView: "Aggiorna per Vedere",
+    noProblemsFound: "Nessun problema trovato corrispondente ai tuoi criteri di ricerca.",
+    
     // Language
     changeLanguage: "Cambia lingua",
     // Navigation items
@@ -555,7 +616,7 @@ export const translations = {
     Settings: "Impostazioni"
   },
   ja: {
-    // Japanese translations
+    // Complete Japanese translations
     dashboard: "ダッシュボード",
     quickActions: "クイックアクション",
     maintenanceReminders: "メンテナンス リマインダー",
@@ -585,6 +646,66 @@ export const translations = {
     premium: "プレミアム",
     logout: "ログアウト",
     
+    // Auth
+    signIn: "サインイン",
+    signUp: "サインアップ",
+    email: "メール",
+    password: "パスワード",
+    forgotPassword: "パスワードを忘れましたか？",
+    
+    // Plans
+    freePlan: "無料プラン",
+    premiumPlan: "プレミアムプラン",
+    currentPlan: "現在のプラン",
+    basicDiagnostics: "基本車両診断",
+    advancedVehicleManagement: "高度な車両管理",
+    singleVehicle: "単一車両",
+    unlimitedVehicles: "無制限車両",
+    basicChatDiagnostics: "基本チャット診断",
+    advancedAIDiagnostics: "高度なAI診断",
+    simpleMaintenanceCalendar: "シンプルメンテナンスカレンダー",
+    detailedMaintenanceCalendar: "詳細メンテナンスカレンダー",
+    knowledgeBaseAccess: "ナレッジベースアクセス",
+    fullKnowledgeBaseAccess: "完全ナレッジベースアクセス",
+    obdScanner: "OBD-IIスキャナー",
+    advancedDiagnostics: "高度な診断",
+    multipleVehicles: "複数車両",
+    exportImportData: "データのエクスポート/インポート",
+    adFreeExperience: "広告なし体験",
+    upgradeToPremium: "プレミアムにアップグレード",
+    
+    // Calendar
+    maintenanceCalendar: "メンテナンスカレンダー",
+    addTask: "タスクを追加",
+    selectDate: "日付を選択",
+    taskTitle: "タスクタイトル",
+    date: "日付",
+    type: "タイプ",
+    routine: "ルーチン",
+    important: "重要",
+    urgent: "緊急",
+    cancel: "キャンセル",
+    complete: "完了",
+    selectTaskType: "タスクタイプを選択",
+    noTasks: "この日にはメンテナンスタスクが予定されていません",
+    
+    // Database
+    problemsSolutions: "問題と解決策",
+    searchProblems: "問題を検索...",
+    allProblems: "すべての問題",
+    diagnostics: "診断",
+    engine: "エンジン",
+    brakes: "ブレーキ",
+    electrical: "電気系統",
+    transmission: "トランスミッション",
+    hvac: "HVAC",
+    suspension: "サスペンション",
+    fuelSystem: "燃料システム",
+    exhaust: "排気",
+    viewSolution: "解決策を見る",
+    upgradeToView: "表示するためにアップグレード",
+    noProblemsFound: "検索条件に一致する問題が見つかりませんでした。",
+    
     // Language
     changeLanguage: "言語を変更",
     // Navigation items
@@ -597,7 +718,7 @@ export const translations = {
     Settings: "設定"
   },
   zh: {
-    // Chinese translations
+    // Complete Chinese translations
     dashboard: "仪表板",
     quickActions: "快速操作",
     maintenanceReminders: "维护提醒",
@@ -626,6 +747,66 @@ export const translations = {
     notifications: "通知",
     premium: "高级版",
     logout: "登出",
+    
+    // Auth
+    signIn: "登录",
+    signUp: "注册",
+    email: "邮箱",
+    password: "密码",
+    forgotPassword: "忘记密码？",
+    
+    // Plans
+    freePlan: "免费计划",
+    premiumPlan: "高级计划",
+    currentPlan: "当前计划",
+    basicDiagnostics: "基础车辆诊断",
+    advancedVehicleManagement: "高级车辆管理",
+    singleVehicle: "单一车辆",
+    unlimitedVehicles: "无限车辆",
+    basicChatDiagnostics: "基础聊天诊断",
+    advancedAIDiagnostics: "高级AI诊断",
+    simpleMaintenanceCalendar: "简单维护日历",
+    detailedMaintenanceCalendar: "详细维护日历",
+    knowledgeBaseAccess: "知识库访问",
+    fullKnowledgeBaseAccess: "完整知识库访问",
+    obdScanner: "OBD-II扫描仪",
+    advancedDiagnostics: "高级诊断",
+    multipleVehicles: "多个车辆",
+    exportImportData: "导出/导入数据",
+    adFreeExperience: "无广告体验",
+    upgradeToPremium: "升级到高级版",
+    
+    // Calendar
+    maintenanceCalendar: "维护日历",
+    addTask: "添加任务",
+    selectDate: "选择日期",
+    taskTitle: "任务标题",
+    date: "日期",
+    type: "类型",
+    routine: "常规",
+    important: "重要",
+    urgent: "紧急",
+    cancel: "取消",
+    complete: "完成",
+    selectTaskType: "选择任务类型",
+    noTasks: "这个日期没有安排维护任务",
+    
+    // Database
+    problemsSolutions: "问题和解决方案",
+    searchProblems: "搜索问题...",
+    allProblems: "所有问题",
+    diagnostics: "诊断",
+    engine: "发动机",
+    brakes: "刹车",
+    electrical: "电气",
+    transmission: "变速箱",
+    hvac: "暖通空调",
+    suspension: "悬挂",
+    fuelSystem: "燃油系统",
+    exhaust: "排气",
+    viewSolution: "查看解决方案",
+    upgradeToView: "升级查看",
+    noProblemsFound: "未找到符合搜索条件的问题。",
     
     // Language
     changeLanguage: "更改语言",

@@ -127,7 +127,7 @@ export const ChatInterface = () => {
 
   if (!userType) {
     return (
-      <div className="h-[calc(100vh-8rem)] flex flex-col items-center justify-center relative overflow-hidden pt-8">
+      <div className="h-[calc(100vh-8rem)] flex flex-col items-center justify-center relative overflow-hidden pt-16">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-blue-500/20 to-purple-500/20"></div>
@@ -139,16 +139,16 @@ export const ChatInterface = () => {
         </div>
 
         <div className="relative z-10 text-center space-y-6 max-w-md mx-auto px-4">
-          {/* Bot Avatar - Reduced size and positioned lower */}
-          <div className="flex justify-center">
-            <div className="w-20 h-20 rounded-full flex items-center justify-center shadow-2xl">
+          {/* Bot Avatar - Increased top margin */}
+          <div className="flex justify-center mt-8">
+            <div className="w-16 h-16 rounded-full flex items-center justify-center shadow-2xl">
               <img 
                 src="/lovable-uploads/3978a39a-c848-4eed-9d77-ca133e211f62.png" 
                 alt="Auto Master Bot" 
-                className="w-20 h-20 object-cover rounded-full"
+                className="w-16 h-16 object-cover rounded-full"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
-                  e.currentTarget.parentElement!.innerHTML = '<div class="w-20 h-20 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center"><MessageSquare class="w-10 h-10 text-white" /></div>';
+                  e.currentTarget.parentElement!.innerHTML = '<div class="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center"><MessageSquare class="w-8 h-8 text-white" /></div>';
                 }}
               />
             </div>
