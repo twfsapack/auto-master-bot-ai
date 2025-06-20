@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
@@ -23,6 +23,17 @@ import LanguageSelector from './LanguageSelector';
 import { cn } from '@/lib/utils';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { useIsMobile } from '@/hooks/use-mobile';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -36,6 +47,7 @@ const Layout = ({ children }: LayoutProps) => {
   const { selectedVehicle } = useVehicle();
   const { t } = useLanguage();
   const isMobile = useIsMobile();
+  const [isLogoutDialogOpen, setIsLogoutDialogOpen] = useState(false);
   
   const navItems = [
     { 
@@ -68,6 +80,12 @@ const Layout = ({ children }: LayoutProps) => {
     { name: 'Settings', path: '/settings', icon: <Settings className="w-5 h-5" /> },
   ];
 
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+    setIsLogoutDialogOpen(false);
+  };
+
   if (location.pathname === '/' || location.pathname.includes('/auth')) {
     return <main className="min-h-screen gradient-bg">{children}</main>;
   }
@@ -78,11 +96,11 @@ const Layout = ({ children }: LayoutProps) => {
       <header className="sticky top-0 w-full glass-card z-40 mx-1 mt-1 mb-2 animate-slide-in-left safe-area-top">
         <div className="flex items-center justify-between p-2 sm:p-3">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center animate-fade-in-up overflow-hidden">
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center animate-fade-in-up overflow-hidden">
               <img 
                 src="/lovable-uploads/6da80a74-f370-4e8a-a5ca-dd8b844969f9.png" 
                 alt="Auto Master Bot" 
-                className="w-8 h-8 sm:w-10 sm:h-10 object-cover rounded-full"
+                className="w-6 h-6 sm:w-8 sm:h-8 object-cover rounded-full"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
                   e.currentTarget.parentElement!.innerHTML = '<span class="text-white font-bold text-xs">AMB</span>';
@@ -120,17 +138,39 @@ const Layout = ({ children }: LayoutProps) => {
                 <Moon className="h-4 w-4" />
               )}
             </Button>
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              onClick={() => {
-                logout();
-                navigate('/');
-              }}
-              className="rounded-full hover:bg-red-500/20 text-white/70 hover:text-red-300 w-8 h-8 transition-all duration-300"
-            >
-              <LogOut className="h-4 w-4" />
-            </Button>
+            
+            <AlertDialog open={isLogoutDialogOpen} onOpenChange={setIsLogoutDialogOpen}>
+              <AlertDialogTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="rounded-full hover:bg-red-500/20 text-white/70 hover:text-red-300 w-8 h-8 transition-all duration-300"
+                >
+                  <LogOut className="h-4 w-4" />
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent className="bg-slate-900/95 backdrop-blur-md border border-blue-500/30">
+                <AlertDialogHeader>
+                  <AlertDialogTitle className="text-white">
+                    {t('logout')} - Confirmar
+                  </AlertDialogTitle>
+                  <AlertDialogDescription className="text-white/80">
+                    ¿Estás seguro de que quieres cerrar sesión? Tendrás que volver a iniciar sesión para acceder a la aplicación.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel className="bg-slate-700/50 text-white border-slate-600 hover:bg-slate-600/50">
+                    Cancelar
+                  </AlertDialogCancel>
+                  <AlertDialogAction 
+                    onClick={handleLogout}
+                    className="bg-red-500/80 text-white hover:bg-red-600/80"
+                  >
+                    Cerrar Sesión
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         </div>
       </header>
@@ -144,13 +184,13 @@ const Layout = ({ children }: LayoutProps) => {
       <nav className="floating-nav safe-area-bottom">
         <div className="glass-card p-1">
           <ScrollArea className="w-full" type="always">
-            <div className="flex justify-between items-center px-1 space-x-1">
+            <div className="flex justify-between items-center px-1 space-x-1 min-w-max">
               {navItems.map((item) => (
                 <button
                   key={item.path}
                   onClick={() => item.external ? window.open(item.path, '_blank') : navigate(item.path)}
                   className={cn(
-                    "nav-item group min-w-[50px] sm:min-w-[60px] p-1.5 sm:p-2 rounded-lg",
+                    "nav-item group min-w-[50px] sm:min-w-[60px] p-1.5 sm:p-2 rounded-lg flex-shrink-0",
                     location.pathname === item.path && "active"
                   )}
                 >
@@ -164,7 +204,7 @@ const Layout = ({ children }: LayoutProps) => {
                       {item.icon}
                     </div>
                     <span className={cn(
-                      "transition-all duration-300 text-xs font-medium",
+                      "transition-all duration-300 text-xs font-medium whitespace-nowrap",
                       location.pathname === item.path 
                         ? "text-white" 
                         : "text-white/60 group-hover:text-white"

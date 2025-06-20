@@ -39,11 +39,18 @@ const LanguageSelector = () => {
           <span className="sr-only">{t('changeLanguage')}</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-40">
+      <DropdownMenuContent 
+        align="end" 
+        className="w-40 bg-slate-900/95 backdrop-blur-md border border-blue-500/30 shadow-xl"
+      >
         {languages.map((lang) => (
           <DropdownMenuItem 
             key={lang.code}
-            className={language === lang.code ? "bg-muted" : ""}
+            className={`${
+              language === lang.code 
+                ? "bg-blue-500/20 text-white" 
+                : "text-white/80 hover:text-white hover:bg-blue-500/10"
+            } transition-all duration-200`}
             onClick={() => handleLanguageChange(lang.code)}
           >
             {lang.name}
