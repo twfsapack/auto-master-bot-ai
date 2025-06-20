@@ -68,7 +68,7 @@
   }
 
   .nav-item {
-    min-w-[45px] !important;
+    min-width: 45px !important;
     padding: 0.5rem !important;
   }
 
