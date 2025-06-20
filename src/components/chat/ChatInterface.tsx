@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Send, Zap, Crown, User, Wrench, MessageSquare } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useVehicle } from '@/contexts/VehicleContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { generateAIResponse } from '@/services/openai';
 
 type MessageContent = {
@@ -39,6 +40,7 @@ export const ChatInterface = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
   const { selectedVehicle } = useVehicle();
+  const { t } = useLanguage();
 
   const MAX_FREE_QUESTIONS = 10;
   const remainingQuestions = user?.isPremium ? -1 : Math.max(0, MAX_FREE_QUESTIONS - questionCount);
@@ -56,16 +58,14 @@ export const ChatInterface = () => {
       const welcomeMessage: Message = {
         id: '1',
         content: {
-          text: userType === 'diy' 
-            ? '¡Hola! Soy tu asistente Auto Master con IA. Te ayudaré con el diagnóstico y reparación de tu vehículo. ¿Qué problema estás experimentando?'
-            : '¡Hola! Soy tu asistente Auto Master profesional. Te ayudaré con diagnósticos avanzados y análisis técnico. ¿En qué puedo asistirte?'
+          text: userType === 'diy' ? t('welcomeDIY') : t('welcomeMechanic')
         },
         sender: 'bot',
         timestamp: new Date(),
       };
       setMessages([welcomeMessage]);
     }
-  }, [userType]);
+  }, [userType, t]);
 
   const handleUserTypeSelect = (type: UserType) => {
     setUserType(type);
@@ -127,7 +127,7 @@ export const ChatInterface = () => {
 
   if (!userType) {
     return (
-      <div className="h-[calc(100vh-8rem)] flex flex-col items-center justify-center relative overflow-hidden pt-16">
+      <div className="h-[calc(100vh-8rem)] flex flex-col items-center justify-center relative overflow-hidden pt-20">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-blue-500/20 to-purple-500/20"></div>
@@ -140,15 +140,15 @@ export const ChatInterface = () => {
 
         <div className="relative z-10 text-center space-y-6 max-w-md mx-auto px-4">
           {/* Bot Avatar - Increased top margin */}
-          <div className="flex justify-center mt-8">
-            <div className="w-16 h-16 rounded-full flex items-center justify-center shadow-2xl">
+          <div className="flex justify-center mt-12">
+            <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-2xl">
               <img 
                 src="/lovable-uploads/3978a39a-c848-4eed-9d77-ca133e211f62.png" 
                 alt="Auto Master Bot" 
-                className="w-16 h-16 object-cover rounded-full"
+                className="w-12 h-12 object-cover rounded-full"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
-                  e.currentTarget.parentElement!.innerHTML = '<div class="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center"><MessageSquare class="w-8 h-8 text-white" /></div>';
+                  e.currentTarget.parentElement!.innerHTML = '<div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center"><MessageSquare class="w-6 h-6 text-white" /></div>';
                 }}
               />
             </div>
@@ -156,9 +156,9 @@ export const ChatInterface = () => {
 
           {/* Welcome Text */}
           <div className="space-y-4">
-            <h2 className="text-2xl font-bold text-white">¡Bienvenido a Auto Master!</h2>
+            <h2 className="text-2xl font-bold text-white">{t('welcome')}</h2>
             <p className="text-white/80 text-sm">
-              Para comenzar, selecciona tu perfil para una experiencia personalizada
+              {t('chooseProfile')}
             </p>
           </div>
 
@@ -171,8 +171,8 @@ export const ChatInterface = () => {
               <div className="flex items-center justify-center space-x-3">
                 <User className="w-6 h-6" />
                 <div className="text-left">
-                  <div className="font-semibold">Entusiasta DIY</div>
-                  <div className="text-xs opacity-80">Reparaciones caseras y mantenimiento</div>
+                  <div className="font-semibold">{t('chooseDIY')}</div>
+                  <div className="text-xs opacity-80">{t('diyDescription')}</div>
                 </div>
               </div>
             </Button>
@@ -184,8 +184,8 @@ export const ChatInterface = () => {
               <div className="flex items-center justify-center space-x-3">
                 <Wrench className="w-6 h-6" />
                 <div className="text-left">
-                  <div className="font-semibold">Mecánico Profesional</div>
-                  <div className="text-xs opacity-80">Diagnósticos avanzados y técnicos</div>
+                  <div className="font-semibold">{t('chooseMechanic')}</div>
+                  <div className="text-xs opacity-80">{t('mechanicDescription')}</div>
                 </div>
               </div>
             </Button>
@@ -233,7 +233,7 @@ export const ChatInterface = () => {
             <div>
               <div className="text-white font-semibold">Auto Master Bot</div>
               <div className="text-white/70 text-xs">
-                {userType === 'diy' ? 'Modo: Entusiasta DIY' : 'Modo: Mecánico Profesional'}
+                {userType === 'diy' ? t('diyMode') : t('mechanicMode')}
               </div>
             </div>
           </div>
@@ -246,7 +246,7 @@ export const ChatInterface = () => {
               onClick={() => setUserType(null)}
               className="text-white/70 hover:text-white hover:bg-white/10"
             >
-              Cambiar modo
+              {t('changeMode')}
             </Button>
           </div>
         </div>

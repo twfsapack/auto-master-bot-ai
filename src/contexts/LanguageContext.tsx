@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 // Define translations for different languages
@@ -16,6 +15,19 @@ export const translations = {
     database: "Base de Datos",
     vehicle: "Vehículo",
     settings: "Ajustes",
+    
+    // Chat specific
+    welcomeDIY: "¡Hola! Soy tu asistente Auto Master con IA. Te ayudaré con el diagnóstico y reparación de tu vehículo. ¿Qué problema estás experimentando?",
+    welcomeMechanic: "¡Hola! Soy tu asistente Auto Master profesional. Te ayudaré con diagnósticos avanzados y análisis técnico. ¿En qué puedo asistirte?",
+    chooseDIY: "Entusiasta DIY",
+    chooseMechanic: "Mecánico Profesional",
+    diyDescription: "Reparaciones caseras y mantenimiento",
+    mechanicDescription: "Diagnósticos avanzados y técnicos",
+    chooseProfile: "Para comenzar, selecciona tu perfil para una experiencia personalizada",
+    welcome: "¡Bienvenido a Auto Master!",
+    changeMode: "Cambiar modo",
+    diyMode: "Modo: Entusiasta DIY",
+    mechanicMode: "Modo: Mecánico Profesional",
     
     // Vehicle
     addVehicle: "Añadir Vehículo",
@@ -119,6 +131,19 @@ export const translations = {
     vehicle: "Vehicle",
     settings: "Settings",
     
+    // Chat specific
+    welcomeDIY: "Hello! I'm your Auto Master AI assistant. I'll help you with vehicle diagnosis and repair. What problem are you experiencing?",
+    welcomeMechanic: "Hello! I'm your professional Auto Master assistant. I'll help you with advanced diagnostics and technical analysis. How can I assist you?",
+    chooseDIY: "DIY Enthusiast",
+    chooseMechanic: "Professional Mechanic",
+    diyDescription: "Home repairs and maintenance",
+    mechanicDescription: "Advanced and technical diagnostics",
+    chooseProfile: "To get started, select your profile for a personalized experience",
+    welcome: "Welcome to Auto Master!",
+    changeMode: "Change mode",
+    diyMode: "Mode: DIY Enthusiast",
+    mechanicMode: "Mode: Professional Mechanic",
+    
     // Vehicle
     addVehicle: "Add Vehicle",
     vehicleDetails: "Vehicle Details",
@@ -208,99 +233,27 @@ export const translations = {
     Settings: "Settings"
   },
   fr: {
-    // Dashboard
     dashboard: "Tableau de Bord",
     quickActions: "Actions Rapides",
     maintenanceReminders: "Rappels d'Entretien",
-    
-    // Navigation
     home: "Accueil",
     chat: "Chat",
     maintenance: "Entretien",
     database: "Base de Données",
     vehicle: "Véhicule",
     settings: "Paramètres",
-    
-    // Vehicle
-    addVehicle: "Ajouter un Véhicule",
-    vehicleDetails: "Détails du Véhicule",
-    make: "Marque",
-    model: "Modèle",
-    year: "Année",
-    vin: "NIV",
-    mileage: "Kilométrage",
-    
-    // Settings
-    profile: "Profil",
-    language: "Langue",
-    theme: "Thème",
-    notifications: "Notifications",
-    premium: "Premium",
-    logout: "Déconnexion",
-    
-    // Auth
-    signIn: "Connexion",
-    signUp: "Inscription",
-    email: "Email",
-    password: "Mot de Passe",
-    forgotPassword: "Mot de passe oublié?",
-    
-    // Plans
-    freePlan: "Plan Gratuit",
-    premiumPlan: "Plan Premium",
-    currentPlan: "Plan Actuel",
-    basicDiagnostics: "Diagnostics de base du véhicule",
-    advancedVehicleManagement: "Gestion avancée des véhicules",
-    singleVehicle: "Un seul véhicule",
-    unlimitedVehicles: "Véhicules illimités",
-    basicChatDiagnostics: "Diagnostics par chat de base",
-    advancedAIDiagnostics: "Diagnostics avancés par IA",
-    simpleMaintenanceCalendar: "Calendrier d'entretien simple",
-    detailedMaintenanceCalendar: "Calendrier d'entretien détaillé",
-    knowledgeBaseAccess: "Accès à la base de connaissances",
-    fullKnowledgeBaseAccess: "Accès complet à la base de connaissances",
-    obdScanner: "Scanner OBD-II",
-    advancedDiagnostics: "Diagnostics avancés",
-    multipleVehicles: "Véhicules multiples",
-    exportImportData: "Exporter/importer des données",
-    adFreeExperience: "Expérience sans publicité",
-    upgradeToPremium: "Passer à Premium",
-    
-    // Calendar
-    maintenanceCalendar: "Calendrier d'Entretien",
-    addTask: "Ajouter une Tâche",
-    selectDate: "Sélectionner une date",
-    taskTitle: "Titre de la Tâche",
-    date: "Date",
-    type: "Type",
-    routine: "Routine",
-    important: "Important",
-    urgent: "Urgent",
-    cancel: "Annuler",
-    complete: "Terminer",
-    selectTaskType: "Sélectionner le type de tâche",
-    noTasks: "Aucune tâche d'entretien programmée pour cette date",
-    
-    // Database
-    problemsSolutions: "Problèmes et Solutions",
-    searchProblems: "Rechercher des problèmes...",
-    allProblems: "Tous les Problèmes",
-    diagnostics: "Diagnostics",
-    engine: "Moteur",
-    brakes: "Freins",
-    electrical: "Électrique",
-    transmission: "Transmission",
-    hvac: "CVC",
-    suspension: "Suspension",
-    fuelSystem: "Système de Carburant",
-    exhaust: "Échappement",
-    viewSolution: "Voir la Solution",
-    upgradeToView: "Passer à Premium pour Voir",
-    noProblemsFound: "Aucun problème correspondant à vos critères de recherche.",
-    
-    // Language
+    welcomeDIY: "Bonjour! Je suis votre assistant Auto Master IA. Je vais vous aider avec le diagnostic et la réparation de votre véhicule. Quel problème rencontrez-vous?",
+    welcomeMechanic: "Bonjour! Je suis votre assistant Auto Master professionnel. Je vais vous aider avec des diagnostics avancés et une analyse technique. Comment puis-je vous aider?",
+    chooseDIY: "Passionné DIY",
+    chooseMechanic: "Mécanicien Professionnel",
+    diyDescription: "Réparations domestiques et entretien",
+    mechanicDescription: "Diagnostics avancés et techniques",
+    chooseProfile: "Pour commencer, sélectionnez votre profil pour une expérience personnalisée",
+    welcome: "Bienvenue à Auto Master!",
+    changeMode: "Changer de mode",
+    diyMode: "Mode: Passionné DIY",
+    mechanicMode: "Mode: Mécanicien Professionnel",
     changeLanguage: "Changer de langue",
-    // Navigation items
     Home: "Accueil",
     Chat: "Chat",
     Maintenance: "Entretien",
@@ -310,99 +263,27 @@ export const translations = {
     Settings: "Paramètres"
   },
   de: {
-    // Dashboard
     dashboard: "Dashboard",
     quickActions: "Schnellaktionen",
     maintenanceReminders: "Wartungserinnerungen",
-    
-    // Navigation
     home: "Startseite",
     chat: "Chat",
     maintenance: "Wartung",
     database: "Datenbank",
     vehicle: "Fahrzeug",
     settings: "Einstellungen",
-    
-    // Vehicle
-    addVehicle: "Fahrzeug hinzufügen",
-    vehicleDetails: "Fahrzeugdetails",
-    make: "Marke",
-    model: "Modell",
-    year: "Jahr",
-    vin: "FIN",
-    mileage: "Kilometerstand",
-    
-    // Settings
-    profile: "Profil",
-    language: "Sprache",
-    theme: "Thema",
-    notifications: "Benachrichtigungen",
-    premium: "Premium",
-    logout: "Abmelden",
-    
-    // Auth
-    signIn: "Anmelden",
-    signUp: "Registrieren",
-    email: "E-Mail",
-    password: "Passwort",
-    forgotPassword: "Passwort vergessen?",
-    
-    // Plans
-    freePlan: "Kostenloser Plan",
-    premiumPlan: "Premium-Plan",
-    currentPlan: "Aktueller Plan",
-    basicDiagnostics: "Grundlegende Fahrzeugdiagnose",
-    advancedVehicleManagement: "Erweiterte Fahrzeugverwaltung",
-    singleVehicle: "Einzelnes Fahrzeug",
-    unlimitedVehicles: "Unbegrenzte Fahrzeuge",
-    basicChatDiagnostics: "Grundlegende Chat-Diagnose",
-    advancedAIDiagnostics: "Erweiterte KI-Diagnose",
-    simpleMaintenanceCalendar: "Einfacher Wartungskalender",
-    detailedMaintenanceCalendar: "Detaillierter Wartungskalender",
-    knowledgeBaseAccess: "Zugang zur Wissensdatenbank",
-    fullKnowledgeBaseAccess: "Voller Zugang zur Wissensdatenbank",
-    obdScanner: "OBD-II-Scanner",
-    advancedDiagnostics: "Erweiterte Diagnose",
-    multipleVehicles: "Mehrere Fahrzeuge",
-    exportImportData: "Daten exportieren/importieren",
-    adFreeExperience: "Werbefreie Erfahrung",
-    upgradeToPremium: "Auf Premium upgraden",
-    
-    // Calendar
-    maintenanceCalendar: "Wartungskalender",
-    addTask: "Aufgabe hinzufügen",
-    selectDate: "Datum auswählen",
-    taskTitle: "Aufgabentitel",
-    date: "Datum",
-    type: "Typ",
-    routine: "Routine",
-    important: "Wichtig",
-    urgent: "Dringend",
-    cancel: "Abbrechen",
-    complete: "Abschließen",
-    selectTaskType: "Aufgabentyp auswählen",
-    noTasks: "Keine Wartungsaufgaben für dieses Datum geplant",
-    
-    // Database
-    problemsSolutions: "Probleme & Lösungen",
-    searchProblems: "Probleme suchen...",
-    allProblems: "Alle Probleme",
-    diagnostics: "Diagnose",
-    engine: "Motor",
-    brakes: "Bremsen",
-    electrical: "Elektrisch",
-    transmission: "Getriebe",
-    hvac: "Klimaanlage",
-    suspension: "Aufhängung",
-    fuelSystem: "Kraftstoffsystem",
-    exhaust: "Auspuff",
-    viewSolution: "Lösung anzeigen",
-    upgradeToView: "Upgrade um anzuzeigen",
-    noProblemsFound: "Keine Probleme gefunden, die Ihren Suchkriterien entsprechen.",
-    
-    // Language
+    welcomeDIY: "Hallo! Ich bin Ihr Auto Master KI-Assistent. Ich helfe Ihnen bei der Fahrzeugdiagnose und -reparatur. Welches Problem haben Sie?",
+    welcomeMechanic: "Hallo! Ich bin Ihr professioneller Auto Master Assistent. Ich helfe Ihnen bei erweiterten Diagnosen und technischen Analysen. Wie kann ich Ihnen helfen?",
+    chooseDIY: "DIY-Enthusiast",
+    chooseMechanic: "Professioneller Mechaniker",
+    diyDescription: "Heimreparaturen und Wartung",
+    mechanicDescription: "Erweiterte und technische Diagnosen",
+    chooseProfile: "Wählen Sie Ihr Profil für eine personalisierte Erfahrung",
+    welcome: "Willkommen bei Auto Master!",
+    changeMode: "Modus ändern",
+    diyMode: "Modus: DIY-Enthusiast",
+    mechanicMode: "Modus: Professioneller Mechaniker",
     changeLanguage: "Sprache ändern",
-    // Navigation items
     Home: "Startseite",
     Chat: "Chat",
     Maintenance: "Wartung",
@@ -412,99 +293,27 @@ export const translations = {
     Settings: "Einstellungen"
   },
   pt: {
-    // Dashboard
     dashboard: "Painel",
     quickActions: "Ações Rápidas",
     maintenanceReminders: "Lembretes de Manutenção",
-    
-    // Navigation
     home: "Início",
     chat: "Chat",
     maintenance: "Manutenção",
     database: "Banco de Dados",
     vehicle: "Veículo",
     settings: "Configurações",
-    
-    // Vehicle
-    addVehicle: "Adicionar Veículo",
-    vehicleDetails: "Detalhes do Veículo",
-    make: "Marca",
-    model: "Modelo",
-    year: "Ano",
-    vin: "VIN",
-    mileage: "Quilometragem",
-    
-    // Settings
-    profile: "Perfil",
-    language: "Idioma",
-    theme: "Tema",
-    notifications: "Notificações",
-    premium: "Premium",
-    logout: "Sair",
-    
-    // Auth
-    signIn: "Entrar",
-    signUp: "Cadastrar",
-    email: "Email",
-    password: "Senha",
-    forgotPassword: "Esqueceu a senha?",
-    
-    // Plans
-    freePlan: "Plano Gratuito",
-    premiumPlan: "Plano Premium",
-    currentPlan: "Plano Atual",
-    basicDiagnostics: "Diagnóstico básico de veículos",
-    advancedVehicleManagement: "Gerenciamento avançado de veículos",
-    singleVehicle: "Veículo único",
-    unlimitedVehicles: "Veículos ilimitados",
-    basicChatDiagnostics: "Diagnóstico básico por chat",
-    advancedAIDiagnostics: "Diagnóstico avançado com IA",
-    simpleMaintenanceCalendar: "Calendário de manutenção simples",
-    detailedMaintenanceCalendar: "Calendário de manutenção detalhado",
-    knowledgeBaseAccess: "Acesso à base de conhecimento",
-    fullKnowledgeBaseAccess: "Acesso completo à base de conhecimento",
-    obdScanner: "Scanner OBD-II",
-    advancedDiagnostics: "Diagnósticos avançados",
-    multipleVehicles: "Múltiplos veículos",
-    exportImportData: "Exportar/importar dados",
-    adFreeExperience: "Experiência sem anúncios",
-    upgradeToPremium: "Atualizar para Premium",
-    
-    // Calendar
-    maintenanceCalendar: "Calendário de Manutenção",
-    addTask: "Adicionar Tarefa",
-    selectDate: "Selecionar data",
-    taskTitle: "Título da Tarefa",
-    date: "Data",
-    type: "Tipo",
-    routine: "Rotina",
-    important: "Importante",
-    urgent: "Urgente",
-    cancel: "Cancelar",
-    complete: "Completar",
-    selectTaskType: "Selecionar tipo de tarefa",
-    noTasks: "Nenhuma tarefa de manutenção agendada para esta data",
-    
-    // Database
-    problemsSolutions: "Problemas e Soluções",
-    searchProblems: "Pesquisar problemas...",
-    allProblems: "Todos os Problemas",
-    diagnostics: "Diagnósticos",
-    engine: "Motor",
-    brakes: "Freios",
-    electrical: "Elétrico",
-    transmission: "Transmissão",
-    hvac: "HVAC",
-    suspension: "Suspensão",
-    fuelSystem: "Sistema de Combustível",
-    exhaust: "Escapamento",
-    viewSolution: "Ver Solução",
-    upgradeToView: "Atualizar para Ver",
-    noProblemsFound: "Nenhum problema encontrado correspondente aos seus critérios de pesquisa.",
-    
-    // Language
+    welcomeDIY: "Olá! Sou seu assistente Auto Master IA. Vou ajudá-lo com diagnóstico e reparo de veículos. Que problema você está enfrentando?",
+    welcomeMechanic: "Olá! Sou seu assistente Auto Master profissional. Vou ajudá-lo com diagnósticos avançados e análise técnica. Como posso ajudá-lo?",
+    chooseDIY: "Entusiasta DIY",
+    chooseMechanic: "Mecânico Profissional",
+    diyDescription: "Reparos domésticos e manutenção",
+    mechanicDescription: "Diagnósticos avançados e técnicos",
+    chooseProfile: "Para começar, selecione seu perfil para uma experiência personalizada",
+    welcome: "Bem-vindo ao Auto Master!",
+    changeMode: "Mudar modo",
+    diyMode: "Modo: Entusiasta DIY",
+    mechanicMode: "Modo: Mecânico Profissional",
     changeLanguage: "Mudar idioma",
-    // Navigation items
     Home: "Início",
     Chat: "Chat",
     Maintenance: "Manutenção",
@@ -514,99 +323,27 @@ export const translations = {
     Settings: "Configurações"
   },
   it: {
-    // Complete Italian translations
     dashboard: "Dashboard",
     quickActions: "Azioni Rapide",
     maintenanceReminders: "Promemoria Manutenzione",
-    
-    // Navigation
     home: "Home",
     chat: "Chat",
     maintenance: "Manutenzione",
     database: "Database",
     vehicle: "Veicolo",
     settings: "Impostazioni",
-    
-    // Vehicle
-    addVehicle: "Aggiungi Veicolo",
-    vehicleDetails: "Dettagli Veicolo",
-    make: "Marca",
-    model: "Modello",
-    year: "Anno",
-    vin: "VIN",
-    mileage: "Chilometraggio",
-    
-    // Settings
-    profile: "Profilo",
-    language: "Lingua",
-    theme: "Tema",
-    notifications: "Notifiche",
-    premium: "Premium",
-    logout: "Logout",
-    
-    // Auth
-    signIn: "Accedi",
-    signUp: "Registrati",
-    email: "Email",
-    password: "Password",
-    forgotPassword: "Password dimenticata?",
-    
-    // Plans
-    freePlan: "Piano Gratuito",
-    premiumPlan: "Piano Premium",
-    currentPlan: "Piano Attuale",
-    basicDiagnostics: "Diagnostica base del veicolo",
-    advancedVehicleManagement: "Gestione avanzata del veicolo",
-    singleVehicle: "Veicolo singolo",
-    unlimitedVehicles: "Veicoli illimitati",
-    basicChatDiagnostics: "Diagnostica chat base",
-    advancedAIDiagnostics: "Diagnostica avanzata IA",
-    simpleMaintenanceCalendar: "Calendario manutenzione semplice",
-    detailedMaintenanceCalendar: "Calendario manutenzione dettagliato",
-    knowledgeBaseAccess: "Accesso base conoscenza",
-    fullKnowledgeBaseAccess: "Accesso completo base conoscenza",
-    obdScanner: "Scanner OBD-II",
-    advancedDiagnostics: "Diagnostica avanzata",
-    multipleVehicles: "Veicoli multipli",
-    exportImportData: "Esporta/importa dati",
-    adFreeExperience: "Esperienza senza pubblicità",
-    upgradeToPremium: "Aggiorna a Premium",
-    
-    // Calendar
-    maintenanceCalendar: "Calendario Manutenzione",
-    addTask: "Aggiungi Attività",
-    selectDate: "Seleziona data",
-    taskTitle: "Titolo Attività",
-    date: "Data",
-    type: "Tipo",
-    routine: "Routine",
-    important: "Importante",
-    urgent: "Urgente",
-    cancel: "Annulla",
-    complete: "Completa",
-    selectTaskType: "Seleziona tipo attività",
-    noTasks: "Nessuna attività di manutenzione programmata per questa data",
-    
-    // Database
-    problemsSolutions: "Problemi e Soluzioni",
-    searchProblems: "Cerca problemi...",
-    allProblems: "Tutti i Problemi",
-    diagnostics: "Diagnostica",
-    engine: "Motore",
-    brakes: "Freni",
-    electrical: "Elettrico",
-    transmission: "Trasmissione",
-    hvac: "HVAC",
-    suspension: "Sospensioni",
-    fuelSystem: "Sistema Carburante",
-    exhaust: "Scarico",
-    viewSolution: "Vedi Soluzione",
-    upgradeToView: "Aggiorna per Vedere",
-    noProblemsFound: "Nessun problema trovato corrispondente ai tuoi criteri di ricerca.",
-    
-    // Language
+    welcomeDIY: "Ciao! Sono il tuo assistente Auto Master IA. Ti aiuterò con la diagnosi e riparazione del veicolo. Che problema stai riscontrando?",
+    welcomeMechanic: "Ciao! Sono il tuo assistente Auto Master professionale. Ti aiuterò con diagnosi avanzate e analisi tecniche. Come posso aiutarti?",
+    chooseDIY: "Appassionato DIY",
+    chooseMechanic: "Meccanico Professionale",
+    diyDescription: "Riparazioni domestiche e manutenzione",
+    mechanicDescription: "Diagnosi avanzate e tecniche",
+    chooseProfile: "Per iniziare, seleziona il tuo profilo per un'esperienza personalizzata",
+    welcome: "Benvenuto in Auto Master!",
+    changeMode: "Cambia modalità",
+    diyMode: "Modalità: Appassionato DIY",
+    mechanicMode: "Modalità: Meccanico Professionale",
     changeLanguage: "Cambia lingua",
-    // Navigation items
     Home: "Home",
     Chat: "Chat",
     Maintenance: "Manutenzione",
@@ -616,99 +353,27 @@ export const translations = {
     Settings: "Impostazioni"
   },
   ja: {
-    // Complete Japanese translations
     dashboard: "ダッシュボード",
     quickActions: "クイックアクション",
     maintenanceReminders: "メンテナンス リマインダー",
-    
-    // Navigation
     home: "ホーム",
     chat: "チャット",
     maintenance: "メンテナンス",
     database: "データベース",
     vehicle: "車両",
     settings: "設定",
-    
-    // Vehicle
-    addVehicle: "車両を追加",
-    vehicleDetails: "車両詳細",
-    make: "メーカー",
-    model: "モデル",
-    year: "年式",
-    vin: "VIN",
-    mileage: "走行距離",
-    
-    // Settings
-    profile: "プロフィール",
-    language: "言語",
-    theme: "テーマ",
-    notifications: "通知",
-    premium: "プレミアム",
-    logout: "ログアウト",
-    
-    // Auth
-    signIn: "サインイン",
-    signUp: "サインアップ",
-    email: "メール",
-    password: "パスワード",
-    forgotPassword: "パスワードを忘れましたか？",
-    
-    // Plans
-    freePlan: "無料プラン",
-    premiumPlan: "プレミアムプラン",
-    currentPlan: "現在のプラン",
-    basicDiagnostics: "基本車両診断",
-    advancedVehicleManagement: "高度な車両管理",
-    singleVehicle: "単一車両",
-    unlimitedVehicles: "無制限車両",
-    basicChatDiagnostics: "基本チャット診断",
-    advancedAIDiagnostics: "高度なAI診断",
-    simpleMaintenanceCalendar: "シンプルメンテナンスカレンダー",
-    detailedMaintenanceCalendar: "詳細メンテナンスカレンダー",
-    knowledgeBaseAccess: "ナレッジベースアクセス",
-    fullKnowledgeBaseAccess: "完全ナレッジベースアクセス",
-    obdScanner: "OBD-IIスキャナー",
-    advancedDiagnostics: "高度な診断",
-    multipleVehicles: "複数車両",
-    exportImportData: "データのエクスポート/インポート",
-    adFreeExperience: "広告なし体験",
-    upgradeToPremium: "プレミアムにアップグレード",
-    
-    // Calendar
-    maintenanceCalendar: "メンテナンスカレンダー",
-    addTask: "タスクを追加",
-    selectDate: "日付を選択",
-    taskTitle: "タスクタイトル",
-    date: "日付",
-    type: "タイプ",
-    routine: "ルーチン",
-    important: "重要",
-    urgent: "緊急",
-    cancel: "キャンセル",
-    complete: "完了",
-    selectTaskType: "タスクタイプを選択",
-    noTasks: "この日にはメンテナンスタスクが予定されていません",
-    
-    // Database
-    problemsSolutions: "問題と解決策",
-    searchProblems: "問題を検索...",
-    allProblems: "すべての問題",
-    diagnostics: "診断",
-    engine: "エンジン",
-    brakes: "ブレーキ",
-    electrical: "電気系統",
-    transmission: "トランスミッション",
-    hvac: "HVAC",
-    suspension: "サスペンション",
-    fuelSystem: "燃料システム",
-    exhaust: "排気",
-    viewSolution: "解決策を見る",
-    upgradeToView: "表示するためにアップグレード",
-    noProblemsFound: "検索条件に一致する問題が見つかりませんでした。",
-    
-    // Language
+    welcomeDIY: "こんにちは！私はあなたのAuto Master AIアシスタントです。車両の診断と修理をお手伝いします。どのような問題がありますか？",
+    welcomeMechanic: "こんにちは！私はあなたのプロフェッショナルAuto Masterアシスタントです。高度な診断と技術分析をお手伝いします。どのようにお手伝いできますか？",
+    chooseDIY: "DIY愛好家",
+    chooseMechanic: "プロの整備士",
+    diyDescription: "自宅での修理とメンテナンス",
+    mechanicDescription: "高度で技術的な診断",
+    chooseProfile: "開始するには、パーソナライズされた体験のためにプロフィールを選択してください",
+    welcome: "Auto Masterへようこそ！",
+    changeMode: "モードを変更",
+    diyMode: "モード: DIY愛好家",
+    mechanicMode: "モード: プロの整備士",
     changeLanguage: "言語を変更",
-    // Navigation items
     Home: "ホーム",
     Chat: "チャット",
     Maintenance: "メンテナンス",
@@ -718,99 +383,27 @@ export const translations = {
     Settings: "設定"
   },
   zh: {
-    // Complete Chinese translations
     dashboard: "仪表板",
     quickActions: "快速操作",
     maintenanceReminders: "维护提醒",
-    
-    // Navigation
     home: "首页",
     chat: "聊天",
     maintenance: "维护",
     database: "数据库",
     vehicle: "车辆",
     settings: "设置",
-    
-    // Vehicle
-    addVehicle: "添加车辆",
-    vehicleDetails: "车辆详情",
-    make: "品牌",
-    model: "型号",
-    year: "年份",
-    vin: "VIN",
-    mileage: "里程",
-    
-    // Settings
-    profile: "个人资料",
-    language: "语言",
-    theme: "主题",
-    notifications: "通知",
-    premium: "高级版",
-    logout: "登出",
-    
-    // Auth
-    signIn: "登录",
-    signUp: "注册",
-    email: "邮箱",
-    password: "密码",
-    forgotPassword: "忘记密码？",
-    
-    // Plans
-    freePlan: "免费计划",
-    premiumPlan: "高级计划",
-    currentPlan: "当前计划",
-    basicDiagnostics: "基础车辆诊断",
-    advancedVehicleManagement: "高级车辆管理",
-    singleVehicle: "单一车辆",
-    unlimitedVehicles: "无限车辆",
-    basicChatDiagnostics: "基础聊天诊断",
-    advancedAIDiagnostics: "高级AI诊断",
-    simpleMaintenanceCalendar: "简单维护日历",
-    detailedMaintenanceCalendar: "详细维护日历",
-    knowledgeBaseAccess: "知识库访问",
-    fullKnowledgeBaseAccess: "完整知识库访问",
-    obdScanner: "OBD-II扫描仪",
-    advancedDiagnostics: "高级诊断",
-    multipleVehicles: "多个车辆",
-    exportImportData: "导出/导入数据",
-    adFreeExperience: "无广告体验",
-    upgradeToPremium: "升级到高级版",
-    
-    // Calendar
-    maintenanceCalendar: "维护日历",
-    addTask: "添加任务",
-    selectDate: "选择日期",
-    taskTitle: "任务标题",
-    date: "日期",
-    type: "类型",
-    routine: "常规",
-    important: "重要",
-    urgent: "紧急",
-    cancel: "取消",
-    complete: "完成",
-    selectTaskType: "选择任务类型",
-    noTasks: "这个日期没有安排维护任务",
-    
-    // Database
-    problemsSolutions: "问题和解决方案",
-    searchProblems: "搜索问题...",
-    allProblems: "所有问题",
-    diagnostics: "诊断",
-    engine: "发动机",
-    brakes: "刹车",
-    electrical: "电气",
-    transmission: "变速箱",
-    hvac: "暖通空调",
-    suspension: "悬挂",
-    fuelSystem: "燃油系统",
-    exhaust: "排气",
-    viewSolution: "查看解决方案",
-    upgradeToView: "升级查看",
-    noProblemsFound: "未找到符合搜索条件的问题。",
-    
-    // Language
+    welcomeDIY: "您好！我是您的Auto Master AI助手。我将帮助您进行车辆诊断和维修。您遇到了什么问题？",
+    welcomeMechanic: "您好！我是您的专业Auto Master助手。我将帮助您进行高级诊断和技术分析。我可以如何为您提供帮助？",
+    chooseDIY: "DIY爱好者",
+    chooseMechanic: "专业技师",
+    diyDescription: "家庭维修和保养",
+    mechanicDescription: "高级和技术诊断",
+    chooseProfile: "开始前，请选择您的个人资料以获得个性化体验",
+    welcome: "欢迎来到Auto Master！",
+    changeMode: "更改模式",
+    diyMode: "模式：DIY爱好者",
+    mechanicMode: "模式：专业技师",
     changeLanguage: "更改语言",
-    // Navigation items
     Home: "首页",
     Chat: "聊天",
     Maintenance: "维护",
@@ -837,11 +430,21 @@ const LanguageContext = createContext<LanguageContextType>({
 
 // Provider component
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguage] = useState('es');
+  const [language, setLanguage] = useState(() => {
+    // Try to get saved language from localStorage
+    const savedLanguage = localStorage.getItem('automaster-language');
+    return savedLanguage || 'es';
+  });
+
+  // Save language to localStorage when it changes
+  useEffect(() => {
+    localStorage.setItem('automaster-language', language);
+    console.log(`Idioma cambiado a: ${language}`);
+  }, [language]);
 
   const t = (key: string): string => {
     // @ts-ignore
-    return translations[language]?.[key] || key;
+    return translations[language]?.[key] || translations['es']?.[key] || key;
   };
 
   return (
