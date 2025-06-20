@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -126,7 +127,7 @@ export const ChatInterface = () => {
 
   if (!userType) {
     return (
-      <div className="h-[calc(100vh-8rem)] flex flex-col items-center justify-center relative overflow-hidden">
+      <div className="h-[calc(100vh-8rem)] flex flex-col items-center justify-center relative overflow-hidden pt-8">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-blue-500/20 to-purple-500/20"></div>
@@ -137,17 +138,17 @@ export const ChatInterface = () => {
           </div>
         </div>
 
-        <div className="relative z-10 text-center space-y-8 max-w-md mx-auto px-4">
-          {/* Bot Avatar - Using new logo */}
+        <div className="relative z-10 text-center space-y-6 max-w-md mx-auto px-4">
+          {/* Bot Avatar - Reduced size and positioned lower */}
           <div className="flex justify-center">
-            <div className="w-32 h-32 rounded-full flex items-center justify-center shadow-2xl">
+            <div className="w-20 h-20 rounded-full flex items-center justify-center shadow-2xl">
               <img 
                 src="/lovable-uploads/3978a39a-c848-4eed-9d77-ca133e211f62.png" 
                 alt="Auto Master Bot" 
-                className="w-32 h-32 object-cover rounded-full"
+                className="w-20 h-20 object-cover rounded-full"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
-                  e.currentTarget.parentElement!.innerHTML = '<div class="w-32 h-32 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center"><MessageSquare class="w-16 h-16 text-white" /></div>';
+                  e.currentTarget.parentElement!.innerHTML = '<div class="w-20 h-20 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center"><MessageSquare class="w-10 h-10 text-white" /></div>';
                 }}
               />
             </div>
@@ -218,14 +219,14 @@ export const ChatInterface = () => {
       <div className="bg-gradient-to-r from-purple-600/20 to-blue-600/20 backdrop-blur-sm border-b border-white/10 p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full flex items-center justify-center">
               <img 
                 src="/lovable-uploads/3978a39a-c848-4eed-9d77-ca133e211f62.png" 
                 alt="Auto Master Bot" 
-                className="w-12 h-12 object-cover rounded-full"
+                className="w-10 h-10 object-cover rounded-full"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
-                  e.currentTarget.parentElement!.innerHTML = '<div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center"><MessageSquare class="w-6 h-6 text-white" /></div>';
+                  e.currentTarget.parentElement!.innerHTML = '<div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center"><MessageSquare class="w-5 h-5 text-white" /></div>';
                 }}
               />
             </div>

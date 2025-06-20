@@ -94,7 +94,15 @@ export const translations = {
     noProblemsFound: "No se encontraron problemas que coincidan con tu búsqueda.",
     
     // Language
-    changeLanguage: "Cambiar idioma"
+    changeLanguage: "Cambiar idioma",
+    // Navigation items
+    Home: "Inicio",
+    Chat: "Chat",
+    Maintenance: "Mantenimiento",
+    Database: "Base de Datos",
+    Vehicle: "Vehículo",
+    Store: "Tienda",
+    Settings: "Ajustes"
   },
   en: {
     // Dashboard
@@ -188,7 +196,15 @@ export const translations = {
     noProblemsFound: "No problems found matching your search criteria.",
     
     // Language
-    changeLanguage: "Change language"
+    changeLanguage: "Change language",
+    // Navigation items
+    Home: "Home",
+    Chat: "Chat",
+    Maintenance: "Maintenance",
+    Database: "Database",
+    Vehicle: "Vehicle",
+    Store: "Store",
+    Settings: "Settings"
   },
   fr: {
     // Dashboard
@@ -282,7 +298,15 @@ export const translations = {
     noProblemsFound: "Aucun problème correspondant à vos critères de recherche.",
     
     // Language
-    changeLanguage: "Changer de langue"
+    changeLanguage: "Changer de langue",
+    // Navigation items
+    Home: "Accueil",
+    Chat: "Chat",
+    Maintenance: "Entretien",
+    Database: "Base de Données",
+    Vehicle: "Véhicule",
+    Store: "Boutique",
+    Settings: "Paramètres"
   },
   de: {
     // Dashboard
@@ -376,7 +400,15 @@ export const translations = {
     noProblemsFound: "Keine Probleme gefunden, die Ihren Suchkriterien entsprechen.",
     
     // Language
-    changeLanguage: "Sprache ändern"
+    changeLanguage: "Sprache ändern",
+    // Navigation items
+    Home: "Startseite",
+    Chat: "Chat",
+    Maintenance: "Wartung",
+    Database: "Datenbank",
+    Vehicle: "Fahrzeug",
+    Store: "Shop",
+    Settings: "Einstellungen"
   },
   pt: {
     // Dashboard
@@ -470,7 +502,141 @@ export const translations = {
     noProblemsFound: "Nenhum problema encontrado correspondente aos seus critérios de pesquisa.",
     
     // Language
-    changeLanguage: "Mudar idioma"
+    changeLanguage: "Mudar idioma",
+    // Navigation items
+    Home: "Início",
+    Chat: "Chat",
+    Maintenance: "Manutenção",
+    Database: "Banco de Dados",
+    Vehicle: "Veículo",
+    Store: "Loja",
+    Settings: "Configurações"
+  },
+  it: {
+    // Italian translations
+    dashboard: "Dashboard",
+    quickActions: "Azioni Rapide",
+    maintenanceReminders: "Promemoria Manutenzione",
+    
+    // Navigation
+    home: "Home",
+    chat: "Chat",
+    maintenance: "Manutenzione",
+    database: "Database",
+    vehicle: "Veicolo",
+    settings: "Impostazioni",
+    
+    // Vehicle
+    addVehicle: "Aggiungi Veicolo",
+    vehicleDetails: "Dettagli Veicolo",
+    make: "Marca",
+    model: "Modello",
+    year: "Anno",
+    vin: "VIN",
+    mileage: "Chilometraggio",
+    
+    // Settings
+    profile: "Profilo",
+    language: "Lingua",
+    theme: "Tema",
+    notifications: "Notifiche",
+    premium: "Premium",
+    logout: "Logout",
+    
+    // Language
+    changeLanguage: "Cambia lingua",
+    // Navigation items
+    Home: "Home",
+    Chat: "Chat",
+    Maintenance: "Manutenzione",
+    Database: "Database",
+    Vehicle: "Veicolo",
+    Store: "Negozio",
+    Settings: "Impostazioni"
+  },
+  ja: {
+    // Japanese translations
+    dashboard: "ダッシュボード",
+    quickActions: "クイックアクション",
+    maintenanceReminders: "メンテナンス リマインダー",
+    
+    // Navigation
+    home: "ホーム",
+    chat: "チャット",
+    maintenance: "メンテナンス",
+    database: "データベース",
+    vehicle: "車両",
+    settings: "設定",
+    
+    // Vehicle
+    addVehicle: "車両を追加",
+    vehicleDetails: "車両詳細",
+    make: "メーカー",
+    model: "モデル",
+    year: "年式",
+    vin: "VIN",
+    mileage: "走行距離",
+    
+    // Settings
+    profile: "プロフィール",
+    language: "言語",
+    theme: "テーマ",
+    notifications: "通知",
+    premium: "プレミアム",
+    logout: "ログアウト",
+    
+    // Language
+    changeLanguage: "言語を変更",
+    // Navigation items
+    Home: "ホーム",
+    Chat: "チャット",
+    Maintenance: "メンテナンス",
+    Database: "データベース",
+    Vehicle: "車両",
+    Store: "ストア",
+    Settings: "設定"
+  },
+  zh: {
+    // Chinese translations
+    dashboard: "仪表板",
+    quickActions: "快速操作",
+    maintenanceReminders: "维护提醒",
+    
+    // Navigation
+    home: "首页",
+    chat: "聊天",
+    maintenance: "维护",
+    database: "数据库",
+    vehicle: "车辆",
+    settings: "设置",
+    
+    // Vehicle
+    addVehicle: "添加车辆",
+    vehicleDetails: "车辆详情",
+    make: "品牌",
+    model: "型号",
+    year: "年份",
+    vin: "VIN",
+    mileage: "里程",
+    
+    // Settings
+    profile: "个人资料",
+    language: "语言",
+    theme: "主题",
+    notifications: "通知",
+    premium: "高级版",
+    logout: "登出",
+    
+    // Language
+    changeLanguage: "更改语言",
+    // Navigation items
+    Home: "首页",
+    Chat: "聊天",
+    Maintenance: "维护",
+    Database: "数据库",
+    Vehicle: "车辆",
+    Store: "商店",
+    Settings: "设置"
   }
 };
 
@@ -490,7 +656,7 @@ const LanguageContext = createContext<LanguageContextType>({
 
 // Provider component
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguage] = useState('en');
+  const [language, setLanguage] = useState('es');
 
   const t = (key: string): string => {
     // @ts-ignore
