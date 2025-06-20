@@ -149,22 +149,39 @@ const Layout = ({ children }: LayoutProps) => {
                   <LogOut className="h-4 w-4" />
                 </Button>
               </AlertDialogTrigger>
-              <AlertDialogContent className="bg-slate-900/95 backdrop-blur-md border border-blue-500/30">
-                <AlertDialogHeader>
-                  <AlertDialogTitle className="text-white">
-                    {t('logout')} - Confirmar
+              <AlertDialogContent className={cn(
+                "bg-slate-900/95 backdrop-blur-md border border-blue-500/30",
+                isMobile ? "max-w-sm mx-4 rounded-2xl p-4" : "max-w-lg"
+              )}>
+                <AlertDialogHeader className={cn(isMobile ? "space-y-2" : "")}>
+                  <AlertDialogTitle className={cn(
+                    "text-white",
+                    isMobile ? "text-lg text-center" : ""
+                  )}>
+                    {t('logout')}
                   </AlertDialogTitle>
-                  <AlertDialogDescription className="text-white/80">
-                    ¿Estás seguro de que quieres cerrar sesión? Tendrás que volver a iniciar sesión para acceder a la aplicación.
+                  <AlertDialogDescription className={cn(
+                    "text-white/80",
+                    isMobile ? "text-sm text-center leading-relaxed" : ""
+                  )}>
+                    ¿Estás seguro de que quieres cerrar sesión?
                   </AlertDialogDescription>
                 </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel className="bg-slate-700/50 text-white border-slate-600 hover:bg-slate-600/50">
+                <AlertDialogFooter className={cn(
+                  isMobile ? "flex-col space-y-2 sm:space-y-0" : ""
+                )}>
+                  <AlertDialogCancel className={cn(
+                    "bg-slate-700/50 text-white border-slate-600 hover:bg-slate-600/50",
+                    isMobile ? "w-full" : ""
+                  )}>
                     Cancelar
                   </AlertDialogCancel>
                   <AlertDialogAction 
                     onClick={handleLogout}
-                    className="bg-red-500/80 text-white hover:bg-red-600/80"
+                    className={cn(
+                      "bg-red-500/80 text-white hover:bg-red-600/80",
+                      isMobile ? "w-full" : ""
+                    )}
                   >
                     Cerrar Sesión
                   </AlertDialogAction>
