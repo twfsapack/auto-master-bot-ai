@@ -127,38 +127,38 @@ export const ChatInterface = () => {
 
   if (!userType) {
     return (
-      <div className="h-full flex flex-col items-center justify-center relative overflow-hidden px-4 py-8">
+      <div className="h-[calc(100vh-8rem)] flex flex-col items-center justify-center relative overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-blue-500/10"></div>
-          <div className="grid grid-cols-8 gap-2 w-full h-full opacity-20">
-            {Array.from({ length: 32 }).map((_, i) => (
-              <div key={i} className="border border-blue-300/10 rounded"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-blue-500/20 to-purple-500/20"></div>
+          <div className="grid grid-cols-8 gap-4 w-full h-full opacity-30">
+            {Array.from({ length: 64 }).map((_, i) => (
+              <div key={i} className="border border-purple-300/20 rounded"></div>
             ))}
           </div>
         </div>
 
-        <div className="relative z-10 text-center space-y-6 max-w-sm mx-auto">
+        <div className="relative z-10 text-center space-y-8 max-w-md mx-auto px-4">
           {/* Bot Avatar */}
           <div className="flex justify-center">
-            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-xl">
+            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center shadow-2xl">
               <img 
                 src="/lovable-uploads/6da80a74-f370-4e8a-a5ca-dd8b844969f9.png" 
                 alt="Auto Master Bot" 
-                className="w-20 h-20 object-cover rounded-full"
+                className="w-24 h-24 object-cover rounded-full"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
-                  e.currentTarget.parentElement!.innerHTML = '<MessageSquare class="w-10 h-10 text-white" />';
+                  e.currentTarget.parentElement!.innerHTML = '<MessageSquare class="w-12 h-12 text-white" />';
                 }}
               />
             </div>
           </div>
 
           {/* Welcome Text */}
-          <div className="space-y-3">
-            <h2 className="text-xl font-bold text-white">¡Bienvenido a Auto Master!</h2>
+          <div className="space-y-4">
+            <h2 className="text-2xl font-bold text-white">¡Bienvenido a Auto Master!</h2>
             <p className="text-white/80 text-sm">
-              Selecciona tu perfil para una experiencia personalizada
+              Para comenzar, selecciona tu perfil para una experiencia personalizada
             </p>
           </div>
 
@@ -166,36 +166,36 @@ export const ChatInterface = () => {
           <div className="space-y-3">
             <Button
               onClick={() => handleUserTypeSelect('diy')}
-              className="w-full h-14 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105"
+              className="w-full h-16 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105"
             >
               <div className="flex items-center justify-center space-x-3">
-                <User className="w-5 h-5" />
+                <User className="w-6 h-6" />
                 <div className="text-left">
-                  <div className="font-semibold text-sm">Entusiasta DIY</div>
-                  <div className="text-xs opacity-80">Reparaciones caseras</div>
+                  <div className="font-semibold">Entusiasta DIY</div>
+                  <div className="text-xs opacity-80">Reparaciones caseras y mantenimiento</div>
                 </div>
               </div>
             </Button>
             
             <Button
               onClick={() => handleUserTypeSelect('mechanic')}
-              className="w-full h-14 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105"
+              className="w-full h-16 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105"
             >
               <div className="flex items-center justify-center space-x-3">
-                <Wrench className="w-5 h-5" />
+                <Wrench className="w-6 h-6" />
                 <div className="text-left">
-                  <div className="font-semibold text-sm">Mecánico Profesional</div>
-                  <div className="text-xs opacity-80">Diagnósticos avanzados</div>
+                  <div className="font-semibold">Mecánico Profesional</div>
+                  <div className="text-xs opacity-80">Diagnósticos avanzados y técnicos</div>
                 </div>
               </div>
             </Button>
           </div>
 
           {/* Plan Info */}
-          <div className="glass-card p-3 border border-white/20">
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
             <div className="flex items-center justify-between text-sm">
               <div className="flex items-center gap-2">
-                <Zap className="h-4 w-4 text-blue-400" />
+                <Zap className="h-4 w-4 text-yellow-400" />
                 <span className="text-white">IA Powered</span>
                 {user?.isPremium && <Crown className="h-4 w-4 text-yellow-400" />}
               </div>
@@ -203,7 +203,7 @@ export const ChatInterface = () => {
                 {user?.isPremium ? (
                   <span className="text-green-400">✨ Ilimitado</span>
                 ) : (
-                  <span>{remainingQuestions} restantes</span>
+                  <span>{remainingQuestions} preguntas restantes</span>
                 )}
               </div>
             </div>
@@ -214,24 +214,24 @@ export const ChatInterface = () => {
   }
 
   return (
-    <div className="flex flex-col h-full">
-      {/* Compact Header */}
-      <div className="glass-card border-b border-white/10 p-3 mb-2">
+    <div className="flex flex-col h-[calc(100vh-8rem)]">
+      {/* Header with user type */}
+      <div className="bg-gradient-to-r from-purple-600/20 to-blue-600/20 backdrop-blur-sm border-b border-white/10 p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center">
               <img 
                 src="/lovable-uploads/6da80a74-f370-4e8a-a5ca-dd8b844969f9.png" 
                 alt="Auto Master Bot" 
-                className="w-8 h-8 object-cover rounded-full"
+                className="w-10 h-10 object-cover rounded-full"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
-                  e.currentTarget.parentElement!.innerHTML = '<MessageSquare class="w-4 h-4 text-white" />';
+                  e.currentTarget.parentElement!.innerHTML = '<MessageSquare class="w-5 h-5 text-white" />';
                 }}
               />
             </div>
             <div>
-              <div className="text-white font-semibold text-sm">Auto Master Bot</div>
+              <div className="text-white font-semibold">Auto Master Bot</div>
               <div className="text-white/70 text-xs">
                 {userType === 'diy' ? 'Modo: Entusiasta DIY' : 'Modo: Mecánico Profesional'}
               </div>
@@ -244,16 +244,16 @@ export const ChatInterface = () => {
               variant="ghost"
               size="sm"
               onClick={() => setUserType(null)}
-              className="text-white/70 hover:text-white hover:bg-white/10 text-xs px-2 py-1"
+              className="text-white/70 hover:text-white hover:bg-white/10"
             >
-              Cambiar
+              Cambiar modo
             </Button>
           </div>
         </div>
       </div>
 
-      {/* Messages Container */}
-      <div className="flex-1 overflow-y-auto px-3 space-y-3 pb-2">
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message) => (
           <div
             key={message.id}
@@ -262,38 +262,38 @@ export const ChatInterface = () => {
             <div
               className={`flex ${
                 message.sender === 'user' ? 'flex-row-reverse' : 'flex-row'
-              } items-start gap-2 max-w-[85%]`}
+              } items-start gap-3 max-w-[80%]`}
             >
-              <Avatar className="w-7 h-7 flex-shrink-0">
+              <Avatar className="w-8 h-8 flex-shrink-0">
                 {message.sender === 'user' ? (
-                  <AvatarFallback className="bg-blue-600 text-white text-xs">
+                  <AvatarFallback className="bg-purple-600 text-white">
                     {user?.name?.charAt(0) || 'U'}
                   </AvatarFallback>
                 ) : (
                   <AvatarImage 
                     src="/lovable-uploads/6da80a74-f370-4e8a-a5ca-dd8b844969f9.png" 
                     alt="Bot" 
-                    className="w-7 h-7 object-cover rounded-full"
+                    className="w-8 h-8 object-cover rounded-full"
                   />
                 )}
               </Avatar>
               
               <div
-                className={`rounded-2xl px-3 py-2 ${
+                className={`rounded-2xl px-4 py-3 ${
                   message.sender === 'user'
-                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white'
-                    : 'glass-card text-white border border-white/20'
+                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white'
+                    : 'bg-white/10 backdrop-blur-sm text-white border border-white/20'
                 }`}
               >
                 {message.isAIGenerated && (
-                  <div className="flex items-center gap-1 text-xs text-blue-300 mb-1">
+                  <div className="flex items-center gap-1 text-xs text-blue-300 mb-2">
                     <Zap className="h-3 w-3" />
                     <span>Respuesta IA</span>
                     {user?.isPremium && <Crown className="h-3 w-3 text-yellow-400" />}
                   </div>
                 )}
                 <div className="text-sm whitespace-pre-line">{message.content.text}</div>
-                <div className="text-xs opacity-70 mt-1">
+                <div className="text-xs opacity-70 mt-2">
                   {message.timestamp.toLocaleTimeString([], {
                     hour: '2-digit',
                     minute: '2-digit',
@@ -306,16 +306,16 @@ export const ChatInterface = () => {
         
         {isLoading && (
           <div className="flex justify-start">
-            <div className="flex items-start gap-2 max-w-[85%]">
-              <Avatar className="w-7 h-7">
+            <div className="flex items-start gap-3 max-w-[80%]">
+              <Avatar className="w-8 h-8">
                 <AvatarImage 
                   src="/lovable-uploads/6da80a74-f370-4e8a-a5ca-dd8b844969f9.png" 
                   alt="Bot" 
-                  className="w-7 h-7 object-cover rounded-full"
+                  className="w-8 h-8 object-cover rounded-full"
                 />
               </Avatar>
-              <div className="glass-card border border-white/20 rounded-2xl px-3 py-2">
-                <div className="flex items-center gap-2 mb-1">
+              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-4 py-3">
+                <div className="flex items-center gap-2 mb-2">
                   <Zap className="h-3 w-3 text-blue-300 animate-pulse" />
                   <span className="text-xs text-blue-300">Generando respuesta...</span>
                 </div>
@@ -332,9 +332,9 @@ export const ChatInterface = () => {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Section */}
-      <div className="p-3 glass-card border-t border-white/10 mt-2">
-        <form onSubmit={handleSubmit} className="flex items-center gap-2">
+      {/* Input */}
+      <div className="p-4 border-t border-white/10 bg-white/5 backdrop-blur-sm">
+        <form onSubmit={handleSubmit} className="flex items-center gap-3">
           <Input
             placeholder={
               !user?.isPremium && remainingQuestions <= 0 
@@ -345,14 +345,14 @@ export const ChatInterface = () => {
             }
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className="flex-1 glass-card border-white/20 text-white placeholder:text-white/50 focus:border-blue-400 text-sm"
+            className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:bg-white/20 focus:border-purple-400"
             disabled={isLoading || (!user?.isPremium && remainingQuestions <= 0)}
           />
           <Button 
             type="submit" 
             size="icon" 
             disabled={isLoading || !input.trim() || (!user?.isPremium && remainingQuestions <= 0)}
-            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full w-10 h-10 flex-shrink-0"
+            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white rounded-full w-12 h-12"
           >
             {isLoading ? (
               <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />

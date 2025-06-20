@@ -5,7 +5,7 @@ import Layout from '@/components/common/Layout';
 const Chat = () => {
   return (
     <Layout>
-      <div className="h-[calc(100vh-12rem)] pb-4">
+      <div className="h-full">
         <ChatInterface />
       </div>
     </Layout>

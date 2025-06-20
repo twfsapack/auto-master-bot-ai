@@ -1,208 +1,279 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import './mobile.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: 210 40% 98%;
-  --foreground: 222.2 84% 4.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 222.2 84% 4.9%;
-  --primary: 221.2 83.2% 53.3%;
-  --primary-foreground: 210 40% 98%;
-  --secondary: 210 40% 96%;
-  --secondary-foreground: 222.2 84% 4.9%;
-  --muted: 210 40% 96%;
-  --muted-foreground: 215.4 16.3% 46.9%;
-  --accent: 210 40% 96%;
-  --accent-foreground: 222.2 84% 4.9%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 221.2 83.2% 53.3%;
-  --chart-1: 12 76% 61%;
-  --chart-2: 173 58% 39%;
-  --chart-3: 197 37% 24%;
-  --chart-4: 43 74% 66%;
-  --chart-5: 27 87% 67%;
-  --radius: 0.75rem;
+@layer base {
+  body {
+    @apply bg-slate-900 text-white;
+    background: #0f172a;
+    background-attachment: fixed;
+  }
+  
+  * {
+    @apply border-border;
+  }
 }
 
-.dark {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
-  --card: 222.2 84% 4.9%;
-  --card-foreground: 210 40% 98%;
-  --popover: 222.2 84% 4.9%;
-  --popover-foreground: 210 40% 98%;
-  --primary: 217.2 91.2% 59.8%;
-  --primary-foreground: 222.2 84% 4.9%;
-  --secondary: 217.2 32.6% 17.5%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
-  --accent: 217.2 32.6% 17.5%;
-  --accent-foreground: 210 40% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
-  --ring: 224.3 76.3% 94.1%;
-  --chart-1: 220 70% 50%;
-  --chart-2: 160 60% 45%;
-  --chart-3: 30 80% 55%;
-  --chart-4: 280 65% 60%;
-  --chart-5: 340 75% 55%;
+/* Clean Navy Glass Cards */
+.glass-card {
+  background: rgba(30, 41, 59, 0.85);
+  border-radius: 20px;
+  box-shadow: 
+    0 8px 32px rgba(15, 23, 42, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 0 0 1px rgba(59, 130, 246, 0.2);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-* {
-  border-color: hsl(var(--border));
+.glass-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 12px 40px rgba(59, 130, 246, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 0 0 1px rgba(59, 130, 246, 0.4);
+  border-color: rgba(59, 130, 246, 0.5);
 }
 
-body {
-  color: hsl(var(--foreground));
-  background: hsl(var(--background));
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  font-feature-settings: 'cv11', 'ss01';
-  font-variation-settings: 'opsz' 32;
-  overflow-x: hidden;
-}
-
-/* Navy to Purple Professional Gradient Background */
+/* Clean Navy Background */
 .gradient-bg {
+  background: #0f172a;
   position: relative;
-  background: linear-gradient(135deg, #1e293b 0%, #374151 25%, #4c1d95 75%, #6b46c1 100%);
-  min-height: 100vh;
+  overflow: hidden;
 }
 
 .gradient-bg::before {
   content: '';
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   background: 
     radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(74, 63, 122, 0.06) 0%, transparent 50%);
+    radial-gradient(circle at 80% 20%, rgba(30, 41, 59, 0.1) 0%, transparent 50%);
+  animation: gradient-shift 8s ease-in-out infinite;
   pointer-events: none;
-  z-index: 0;
 }
 
-.gradient-bg > * {
+@keyframes gradient-shift {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+/* Enhanced Logo */
+.logo-container {
   position: relative;
-  z-index: 1;
-}
-
-/* Enhanced Glass Card with Navy Purple Theme */
-.glass-card {
-  background: rgba(30, 41, 59, 0.85);
-  backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(139, 92, 246, 0.25);
-  box-shadow: 
-    0 8px 32px rgba(74, 63, 122, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  transition: all 0.3s ease;
-}
-
-.glass-card:hover {
-  background: rgba(30, 41, 59, 0.9);
-  border-color: rgba(139, 92, 246, 0.35);
-  box-shadow: 
-    0 12px 40px rgba(74, 63, 122, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
-}
-
-/* Floating Navigation Improvements */
-.floating-nav {
-  position: fixed;
-  bottom: 8px;
-  left: 8px;
-  right: 8px;
-  z-index: 50;
-  margin-bottom: env(safe-area-inset-bottom);
-}
-
-.nav-item {
-  transition: all 0.3s ease;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 60px;
-}
-
-.nav-item:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateY(-2px);
-}
-
-.nav-item.active {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(139, 92, 246, 0.8));
-  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
-}
-
-/* Enhanced Buttons */
-.btn-primary {
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  background: transparent;
   border: none;
-  color: white;
-  transition: all 0.3s ease;
+  box-shadow: none;
+  animation: logo-float 6s ease-in-out infinite;
 }
 
-.btn-primary:hover {
-  background: linear-gradient(135deg, #2563eb, #7c3aed);
-  transform: translateY(-1px);
-  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
-}
-
-/* Improved animations */
-@keyframes glow-pulse {
-  0%, 100% { text-shadow: 0 0 5px rgba(59, 130, 246, 0.5), 0 0 10px rgba(139, 92, 246, 0.3); }
-  50% { text-shadow: 0 0 10px rgba(59, 130, 246, 0.8), 0 0 20px rgba(139, 92, 246, 0.5); }
-}
-
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+@keyframes logo-float {
+  0%, 100% { 
+    transform: translateY(0) scale(1);
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  50% { 
+    transform: translateY(-10px) scale(1.05);
+  }
+}
+
+/* Professional Animations */
+@keyframes fade-in-up {
+  from { 
+    opacity: 0; 
+    transform: translateY(30px) scale(0.95);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0) scale(1);
   }
 }
 
 @keyframes slide-in-left {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
+  from { 
+    opacity: 0; 
+    transform: translateX(-30px);
   }
-  to {
-    opacity: 1;
+  to { 
+    opacity: 1; 
     transform: translateX(0);
   }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { 
+    text-shadow: 0 0 10px rgba(59, 130, 246, 0.6);
+  }
+  50% { 
+    text-shadow: 
+      0 0 20px rgba(59, 130, 246, 0.8), 
+      0 0 30px rgba(59, 130, 246, 0.6),
+      0 0 40px rgba(59, 130, 246, 0.4);
+  }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .animate-glow-pulse {
   animation: glow-pulse 3s ease-in-out infinite;
 }
 
-.animate-fade-in-up {
-  animation: fade-in-up 0.6s ease-out;
+.animate-shimmer {
+  position: relative;
+  overflow: hidden;
 }
 
-.animate-slide-in-left {
-  animation: slide-in-left 0.5s ease-out;
+.animate-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  animation: shimmer 2s infinite;
 }
 
-/* Safe area support */
+/* Enhanced Navy Buttons */
+.futuristic-btn {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.8) 0%, rgba(30, 58, 138, 0.8) 100%);
+  border: 1px solid rgba(59, 130, 246, 0.5);
+  box-shadow: 
+    0 4px 15px rgba(59, 130, 246, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.futuristic-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.futuristic-btn:hover::before {
+  left: 100%;
+}
+
+.futuristic-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 25px rgba(59, 130, 246, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.9) 0%, rgba(30, 58, 138, 0.9) 100%);
+}
+
+/* Enhanced Navigation */
+.floating-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 0.5rem;
+  background: transparent;
+  z-index: 50;
+}
+
+.floating-nav .glass-card {
+  margin: 0 auto;
+  max-width: 768px;
+  background: rgba(30, 41, 59, 0.9);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.nav-item {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.nav-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: 8px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.nav-item:hover::before {
+  opacity: 1;
+}
+
+.nav-item:hover {
+  transform: translateY(-2px);
+}
+
+.nav-item.active {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(30, 58, 138, 0.2) 100%);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+/* Improved Text Contrast */
+.text-primary {
+  color: rgba(255, 255, 255, 0.98);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.text-secondary {
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.text-muted {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* Enhanced Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(30, 41, 59, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.6) 0%, rgba(30, 58, 138, 0.6) 100%);
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.8) 0%, rgba(30, 58, 138, 0.8) 100%);
+}
+
+/* Safe Area Support */
 .safe-area-top {
   padding-top: env(safe-area-inset-top);
 }
@@ -211,88 +282,27 @@ body {
   padding-bottom: env(safe-area-inset-bottom);
 }
 
-/* Dark mode specific styles */
-.dark .glass-card {
-  background: rgba(15, 23, 42, 0.9);
-  border-color: rgba(139, 92, 246, 0.3);
+/* Enhanced Interactive Elements */
+.hover-lift {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.dark .floating-nav {
-  background: rgba(15, 23, 42, 0.95);
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
 }
 
-/* Light mode adjustments */
-.light {
-  --background: 255 255 255;
-  --foreground: 15 23 42;
+/* Professional Focus States */
+*:focus {
+  outline: 2px solid rgba(59, 130, 246, 0.5);
+  outline-offset: 2px;
 }
 
-.light .gradient-bg {
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #ddd6fe 75%, #e9d5ff 100%);
-}
-
-.light .glass-card {
-  background: rgba(248, 250, 252, 0.85);
-  border-color: rgba(139, 92, 246, 0.2);
-}
-
-.light .nav-item {
-  color: #475569;
-}
-
-.light .nav-item:hover {
-  background: rgba(139, 92, 246, 0.1);
-  color: #1e293b;
-}
-
-/* Improved scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(139, 92, 246, 0.1);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(139, 92, 246, 0.5);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(139, 92, 246, 0.7);
-}
-
-/* Dropdown improvements */
-[data-radix-popper-content-wrapper] {
-  z-index: 60 !important;
-}
-
-/* Better visibility for last navigation item */
-.floating-nav .nav-item:last-child {
-  margin-right: 0;
-  padding-right: 1rem;
-}
-
-/* Ensure proper spacing and visibility */
-.container {
-  width: 100%;
-  max-width: none;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-}
-
-@media (max-width: 640px) {
-  .container {
-    padding-left: 0.25rem;
-    padding-right: 0.25rem;
-  }
-  
-  .floating-nav {
-    left: 4px;
-    right: 4px;
-    bottom: 4px;
-  }
+button:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid rgba(59, 130, 246, 0.6);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }

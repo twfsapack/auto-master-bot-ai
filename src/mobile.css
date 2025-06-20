@@ -1,5 +1,5 @@
 
-/* Optimizaciones específicas para móvil con gradiente navy a púrpura profesional */
+/* Optimizaciones específicas para móvil */
 @media (max-width: 768px) {
   /* Prevenir zoom en inputs */
   input[type="text"],
@@ -33,15 +33,12 @@
     overflow-x: hidden;
   }
 
-  /* Mejorar contraste en pantallas móviles con gradiente navy a púrpura */
+  /* Mejorar contraste en pantallas móviles con navy */
   .glass-card {
-    backdrop-filter: blur(16px) saturate(150%);
+    backdrop-filter: blur(10px) saturate(150%);
     margin: 0 4px;
-    background: rgba(30, 41, 59, 0.85);
-    border: 1px solid rgba(139, 92, 246, 0.25);
-    box-shadow: 
-      0 8px 32px rgba(74, 63, 122, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    background: rgba(30, 41, 59, 0.9);
+    border: 1px solid rgba(59, 130, 246, 0.3);
   }
 
   /* Optimizar calendario centrado en móvil */
@@ -109,14 +106,6 @@
     padding-left: 0.25rem !important;
     padding-right: 0.25rem !important;
   }
-
-  /* Gradiente navy a púrpura profesional para móvil */
-  .gradient-bg::before {
-    background: 
-      radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.06) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
-      radial-gradient(circle at 40% 40%, rgba(74, 63, 122, 0.05) 0%, transparent 50%);
-  }
 }
 
 /* Configuración para pantallas de alta densidad */
@@ -126,11 +115,11 @@
   }
 }
 
-/* Optimizaciones para modo oscuro en móvil con gradiente navy a púrpura */
+/* Optimizaciones para modo oscuro en móvil con navy */
 @media (prefers-color-scheme: dark) and (max-width: 768px) {
   .glass-card {
     background: rgba(30, 41, 59, 0.9);
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    border: 1px solid rgba(59, 130, 246, 0.3);
   }
 }
 
@@ -222,7 +211,7 @@
   }
 }
 
-/* Optimizar contenido expandido con gradiente navy a púrpura */
+/* Optimizar contenido expandido */
 @media (max-width: 768px) {
   .expanded-content {
     width: 100vw;
