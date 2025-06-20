@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -41,7 +42,7 @@ const Layout = ({ children }: LayoutProps) => {
       name: 'Home', 
       path: '/dashboard', 
       icon: selectedVehicle?.image ? (
-        <div className="relative w-6 h-6 rounded-full overflow-hidden border border-purple-400/30">
+        <div className="relative w-6 h-6 rounded-full overflow-hidden border border-blue-400/30">
           <img 
             src={selectedVehicle.image} 
             alt={`${selectedVehicle.make} ${selectedVehicle.model}`}
@@ -73,36 +74,36 @@ const Layout = ({ children }: LayoutProps) => {
 
   return (
     <div className="flex flex-col min-h-screen gradient-bg overflow-x-hidden">
-      {/* Futuristic Header */}
-      <header className="sticky top-0 w-full glass-card z-40 mx-2 mt-2 mb-4 animate-slide-in-left safe-area-top">
-        <div className="flex items-center justify-between p-3 sm:p-4">
-          <div className="flex items-center space-x-2 sm:space-x-3">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center animate-fade-in-up overflow-hidden">
+      {/* Compact Header */}
+      <header className="sticky top-0 w-full glass-card z-40 mx-1 mt-1 mb-2 animate-slide-in-left safe-area-top">
+        <div className="flex items-center justify-between p-2 sm:p-3">
+          <div className="flex items-center space-x-2">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center animate-fade-in-up overflow-hidden">
               <img 
                 src="/lovable-uploads/6da80a74-f370-4e8a-a5ca-dd8b844969f9.png" 
                 alt="Auto Master Bot" 
-                className="w-10 h-10 sm:w-12 sm:h-12 object-cover rounded-full"
+                className="w-8 h-8 sm:w-10 sm:h-10 object-cover rounded-full"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
-                  e.currentTarget.parentElement!.innerHTML = '<span class="text-white font-bold text-sm">AMB</span>';
+                  e.currentTarget.parentElement!.innerHTML = '<span class="text-white font-bold text-xs">AMB</span>';
                 }}
               />
             </div>
             <div className="hidden sm:block">
-              <h1 className="text-base sm:text-lg font-bold text-white animate-glow-pulse">
+              <h1 className="text-sm sm:text-base font-bold text-white animate-glow-pulse">
                 Auto Master Bot
               </h1>
               {selectedVehicle && (
-                <p className="text-xs sm:text-sm text-purple-300">
+                <p className="text-xs text-blue-300">
                   {selectedVehicle.make} {selectedVehicle.model} ({selectedVehicle.year})
                 </p>
               )}
             </div>
           </div>
           
-          <div className="flex items-center space-x-1 sm:space-x-2">
+          <div className="flex items-center space-x-1">
             {user?.isPremium && (
-              <div className="hidden sm:flex items-center bg-gradient-to-r from-yellow-500/20 to-orange-500/20 text-yellow-300 px-2 sm:px-3 py-1 rounded-full text-xs font-medium border border-yellow-500/30 backdrop-blur">
+              <div className="hidden sm:flex items-center bg-gradient-to-r from-blue-500/20 to-blue-700/20 text-blue-300 px-2 py-1 rounded-full text-xs font-medium border border-blue-500/30 backdrop-blur">
                 Premium
               </div>
             )}
@@ -111,12 +112,12 @@ const Layout = ({ children }: LayoutProps) => {
               variant="ghost" 
               size="icon" 
               onClick={toggleTheme}
-              className="rounded-full hover:bg-white/10 text-white/70 hover:text-white w-8 h-8 sm:w-10 sm:h-10 transition-all duration-300"
+              className="rounded-full hover:bg-white/10 text-white/70 hover:text-white w-8 h-8 transition-all duration-300"
             >
               {isDarkMode ? (
-                <Sun className="h-4 w-4 sm:h-5 sm:w-5" />
+                <Sun className="h-4 w-4" />
               ) : (
-                <Moon className="h-4 w-4 sm:h-5 sm:w-5" />
+                <Moon className="h-4 w-4" />
               )}
             </Button>
             <Button 
@@ -126,38 +127,38 @@ const Layout = ({ children }: LayoutProps) => {
                 logout();
                 navigate('/');
               }}
-              className="rounded-full hover:bg-red-500/20 text-white/70 hover:text-red-300 w-8 h-8 sm:w-10 sm:h-10 transition-all duration-300"
+              className="rounded-full hover:bg-red-500/20 text-white/70 hover:text-red-300 w-8 h-8 transition-all duration-300"
             >
-              <LogOut className="h-4 w-4 sm:h-5 sm:w-5" />
+              <LogOut className="h-4 w-4" />
             </Button>
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="flex-1 container mx-auto px-2 sm:px-4 pb-20 sm:pb-24 animate-fade-in-up safe-area-bottom">
+      {/* Expanded Main Content */}
+      <main className="flex-1 container mx-auto px-1 sm:px-2 pb-16 sm:pb-20 animate-fade-in-up safe-area-bottom max-w-none">
         {children}
       </main>
 
-      {/* Futuristic Floating Navigation */}
+      {/* Compact Floating Navigation */}
       <nav className="floating-nav safe-area-bottom">
-        <div className="glass-card p-1 sm:p-2">
+        <div className="glass-card p-1">
           <ScrollArea className="w-full" type="always">
-            <div className="flex justify-between items-center px-1 sm:px-2 space-x-1 sm:space-x-2">
+            <div className="flex justify-between items-center px-1 space-x-1">
               {navItems.map((item) => (
                 <button
                   key={item.path}
                   onClick={() => item.external ? window.open(item.path, '_blank') : navigate(item.path)}
                   className={cn(
-                    "nav-item group min-w-[60px] sm:min-w-[70px] p-2 rounded-lg",
+                    "nav-item group min-w-[50px] sm:min-w-[60px] p-1.5 sm:p-2 rounded-lg",
                     location.pathname === item.path && "active"
                   )}
                 >
-                  <div className="flex flex-col items-center space-y-1">
+                  <div className="flex flex-col items-center space-y-0.5 sm:space-y-1">
                     <div className={cn(
-                      "p-1.5 sm:p-2 rounded-lg transition-all duration-300",
+                      "p-1 sm:p-1.5 rounded-lg transition-all duration-300",
                       location.pathname === item.path 
-                        ? "bg-gradient-to-br from-purple-500 to-blue-500 text-white shadow-lg shadow-purple-500/25" 
+                        ? "bg-gradient-to-br from-blue-500 to-blue-700 text-white shadow-lg shadow-blue-500/25" 
                         : "text-white/60 group-hover:text-white group-hover:bg-white/10"
                     )}>
                       {item.icon}
@@ -176,7 +177,7 @@ const Layout = ({ children }: LayoutProps) => {
             </div>
             <ScrollBar 
               orientation="horizontal" 
-              className="h-1 sm:h-2 bg-purple-500/20 rounded-full mt-1 sm:mt-2"
+              className="h-1 bg-blue-500/20 rounded-full mt-1"
               forceMount 
             />
           </ScrollArea>

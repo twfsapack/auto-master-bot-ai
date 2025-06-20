@@ -22,10 +22,10 @@
     min-width: 44px;
   }
 
-  /* Optimizar navegación flotante */
+  /* Optimizar navegación flotante con menos padding */
   .floating-nav {
-    padding: 8px;
-    margin: 8px;
+    padding: 4px;
+    margin: 4px;
   }
 
   /* Prevenir scroll horizontal */
@@ -33,17 +33,19 @@
     overflow-x: hidden;
   }
 
-  /* Mejorar contraste en pantallas móviles */
+  /* Mejorar contraste en pantallas móviles con navy */
   .glass-card {
     backdrop-filter: blur(10px) saturate(150%);
-    margin: 0 8px;
+    margin: 0 4px;
+    background: rgba(30, 41, 59, 0.9);
+    border: 1px solid rgba(59, 130, 246, 0.3);
   }
 
   /* Optimizar calendario centrado en móvil */
   .calendar-mobile {
-    padding: 0.5rem;
+    padding: 0.25rem;
     width: 100%;
-    max-width: 320px;
+    max-width: 340px;
     margin: 0 auto;
   }
 
@@ -61,29 +63,29 @@
 
   .calendar-mobile .rdp-table {
     margin: 0 auto;
-    max-width: 280px;
+    max-width: 300px;
   }
 
   /* Mejorar espaciado de tareas */
   .task-list-mobile {
-    max-height: 60vh;
+    max-height: 65vh;
     overflow-y: auto;
   }
 
-  /* Optimizar botones de navegación móvil */
+  /* Optimizar botones de navegación móvil más compactos */
   .nav-item {
-    min-width: 60px;
-    padding: 0.75rem;
+    min-width: 50px;
+    padding: 0.5rem;
   }
 
   /* Mejorar tabs en móvil */
   .tabs-mobile {
-    padding: 0 8px;
+    padding: 0 4px;
   }
 
-  /* Optimizar cards en móvil */
+  /* Optimizar cards en móvil con menos márgenes */
   .card-mobile {
-    margin: 0 8px;
+    margin: 0 4px;
     border-radius: 16px;
   }
 
@@ -93,9 +95,16 @@
     line-height: 1.25rem;
   }
 
-  /* Optimizar espaciado vertical */
+  /* Optimizar espaciado vertical más compacto */
   .space-y-mobile {
-    gap: 0.75rem;
+    gap: 0.5rem;
+  }
+
+  /* Expandir contenido al máximo */
+  .container {
+    max-width: none !important;
+    padding-left: 0.25rem !important;
+    padding-right: 0.25rem !important;
   }
 }
 
@@ -106,10 +115,11 @@
   }
 }
 
-/* Optimizaciones para modo oscuro en móvil */
+/* Optimizaciones para modo oscuro en móvil con navy */
 @media (prefers-color-scheme: dark) and (max-width: 768px) {
   .glass-card {
-    background: rgba(30, 41, 59, 0.8);
+    background: rgba(30, 41, 59, 0.9);
+    border: 1px solid rgba(59, 130, 246, 0.3);
   }
 }
 
@@ -126,46 +136,52 @@
   }
 
   .calendar-mobile {
-    max-width: 280px;
+    max-width: 300px;
     scale: 0.95;
   }
 
   /* Mejorar botones en pantallas pequeñas */
   .btn-mobile-xs {
-    padding: 0.5rem 0.75rem;
+    padding: 0.375rem 0.5rem;
     font-size: 0.875rem;
+  }
+
+  /* Contenido expandido al máximo en pantallas pequeñas */
+  .container {
+    padding-left: 0.125rem !important;
+    padding-right: 0.125rem !important;
   }
 }
 
 /* Breakpoint personalizado para tablets pequeñas */
 @media (min-width: 481px) and (max-width: 768px) {
   .glass-card {
-    margin: 0 12px;
+    margin: 0 8px;
   }
 
   .nav-item {
-    min-width: 70px;
-    padding: 1rem;
+    min-width: 60px;
+    padding: 0.75rem;
   }
 
   .calendar-mobile {
-    max-width: 350px;
+    max-width: 360px;
   }
 }
 
 /* Optimizaciones para landscape en móvil */
 @media (max-width: 768px) and (orientation: landscape) {
   .calendar-landscape {
-    scale: 0.8;
+    scale: 0.85;
   }
 
   .task-list-landscape {
-    max-height: 40vh;
+    max-height: 45vh;
   }
 
   .calendar-mobile {
-    scale: 0.85;
-    max-width: 300px;
+    scale: 0.9;
+    max-width: 320px;
   }
 }
 
@@ -192,5 +208,13 @@
   
   .calendar-mobile .rdp-root {
     margin: 0 auto;
+  }
+}
+
+/* Optimizar contenido expandido */
+@media (max-width: 768px) {
+  .expanded-content {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
   }
 }
