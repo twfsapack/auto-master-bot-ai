@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -151,28 +150,30 @@ const Layout = ({ children }: LayoutProps) => {
               </AlertDialogTrigger>
               <AlertDialogContent className={cn(
                 "bg-slate-900/95 backdrop-blur-md border border-blue-500/30",
-                isMobile ? "max-w-sm mx-4 rounded-2xl p-4" : "max-w-lg"
+                isMobile 
+                  ? "max-w-xs mx-auto w-[90vw] max-w-[280px] rounded-xl p-3 left-[50%] right-auto transform -translate-x-1/2" 
+                  : "max-w-lg"
               )}>
-                <AlertDialogHeader className={cn(isMobile ? "space-y-2" : "")}>
+                <AlertDialogHeader className={cn(isMobile ? "space-y-1.5" : "")}>
                   <AlertDialogTitle className={cn(
                     "text-white",
-                    isMobile ? "text-lg text-center" : ""
+                    isMobile ? "text-base text-center" : ""
                   )}>
                     {t('logout')}
                   </AlertDialogTitle>
                   <AlertDialogDescription className={cn(
                     "text-white/80",
-                    isMobile ? "text-sm text-center leading-relaxed" : ""
+                    isMobile ? "text-xs text-center leading-relaxed" : ""
                   )}>
                     ¿Estás seguro de que quieres cerrar sesión?
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter className={cn(
-                  isMobile ? "flex-col space-y-2 sm:space-y-0" : ""
+                  isMobile ? "flex-col space-y-1.5 sm:space-y-0 pt-2" : ""
                 )}>
                   <AlertDialogCancel className={cn(
                     "bg-slate-700/50 text-white border-slate-600 hover:bg-slate-600/50",
-                    isMobile ? "w-full" : ""
+                    isMobile ? "w-full h-8 text-xs" : ""
                   )}>
                     Cancelar
                   </AlertDialogCancel>
@@ -180,7 +181,7 @@ const Layout = ({ children }: LayoutProps) => {
                     onClick={handleLogout}
                     className={cn(
                       "bg-red-500/80 text-white hover:bg-red-600/80",
-                      isMobile ? "w-full" : ""
+                      isMobile ? "w-full h-8 text-xs" : ""
                     )}
                   >
                     Cerrar Sesión
